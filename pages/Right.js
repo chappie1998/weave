@@ -12,54 +12,54 @@ const Right = () => {
 
     return (
       <>
-      
-      <div className="flex flex-row container items-center justify-center bg-white ">
-        <div className="post flex flex-row border-2 shadow-xl p-8">
-          <div className="flex flex-col ">
-            <div className="">
-              <div
-                className="dropdown absolute"
-                onMouseEnter={() => setIsDropdownOpen(true)}
-                onMouseLeave={() => setIsDropdownOpen(false)}
-              >
-                <Link href ={"/Profile"}><button className="dropdown-button ">
-                  {" "}
-                  <img
-                    className="w-44 h-10  rounded-full cursor-pointer object-contain -translate-x-28 max-w-full my-4 mx-6"
-                    src={avatar}
-                    alt="Rounded avatar"
-                  />
-                </button>
-                </Link>
-                {isDropdownOpen && <PPD />}
+        <div className="flex flex-row container items-center justify-center bg-white ">
+          <div className="post flex flex-row border-2 shadow-xl p-8">
+            <div className="flex flex-col ">
+              <div className="">
+                <div
+                  className="dropdown absolute"
+                  onMouseEnter={() => setIsDropdownOpen(true)}
+                  onMouseLeave={() => setIsDropdownOpen(false)}
+                >
+                  <Link href={"/Profile"}>
+                    <button className="dropdown-button  -translate-x-5 translate-y-5">
+                      {" "}
+                      <img
+                        className="w-10 h-10 border bg-gray-600   rounded-full cursor-pointer    "
+                        src={avatar}
+                        alt="Rounded avatar"
+                      />
+                    </button>
+                  </Link>
+                  {isDropdownOpen && <PPD />}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="post__body w-full my-4 mx-6">
-            <div className="post__header">
-              <div className="post__headerText">
-                <h3 className="font-medium flex flex-col">
-                  {displayName}
-                  <span className="post__headerSpecial font-thin text-sm text-red-400">
-                    @{userName}{" "}
-                    <span className="text-black">- {timestamp}</span>
-                  </span>
-                </h3>
+            <div className="post__body w-full my-4 mx-6">
+              <div className="post__header">
+                <div className="post__headerText">
+                  <h3 className="font-medium flex flex-col">
+                    {displayName}
+                    <span className="post__headerSpecial font-thin text-sm text-red-400">
+                      @{userName}{" "}
+                      <span className="text-black">- {timestamp}</span>
+                    </span>
+                  </h3>
+                </div>
+                <div className="post__headerDescription break-words space-y-6">
+                  <p>{text}</p>
+                </div>
               </div>
-              <div className="post__headerDescription break-words space-y-6">
-                <p>{text}</p>
+              <img src={image} alt="" className="p-10 h-80 w-96 " />
+              <div className="post__footer flex flex-row space-x-6">
+                <BiChat />
+                <AiOutlineHeart className="outline-red-400" />
+                <BsArrowDownUp />
               </div>
-            </div>
-            <img src={image} alt="" className="p-10 h-80 w-96 " />
-            <div className="post__footer flex flex-row space-x-6">
-              <BiChat />
-              <AiOutlineHeart className="outline-red-400" />
-              <BsArrowDownUp />
             </div>
           </div>
         </div>
-      </div>
       </>
     );
   };
@@ -117,7 +117,6 @@ const Right = () => {
             timestamp="13h"
           />
         </div>
-        
       </div>
     </>
   );

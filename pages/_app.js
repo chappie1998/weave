@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     
-    if (router.pathname === "/contact" ||router.pathname === "/Profile") {
+    if (router.pathname === "/contact" ||router.pathname === "/Profile"|| router.pathname==="/LoginPage") {
       setHideComponent(true);
     } else {
       setHideComponent(false);

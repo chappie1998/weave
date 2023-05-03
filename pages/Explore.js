@@ -20,15 +20,16 @@ const Explore = () => {
                 onMouseEnter={() => setIsDropdownOpen(true)}
                 onMouseLeave={() => setIsDropdownOpen(false)}
               >
-                <Link href ={"/Profile"}><button className="dropdown-button ">
-                  {" "}
-                  <img
-                    className="w-44 h-10  rounded-full cursor-pointer object-contain -translate-x-28 max-w-full my-4 mx-6"
-                    src={avatar}
-                    alt="Rounded avatar"
-                  />
-                </button>
-                </Link>
+                <Link href={"/Profile"}>
+                    <button className="dropdown-button  transition-transform   -translate-x-5 translate-y-5">
+                      {" "}
+                      <img
+                        className="w-10 h-10 border bg-gray-600   rounded-full cursor-pointer    "
+                        src={avatar}
+                        alt="Rounded avatar"
+                      />
+                    </button>
+                  </Link>
                 {isDropdownOpen && <PPD />}
               </div>
             </div>
