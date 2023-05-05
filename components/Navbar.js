@@ -6,7 +6,7 @@ import {
   AiOutlineBell,
   AiOutlineAppstore,
   AiOutlineHome,
-} from "react-icons/Ai";
+} from "react-icons/ai";
 import { useRef } from "react";
 import { GiCancel } from "react-icons/Gi";
 

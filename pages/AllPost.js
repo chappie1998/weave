@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AiOutlineHeart } from "react-icons/Ai";
+import { AiOutlineHeart } from "react-icons/ai";
 import { BiChat } from "react-icons/Bi";
 import { BsArrowDownUp } from "react-icons/Bs";
 
