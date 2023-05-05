@@ -28,7 +28,7 @@ const CommentsPage = () => {
             <Comment/>
           </div>
         </div>
-        <div className="items-center justify-center sm:m-8  -mt-48">
+        <div className="items-center justify-center sm:m-8  ">
           <PPD />
           <Footer />
         </div>
