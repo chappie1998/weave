@@ -8,9 +8,9 @@ import {
   AiOutlineHome,
 } from "react-icons/ai";
 import { useRef } from "react";
-import { GiCancel } from "react-icons/Gi";
+import { GiCancel } from "react-icons/gi";
 
-import { GrMailOption } from "react-icons/Gr";
+import { GrMailOption } from "react-icons/gr";
 
 const Navbar = () => {
   const [seachOpen, setSeachOpen] = useState(false);

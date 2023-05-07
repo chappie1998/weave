@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
-import { BiChat } from "react-icons/Bi";
-import { BsArrowDownUp } from "react-icons/Bs";
+import { BiChat } from "react-icons/bi";
+import { BsArrowDownUp } from "react-icons/bs";
 import PPD from "./ProfileDropDown";
 import Link from "next/link";
 import { useRouter } from "next/router";
