@@ -21,15 +21,15 @@ const ExploreForHome = () => {
     setSelectedButton(buttonName);
   };
 
-  const handleTablistSelect =(TabName) =>{
-setTabSelected(TabName);
-  }
+  const handleTablistSelect = (TabName) => {
+    setTabSelected(TabName);
+  };
 
   return (
     <div className="container mx-auto max-w-screen-xl px-5">
       <Tablist handleTablistSelect={handleTablistSelect} />
-      <comment/>
-   
+      <comment />
+
       <Button handleButtonSelect={handleButtonSelect} />
       {selectedButton === "All Post" ? <AllPost /> : null}
       {selectedButton === "Text" ? <Text /> : null}

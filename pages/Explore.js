@@ -64,7 +64,7 @@ const Explore = () => {
             timestamp="13h"
           />
         </div>
-        <div className="sr-only sm:not-sr-only ">
+        <div className=" sr-only sm:not-sr-only ">
           <Footer />
         </div>
       </div>

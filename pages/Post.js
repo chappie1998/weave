@@ -5,6 +5,8 @@ import { BsArrowDownUp } from "react-icons/bs";
 import PPD from "./ProfileDropDown";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Post = ({
   id,
@@ -16,6 +18,7 @@ const Post = ({
   timestamp,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const notify = () => toast.error("Please Sign In Your Wallet");
   const router = useRouter();
   const handleCommentClick = () => {
     router.push({
@@ -74,21 +77,31 @@ const Post = ({
             >
               {" "}
               <BiChat />{" "}
-            </button>
-            <Link
-              href={"/CommentsPage"}
-              className="hover:bg-blue-200 rounded-full p-1.5"
-            >
+            </button>{" "}
+            <div>
               {" "}
-              <AiOutlineHeart />
-            </Link>
-            <Link
-              href={"/CommentsPage"}
-              className="hover:bg-blue-200 rounded-full p-1.5"
-            >
+              <AiOutlineHeart
+                onClick={notify}
+                className="hover:bg-blue-200 rounded-full p-1.5 h-7 w-10"
+              />
+              <ToastContainer
+                position="bottom-right"
+                autoClose={1000}
+                hideProgressBar={true}
+              />
+            </div>
+            <div>
               {" "}
-              <BsArrowDownUp />
-            </Link>
+              <BsArrowDownUp
+                onClick={notify}
+                className="hover:bg-blue-200 rounded-full p-1.5 h-7 w-10"
+              />
+              <ToastContainer
+                position="bottom-right"
+                autoClose={1000}
+                hideProgressBar={true}
+              />
+            </div>
           </div>
         </div>
       </div>
