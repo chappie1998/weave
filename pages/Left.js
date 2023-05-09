@@ -1,6 +1,10 @@
-import React from "react";
+import React,{useState} from "react";
+import { FiEdit2 } from "react-icons/fi";
+import { Modal } from "./Modal";
+import EditProfile from "./EditProfile";
 
 const PPD = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const ProfileDropdown = ({
     displayName,
     userName,
@@ -21,13 +25,21 @@ const PPD = () => {
           </div>
           <div className="post__body p-2 ">
             <div className="post__header">
-              <div className="post__headerText">
+              <div className="post__headerText flex space-x-32">
                 <h3 className="font-medium flex flex-col">
                   {displayName}
                   <span className="post__headerSpecial font-thin text-sm text-red-400">
                     @{userName}{" "}
                   </span>
                 </h3>
+                <button onClick={()=>setIsOpen(true)}>
+                <FiEdit2 />
+                </button>
+                <Modal open={isOpen} onClose={()=>setIsOpen(false)}>
+                
+                </Modal>
+                
+                
               </div>
               <div className="post__headerDescription break-words space-y-6">
                 <p>{text}</p>
@@ -41,10 +53,10 @@ const PPD = () => {
             <div className="font-semibold">{follower} Followers</div>
           </div>
           <div className="">
-            <ul className="space-y-2" >
-                <li>Intagram</li>
-                <li>Twitter</li>
-                <li>Github</li>
+            <ul className="space-y-2">
+              <li>Intagram</li>
+              <li>Twitter</li>
+              <li>Github</li>
             </ul>
           </div>
         </div>
