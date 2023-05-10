@@ -39,7 +39,7 @@ const PPD = () => {
         <div className="post flex flex-col  p-4 my-1 rounded-lg h-full w-full">
           <div className="post__avatarppd p-2 border-double border-red-500">
             <img
-              className="w-52 h-52 -mt-36 bg-white rounded-lg cursor-pointer ring-8 ring-purple-400"
+              className="w-52 h-52 -mt-36  bg-white rounded-lg cursor-pointer ring-8 ring-purple-400"
               src={avatarppd}
               alt="Rounded avatarppd"
             />

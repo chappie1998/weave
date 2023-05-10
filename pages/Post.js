@@ -32,7 +32,7 @@ const Post = ({
 
   return (
     <div className=" container flex flex-row items-center justify-center  ">
-      <div className="post flex flex-row border border-solid shadow-sm p-10 hover:bg-slate-100 cursor-pointer rounded-lg w-4/5 ">
+      <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer rounded-t-lg sm:w-4/5  ">
         <div className="flex flex-col ">
           <div className="">
             <div
@@ -73,16 +73,17 @@ const Post = ({
           <div className="post__footer flex flex-row space-x-6">
             <button
               onClick={handleCommentClick}
-              className="hover:bg-blue-200 rounded-full p-1.5"
+              className="hover:bg-blue-200 rounded-full p-1.5 "
             >
               {" "}
-              <BiChat />{" "}
+              <BiChat
+              className=" h-5 w-10" />{" "}
             </button>{" "}
-            <div>
+            <div className="hover:bg-red-200 rounded-full p-1.5">
               {" "}
               <AiOutlineHeart
                 onClick={notify}
-                className="hover:bg-blue-200 rounded-full p-1.5 h-7 w-10"
+                className="h-5 w-10"
               />
               <ToastContainer
                 position="bottom-right"
@@ -90,11 +91,11 @@ const Post = ({
                 hideProgressBar={true}
               />
             </div>
-            <div>
+            <div className=" hover:bg-purple-200 rounded-full p-1.5">
               {" "}
               <BsArrowDownUp
                 onClick={notify}
-                className="hover:bg-blue-200 rounded-full p-1.5 h-7 w-10"
+                className="h-5 w-10"
               />
               <ToastContainer
                 position="bottom-right"

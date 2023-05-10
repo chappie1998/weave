@@ -54,7 +54,7 @@ const Right = () => {
     return (
       <>
         <div className="flex flex-row container items-center justify-center bg-white ">
-          <div className="post flex flex-row border-2 shadow-xl p-8">
+          <div className="post flex flex-row border rounded-t-lg shadow p-8">
             <div className="flex flex-col ">
               <div className="">
                 <div
@@ -96,16 +96,17 @@ const Right = () => {
               <div className="post__footer flex flex-row space-x-6">
             <button
               onClick={handleCommentClick}
-              className="hover:bg-blue-200 rounded-full p-1.5"
+              className="hover:bg-blue-200 rounded-full p-1.5 "
             >
               {" "}
-              <BiChat />{" "}
+              <BiChat
+              className=" h-5 w-10" />{" "}
             </button>{" "}
-            <div>
+            <div className="hover:bg-red-200 rounded-full p-1.5">
               {" "}
               <AiOutlineHeart
                 onClick={notify}
-                className="hover:bg-blue-200 rounded-full p-1.5 h-7 w-10"
+                className="h-5 w-10"
               />
               <ToastContainer
                 position="bottom-right"
@@ -113,11 +114,11 @@ const Right = () => {
                 hideProgressBar={true}
               />
             </div>
-            <div>
+            <div className=" hover:bg-purple-200 rounded-full p-1.5">
               {" "}
               <BsArrowDownUp
                 onClick={notify}
-                className="hover:bg-blue-200 rounded-full p-1.5 h-7 w-10"
+                className="h-5 w-10"
               />
               <ToastContainer
                 position="bottom-right"
