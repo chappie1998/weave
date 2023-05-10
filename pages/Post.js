@@ -31,8 +31,8 @@ const Post = ({
   };
 
   return (
-    <div className=" container flex flex-row items-center justify-center hover:bg-slate-100">
-      <div className="post flex flex-row border-2 shadow-xl p-8">
+    <div className=" container flex flex-row items-center justify-center  ">
+      <div className="post flex flex-row border border-solid shadow-sm p-10 hover:bg-slate-100 cursor-pointer rounded-lg w-4/5 ">
         <div className="flex flex-col ">
           <div className="">
             <div

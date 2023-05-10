@@ -15,6 +15,18 @@ import { GrMailOption } from "react-icons/gr";
 const Navbar = () => {
   const [seachOpen, setSeachOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  const [selectedButton, setSelectedButton] = useState("home");
+
+  const handleButtonClick = (buttonName) => {
+    setSelectedButton(buttonName);
+  };
+
+  const isButtonSelected = (buttonName) => {
+    return selectedButton === buttonName
+      ? "bg-gray-200 text-black"
+      : "text-gray-700";
+  };
+
   const toggleSearch = () => {
     if (ref.current.classList.contains("-translate-y-36")) {
       ref.current.classList.remove("-translate-y-36");
@@ -124,12 +136,22 @@ const Navbar = () => {
         <div className="nav invisible md:visible">
           <ul className="flex items-center space-x-2">
             <Link href={"/"}>
-              <li className="w-full cursor-pointer rounded-md px-2 py-1 text-left text-sm font-bold tracking-wide md:px-3 bg-gray-200 text-black ">
+              <li
+                onClick={() => handleButtonClick("home")}
+                className={`w-full cursor-pointer rounded-md px-2 py-1 text-left text-sm font-bold tracking-wide md:px-3 ${isButtonSelected(
+                  "home"
+                )}`}
+              >
                 Home
               </li>
             </Link>
             <Link href={"/ExploreForHome"}>
-              <li className="w-full cursor-pointer rounded-md px-2 py-1 text-left text-sm font-bold tracking-wide md:px-3 text-gray-700 hover:bg-gray-200 hover:text-black ">
+              <li
+                onClick={() => handleButtonClick("explore")}
+                className={`w-full cursor-pointer rounded-md px-2 py-1 text-left text-sm font-bold tracking-wide md:px-3 ${isButtonSelected(
+                  "explore"
+                )} hover:bg-gray-200 hover:text-black`}
+              >
                 Explore
               </li>
             </Link>
@@ -138,7 +160,9 @@ const Navbar = () => {
               onClick={() => {
                 setDropdown(!dropdown);
               }}
-              className="w-full cursor-pointer rounded-md px-2 py-1 text-left text-sm font-bold tracking-wide md:px-3 text-gray-700 hover:bg-gray-200 hover:text-black "
+              className={`w-full cursor-pointer rounded-md px-2 py-1 text-left text-sm font-bold tracking-wide md:px-3 ${isButtonSelected(
+                "more"
+              )} hover:bg-gray-200 hover:text-black`}
             >
               More
             </li>

@@ -6,23 +6,25 @@ const PPD = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [follower, setFollower] = useState("");
   const [following, setFollowing] = useState("");
-  const [avtar, setAvtar] = useState("")
+  const [avatar, setAvatar] = useState("")
 
   useEffect(() => {
-    profileDeatils();
-  },[]);
+    const fetchData = async () => {
+      const data = await fetch(
+        "https://peerpost-api.vercel.app/profile/details/1"
+      );
+      let result = await data.json();
+     
 
-  const profileDeatils = async () => {
-    const data = await fetch(
-      "https://peerpost-api.vercel.app/profile/details/1"
-    );
-    let result = await data.json();
-    console.log(result)
-    
-    setFollowing(result.profile.following_count);
-    setFollower(result.profile.followers_count);
-    setAvtar(result.profile.token_uri)
-  };
+      setFollowing(result.profile.following_count);
+      setFollower(result.profile.followers_count);
+      setAvatar(result.profile.token_uri);
+    };
+
+    if (!follower && !following && !avatar) {
+      fetchData();
+    }
+  }, []);
 
   const ProfileDropdown = ({
     displayName,
@@ -87,7 +89,7 @@ const PPD = () => {
             displayName="Mr X"
             userName="MR X"
             text="Hello from Mr X.."
-            avatarppd={avtar}
+            avatarppd={avatar}
             follower={follower}
             following={following}
           />

@@ -15,7 +15,7 @@ const PPD = () => {
       "https://peerpost-api.vercel.app/profile/details/1"
     );
     let result = await data.json();
-    console.log(result)
+   
     
     setFollowing(result.profile.following_count);
     setFollower(result.profile.followers_count);

@@ -10,7 +10,7 @@ const CommentsPage = () => {
 
   return (
     <>
-      <div className="flex flex-col  lg:flex-row items-start justify-center container mx-auto max-w-screen-xl px-5 ">
+      <div className="flex flex-col  lg:flex-row items-start justify-center container mx-auto max-w-screen-xl px-5  ">
         <div className="flex flex-col ">
           <div>
             <Post

@@ -3,6 +3,7 @@ import ProfileCover from "./ProfileCover";
 import Right from "./Right";
 import ButtonForProfile from "./ButtonForProfile";
 import Left from "./Left"
+
 function Profile() {
   return (
     <div className=" flex flex-col items-center justify-center">
@@ -13,7 +14,7 @@ function Profile() {
         <div className="left items-center md:w-1/3"><Left/></div>
         <div className="right w-full md:w-2/3 ">
         <ButtonForProfile/>
-          <Right />
+          <Right/>
         </div>
       </div>
     </div>

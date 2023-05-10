@@ -2,6 +2,9 @@ import React, { useState,useEffect } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiChat } from "react-icons/bi";
 import { BsArrowDownUp } from "react-icons/bs";
+import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import PPD from "./ProfileDropDown";
 import Link from "next/link";
@@ -24,7 +27,6 @@ const Right = () => {
     try {
       const data = await fetch("https://peerpost-api.vercel.app/post/details/0");
       const result = await data.json();
-      console.log(Math.floor((Date.now() - (result.post.timetamp) * 1000) / (1000 * 60 * 60)));
       
       setTimestamps(Math.floor((Date.now() - (result.post.timetamp) * 1000) / (1000 * 60 * 60)))
       setAvtars(result.post.token_uri)
@@ -34,7 +36,18 @@ const Right = () => {
   };
   const Post = ({ displayName, userName, text, image, avatar, timestamp }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    
+    const notify = () => toast.error("Please Sign In Your Wallet");
+    const router = useRouter();
+    const handleCommentClick = () => {
+      router.push({
+        pathname: "/CommentsPage",
+       
+        state: {
+          post: { displayName, userName, text, image, avatar, timestamp },
+        },
+      });
+    };
+  
  
     
 
@@ -81,10 +94,38 @@ const Right = () => {
               </div>
               <img src={image} alt="" className="p-10 h-80 w-96 " />
               <div className="post__footer flex flex-row space-x-6">
-                <BiChat />
-                <AiOutlineHeart className="outline-red-400" />
-                <BsArrowDownUp />
-              </div>
+            <button
+              onClick={handleCommentClick}
+              className="hover:bg-blue-200 rounded-full p-1.5"
+            >
+              {" "}
+              <BiChat />{" "}
+            </button>{" "}
+            <div>
+              {" "}
+              <AiOutlineHeart
+                onClick={notify}
+                className="hover:bg-blue-200 rounded-full p-1.5 h-7 w-10"
+              />
+              <ToastContainer
+                position="bottom-right"
+                autoClose={1000}
+                hideProgressBar={true}
+              />
+            </div>
+            <div>
+              {" "}
+              <BsArrowDownUp
+                onClick={notify}
+                className="hover:bg-blue-200 rounded-full p-1.5 h-7 w-10"
+              />
+              <ToastContainer
+                position="bottom-right"
+                autoClose={1000}
+                hideProgressBar={true}
+              />
+            </div>
+          </div>
             </div>
           </div>
         </div>
@@ -99,9 +140,9 @@ const Right = () => {
           <Post
             displayName="Mr X"
             userName="MR X"
-            text="Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.."
+            text={avtars}
             avatar={avtars}
-            image="https://media.istockphoto.com/id/1413150175/photo/panorama-60-mpix-xxxxl-size-of-beautiful-mount-ama-dablam-in-himalayas-nepal.jpg?s=1024x1024&w=is&k=20&c=mWvUbQuHUNOMda4WacL-q6GK5J8n-S85K6Gt-HrgHww="
+            image={avtars}
             timestamp={timestamps+"h"}
           />
         
