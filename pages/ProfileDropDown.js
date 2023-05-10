@@ -1,6 +1,27 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 
 const PPD = () => {
+
+  const [follower, setFollower] = useState("");
+  const [following, setFollowing] = useState("");
+  const [avtar, setAvtar] = useState("")
+
+  useEffect(() => {
+    profileDeatils();
+  },[]);
+
+  const profileDeatils = async () => {
+    const data = await fetch(
+      "https://peerpost-api.vercel.app/profile/details/1"
+    );
+    let result = await data.json();
+    console.log(result)
+    
+    setFollowing(result.profile.following_count);
+    setFollower(result.profile.followers_count);
+    setAvtar(result.profile.token_uri)
+  };
+
   const ProfileDropdown = ({
     displayName,
     userName,
@@ -52,9 +73,9 @@ const PPD = () => {
             displayName="Mr X"
             userName="MR X"
             text="Hello from Mr X.."
-            avatarppd="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            follower="200"
-            following="233"
+            avatarppd={avtar}
+            follower={follower}
+            following={following}
           />
         </div>
       </div>

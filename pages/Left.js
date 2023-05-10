@@ -1,10 +1,29 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { Modal } from "./Modal";
-import EditProfile from "./EditProfile";
 
 const PPD = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [follower, setFollower] = useState("");
+  const [following, setFollowing] = useState("");
+  const [avtar, setAvtar] = useState("")
+
+  useEffect(() => {
+    profileDeatils();
+  },[]);
+
+  const profileDeatils = async () => {
+    const data = await fetch(
+      "https://peerpost-api.vercel.app/profile/details/1"
+    );
+    let result = await data.json();
+    console.log(result)
+    
+    setFollowing(result.profile.following_count);
+    setFollower(result.profile.followers_count);
+    setAvtar(result.profile.token_uri)
+  };
+
   const ProfileDropdown = ({
     displayName,
     userName,
@@ -18,7 +37,7 @@ const PPD = () => {
         <div className="post flex flex-col  p-4 my-1 rounded-lg h-full w-full">
           <div className="post__avatarppd p-2 border-double border-red-500">
             <img
-              className="w-52 h-52 -mt-36  rounded-lg cursor-pointer ring-8 ring-purple-400"
+              className="w-52 h-52 -mt-36 bg-white rounded-lg cursor-pointer ring-8 ring-purple-400"
               src={avatarppd}
               alt="Rounded avatarppd"
             />
@@ -32,14 +51,10 @@ const PPD = () => {
                     @{userName}{" "}
                   </span>
                 </h3>
-                <button onClick={()=>setIsOpen(true)}>
-                <FiEdit2 />
+                <button onClick={() => setIsOpen(true)}>
+                  <FiEdit2 />
                 </button>
-                <Modal open={isOpen} onClose={()=>setIsOpen(false)}>
-                
-                </Modal>
-                
-                
+                <Modal open={isOpen} onClose={() => setIsOpen(false)}></Modal>
               </div>
               <div className="post__headerDescription break-words space-y-6">
                 <p>{text}</p>
@@ -56,6 +71,7 @@ const PPD = () => {
             <ul className="space-y-2">
               <li>Intagram</li>
               <li>Twitter</li>
+
               <li>Github</li>
             </ul>
           </div>
@@ -71,9 +87,9 @@ const PPD = () => {
             displayName="Mr X"
             userName="MR X"
             text="Hello from Mr X.."
-            avatarppd="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            follower="200"
-            following="233"
+            avatarppd={avtar}
+            follower={follower}
+            following={following}
           />
         </div>
       </div>
