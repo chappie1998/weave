@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { Modal } from "./Modal";
+import { ModalforPost } from "./ModalforPost";
 
 const PPD = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [postOpen, setPostOpen] = useState(false);
   const [follower, setFollower] = useState("");
   const [following, setFollowing] = useState("");
   const [avatar, setAvatar] = useState("")
@@ -77,6 +79,8 @@ const PPD = () => {
               <li>Github</li>
             </ul>
           </div>
+          <div><button onClick={()=>{setPostOpen(true)}} className="button m-4 px-10 py-3 rounded-full bg-purple-500 text-white items-center justify-center">Post</button>
+          <ModalforPost open={postOpen} onClose={() => setPostOpen(false)}></ModalforPost></div>
         </div>
       </div>
     );
@@ -93,7 +97,9 @@ const PPD = () => {
             follower={follower}
             following={following}
           />
+           
         </div>
+      
       </div>
     </>
   );

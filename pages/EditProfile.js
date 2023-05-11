@@ -3,12 +3,12 @@ import React from "react";
 
 const EditProfile = () => {
   return (
-    <div className="w-96">
+    <div className="w-100">
        <div className="font-serif text-xl font-extrabold sm:text-xl  py-6 bg-gradient-to-r from-purple-300 to-fuchsia-900 ">
          <span className="px-3"> Lenster Cover Photo👋</span> 
         </div>
       
-      <div className="w-full max-w-xs">
+      <div className="  ">
       <div className="post__avatarppd p-2 border-double border-red-500">
         <img
           className="w-20 h-20 -mt-6  rounded-full cursor-pointer ring-8 ring-purple-400"
@@ -18,11 +18,11 @@ const EditProfile = () => {
           alt="Rounded avatarppd"
         />
       </div>
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-">
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              for="username"
+              htmlFor="username"
             >
               Update BIO
             </label>
@@ -39,7 +39,7 @@ const EditProfile = () => {
               className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
-              Submit
+              Update
             </button>
           </div>
         </form>

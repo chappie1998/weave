@@ -20,6 +20,7 @@ const Explore = () => {
       const data = await fetch("https://peerpost-api.vercel.app/post/details/0");
       const result = await data.json();
       
+      
       setTimestamps(Math.floor((Date.now() - (result.post.timetamp) * 1000) / (1000 * 60 * 60)))
       setAvtars(result.post.token_uri)
     } catch (error) {
@@ -39,7 +40,7 @@ const Explore = () => {
             image={avtars}
             timestamp={timestamps+" h"}
           />
-          <div className="bg-gray-400 w-4/5 h-[2px] ml-[70px]" ></div>
+       
           
           <Post
             id={1}
@@ -63,6 +64,7 @@ const Explore = () => {
 };
 
 export default Explore;
+
 
 
 
