@@ -12,7 +12,7 @@ const Explore = () => {
   useEffect(() => {
     PostDetails();
   }, []);
-  
+ 
   
   
   const PostDetails = async () => {
@@ -28,8 +28,19 @@ const Explore = () => {
   };
   return (
     <>
-      <div className="flex flex-row container mx-auto max-w-screen-xl p-5 overflow-hidden">
-        <div className="rounded-3xl">
+      <div className="flex flex-row  container mx-auto max-w-screen-xl p-5 overflow-hidden">
+        <div className="rounded-3xl ">
+          <Post
+            id={1}
+            displayName="Mr X"
+            userName="MR X"
+            text={avtars}
+            avatar={avtars}
+            image={avtars}
+            timestamp={timestamps+" h"}
+          />
+          <div className="bg-gray-400 w-4/5 h-[2px] ml-[70px]" ></div>
+          
           <Post
             id={1}
             displayName="Mr X"
@@ -42,6 +53,7 @@ const Explore = () => {
          
           
         </div>
+        
         <div className=" sr-only sm:not-sr-only ">
           <Footer />
         </div>
@@ -51,3 +63,6 @@ const Explore = () => {
 };
 
 export default Explore;
+
+
+
