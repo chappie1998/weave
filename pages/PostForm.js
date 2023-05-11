@@ -2,9 +2,18 @@ import React from 'react'
 
 const PostForm = () => {
   return (
-    <div >
+    <div className='bg-black h-96 p-9 rounded-2xl'>
+     <div className="post__avatarppd p-2 border-double border-red-500">
+        <img
+          className="w-10 h-10  rounded-full cursor-pointer ring-8 ring-purple-400"
+          src={
+            "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          }
+          alt="Rounded avatarppd"
+        />
+        </div>
     <label htmlFor="message" className="block mb-2 font-medium text-gray-900 text-xl ">Whats on Your mind</label>
-    <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+    <textarea id="message" rows="4" className="block p-2.5 w-full text-xl text-white bg-black rounded-lg     " placeholder="Leave a comment..."></textarea>
     <button className="button m-4 px-10 py-3 rounded-full bg-purple-500 text-white items-center justify-center">Post</button>
     </div>
   )

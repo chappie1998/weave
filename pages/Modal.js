@@ -13,9 +13,9 @@ export const Modal = ({ children, open, onClose }) => {
 
   const modelContent = open ? (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-content-profile">
         {children}
-        <button onClick={onClose} className="yarn ">
+        <button onClick={onClose} className=" ">
           <GiCancel/>
         </button>
         <EditProfile />

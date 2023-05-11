@@ -12,12 +12,13 @@ export const ModalforPost = ({ children, open, onClose }) => {
   }, []);
 
   const modelContent = open ? (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay ">
+      <div className="h- w-5/12 ">
         {children}
-        <button onClick={onClose} className="yarn ">
-          <GiCancel/>
+        <button onClick={onClose} className="yarn translate-y-8  translate-x-3">
+          <GiCancel className="text-white"/>
         </button>
+
         <PostForm/>
       </div>
     </div>
