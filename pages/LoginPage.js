@@ -20,13 +20,13 @@ const LoginPage = () => {
         >
           <div className="bg-white shadow rounded 2xl:w-1/3 md:w-1/2 w-full p-10 mt-16">
             <p
-              tabindex="0"
+              tabIndex="0"
               className="focus:outline-none text-2xl font-extrabold leading-6 text-gray-800"
             >
               Connect your wallet.
             </p>
             <p
-              tabindex="0"
+              tabIndex="0"
               className="focus:outline-none text-sm mt-4 font-medium leading-none text-gray-500"
             >
               Connect with one of our available wallet providers or create a new

@@ -54,7 +54,7 @@ const Right = () => {
     return (
       <>
         <div className="flex flex-row container items-center justify-center bg-white ">
-          <div className="post flex flex-row border rounded-t-lg shadow p-8">
+          <div className="post flex flex-row border rounded-t-lg shadow px-8">
             <div className="flex flex-col ">
               <div className="">
                 <div
@@ -136,7 +136,7 @@ const Right = () => {
 
   return (
     <>
-      <div className="flex flex-row container mx-auto max-w-screen-xl px-5">
+      <div className="flex flex-row container mx-auto max-w-screen-xl">
         <div>
           <Post
             displayName="Mr X"
