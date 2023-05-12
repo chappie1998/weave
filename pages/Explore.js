@@ -1,70 +1,51 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import Footer from "@/components/Footer";
 
 import Post from "./Post";
 
 const Explore = () => {
-  const [timestamps, setTimestamps] = useState("")
-  const [avtars, setAvtars] = useState("")
-
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    PostDetails();
+    fetchPosts();
   }, []);
- 
-  
-  
-  const PostDetails = async () => {
+
+  const fetchPosts = async () => {
     try {
-      const data = await fetch("https://peerpost-api.vercel.app/post/details/0");
-      const result = await data.json();
+      const response = await fetch(
+        "https://peerpost-api.vercel.app/post?page=0&limit=2"
+      );
+      const data = await response.json();
+     
+      setPosts(data);
       
-      
-      setTimestamps(Math.floor((Date.now() - (result.post.timetamp) * 1000) / (1000 * 60 * 60)))
-      setAvtars(result.post.token_uri)
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
-    <>
-      <div className="flex flex-row  container mx-auto max-w-screen-xl p-5 overflow-hidden">
-        <div className="rounded-3xl ">
+    <div className="flex flex-row container mx-auto max-w-screen-xl p-5 overflow-hidden">
+      <div className="rounded-3xl">
+        {posts.map((post) => (
           <Post
-            id={1}
-            displayName="Mr X"
-            userName="MR X"
-            text={avtars}
-            avatar={avtars}
-            image={avtars}
-            timestamp={timestamps+" h"}
+            key={post.post_id}
+            displayName={post.profile.handle}
+            userName={post.profile.handle}
+            text={post.profile.token_uri}
+            avatar={post.profile.token_uri}
+            image={post.profile.token_uri}
+            timestamp={(Math.floor((Date.now() - (post.timetamp) * 1000) / (1000 * 60 * 60)))+"h"}
           />
-       
-          
-          <Post
-            id={1}
-            displayName="Mr X"
-            userName="MR X"
-            text={avtars}
-            avatar={avtars}
-            image={avtars}
-            timestamp={timestamps+" h"}
-          />
-         
-          
-        </div>
-        
-        <div className=" sr-only sm:not-sr-only ">
-          <Footer />
-        </div>
+        ))}
       </div>
-    </>
+
+      <div className="sr-only sm:not-sr-only">
+        <Footer />
+      </div>
+    </div>
   );
 };
 
 export default Explore;
-
-
-
-
