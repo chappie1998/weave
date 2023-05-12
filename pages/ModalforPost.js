@@ -15,7 +15,7 @@ export const ModalforPost = ({ children, open, onClose }) => {
     <div className="modal-overlay ">
       <div className="h- w-5/12 ">
         {children}
-        <button onClick={onClose} className="yarn translate-y-8  translate-x-3">
+        <button onClick={onClose} className="yarn -translate-y-[45vh]  translate-x-3 ">
           <GiCancel className="text-white"/>
         </button>
 
