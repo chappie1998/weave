@@ -17,9 +17,8 @@ const Explore = () => {
         "https://peerpost-api.vercel.app/post?page=0&limit=2"
       );
       const data = await response.json();
-     
+
       setPosts(data);
-      
     } catch (error) {
       console.error(error);
     }
@@ -33,10 +32,14 @@ const Explore = () => {
             key={post.post_id}
             displayName={post.profile.handle}
             userName={post.profile.handle}
-            text={post.profile.token_uri}
+            text={post.data.content}
             avatar={post.profile.token_uri}
-            image={post.profile.token_uri}
-            timestamp={(Math.floor((Date.now() - (post.timetamp) * 1000) / (1000 * 60 * 60)))+"h"}
+            images={post.data.images}
+            timestamp={
+              Math.floor(
+                (Date.now() - post.timetamp * 1000) / (1000 * 60 * 60)
+              ) + "h"
+            }
           />
         ))}
       </div>

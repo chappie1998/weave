@@ -13,7 +13,7 @@ const Post = ({
   displayName,
   userName,
   text,
-  image,
+  images,
   avatar,
   timestamp,
 }) => {
@@ -69,22 +69,20 @@ const Post = ({
               <p>{text}</p>
             </div>
           </div>
-          <img src={image} alt="" className="p-10 h-auto w-auto " />
+          {images.map((image) => (
+            <img src={image} alt="" className="p-10 h-auto w-auto " />
+          ))}
           <div className="post__footer flex flex-row space-x-6">
             <button
               onClick={handleCommentClick}
               className="hover:bg-blue-200 rounded-full px-1.5  "
             >
               {" "}
-              <BiChat
-              className=" h-5 w-10" />{" "}
+              <BiChat className=" h-5 w-10" />{" "}
             </button>{" "}
             <div className="hover:bg-red-200 rounded-full p-1.5">
               {" "}
-              <AiOutlineHeart
-                onClick={notify}
-                className="h-5 w-10"
-              />
+              <AiOutlineHeart onClick={notify} className="h-5 w-10" />
               <ToastContainer
                 position="bottom-right"
                 autoClose={1000}
@@ -93,10 +91,7 @@ const Post = ({
             </div>
             <div className=" hover:bg-purple-200 rounded-full p-1.5">
               {" "}
-              <BsArrowDownUp
-                onClick={notify}
-                className="h-5 w-10"
-              />
+              <BsArrowDownUp onClick={notify} className="h-5 w-10" />
               <ToastContainer
                 position="bottom-right"
                 autoClose={1000}
