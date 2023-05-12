@@ -16,7 +16,7 @@ export const ModalforPost = ({ children, open, onClose }) => {
       <div className="h- w-5/12 ">
         {children}
         <button onClick={onClose} className="yarn -translate-y-[45vh]  translate-x-3 ">
-          <GiCancel className="text-white"/>
+          <GiCancel className="text-white h-9 w-5"/>
         </button>
 
         <PostForm/>
