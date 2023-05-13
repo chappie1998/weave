@@ -6,27 +6,27 @@ import { ModalforPost } from "./ModalforPost";
 const PPD = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [postOpen, setPostOpen] = useState(false);
-  const [follower, setFollower] = useState("");
-  const [following, setFollowing] = useState("");
-  const [avatar, setAvatar] = useState("")
+  const [data, setData] = useState(null);
+
+
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetch(
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
         "https://peerpost-api.vercel.app/profile/details/1"
       );
-      let result = await data.json();
-     
-
-      setFollowing(result.profile.following_count);
-      setFollower(result.profile.followers_count);
-      setAvatar(result.profile.token_uri);
-    };
-
-    if (!follower && !following && !avatar) {
-      fetchData();
+      const data = await response.json();
+      
+      setData(data);
+    } catch (error) {
+      console.error(error);
     }
-  }, []);
+  };
+
+ 
 
   const ProfileDropdown = ({
     displayName,
@@ -90,12 +90,12 @@ const PPD = () => {
       <div className="flex flex-row container  mx-auto max-w-screen-xl px-5">
         <div>
           <ProfileDropdown
-            displayName="Mr X"
-            userName="MR X"
+            displayName={data.profile.handle}
+            userName={data.profile.handle}
             text="Hello from Mr X.."
-            avatarppd={avatar}
-            follower={follower}
-            following={following}
+            avatarppd={data.profile.token_uri}
+            follower={data.profile.followers_count}
+            following={data.profile.following_count}
           />
            
         </div>

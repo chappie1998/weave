@@ -4,25 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Post from "./Post";
 
-const Right = () => {
-  const [profiledetails, setProfiledetails] = useState();
-
-  useEffect(() => {
-    fetchProfileDetails();
-  }, []);
-
-  const fetchProfileDetails = async () => {
-    try {
-      const response = await fetch(
-        "https://peerpost-api.vercel.app/profile/details/1"
-      );
-      const data = await response.json();
-      console.log(data);
-      setProfiledetails(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+const Right = ({profiledetails}) => {
+  
 
   const formatTimestamp = (timestamp) => {
     const hoursAgo = Math.floor((Date.now() - timestamp * 1000) / (1000 * 60 * 60));

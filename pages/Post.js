@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiChat } from "react-icons/bi";
 import { BsArrowDownUp } from "react-icons/bs";
@@ -25,10 +25,12 @@ const Post = ({
       pathname: "/CommentsPage",
       query: { id },
       state: {
-        post: { displayName, userName, text, image, avatar, timestamp },
+        post: { displayName, userName, text, images, avatar, timestamp },
       },
     });
   };
+
+
 
   return (
     <div className=" container flex flex-row items-center justify-center  ">
@@ -40,7 +42,7 @@ const Post = ({
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <Link href={"/Profile"}>
+              <Link href={`/u/${userName}`}>
                 <button className="dropdown-button  transition-transform   -translate-x-5 translate-y-5">
                   {" "}
                   <img

@@ -18,7 +18,7 @@ const Explore = () => {
         "https://peerpost-api.vercel.app/post?page=0&limit=2"
       );
       const data = await response.json();
-      console.log(data)
+      
 
       setPosts(data);
 

@@ -1,10 +1,16 @@
-import React,{useState,useEffect} from "react";
-import ProfileCover from "./ProfileCover";
-import Right from "./Right";
-import ButtonForProfile from "./ButtonForProfile";
-import Left from "./Left"
+// pages/[username].js
 
-function Profile() {
+import { useRouter } from 'next/router';
+
+import React, { useState, useEffect } from "react";
+import Right from '../Right';
+import ProfileCover from '../ProfileCover';
+import Left from "../Left"
+import ButtonForProfile from '../ButtonForProfile';
+
+export default function UserProfile() {
+  const router = useRouter();
+  const { username } = router.query;
   const [profiledetails, setProfiledetails] = useState();
 
   useEffect(() => {
@@ -22,6 +28,7 @@ function Profile() {
       console.error(error);
     }
   };
+
   return (
     <div className=" flex flex-col items-center justify-center">
       <div className="coverPage">
@@ -36,6 +43,6 @@ function Profile() {
       </div>
     </div>
   );
-}
 
-export default Profile;
+
+}
