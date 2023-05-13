@@ -70,7 +70,7 @@ const Post = ({
             </div>
           </div>
           {images.map((image) => (
-            <img src={image} alt="" className="p-10 h-auto w-auto " />
+            <img key={Math.random()} src={image} alt="" className="p-10 h-auto w-auto " />
           ))}
           <div className="post__footer flex flex-row space-x-6">
             <button
