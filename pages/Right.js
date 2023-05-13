@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Post from "./Post";
 
 const Right = () => {
-  const [profiledetails, setProfiledetails] = useState([]);
+  const [profiledetails, setProfiledetails] = useState();
 
   useEffect(() => {
     fetchProfileDetails();
@@ -17,8 +17,8 @@ const Right = () => {
         "https://peerpost-api.vercel.app/profile/details/1"
       );
       const data = await response.json();
-      setProfiledetails(data);
       console.log(data);
+      setProfiledetails(data);
     } catch (error) {
       console.error(error);
     }
@@ -27,17 +27,21 @@ const Right = () => {
   return (
     <div className="flex flex-row container mx-auto max-w-screen-xl">
       <div>
-        {[profiledetails].map((profile) => (
-          <Post
-            key="{profile.profile.profile_id}"
-            displayName="Mr X"
-            userName="{profile.handle}"
-            text={profile.posts[0].data.content}
-            avatar="{profile.token_uri}"
-            image="{avtars}"
-            timestamp=""
-          />
-        ))}
+        {profiledetails ? (
+          profiledetails.posts.map((post) => (
+            <Post
+              key="{profile.profile.profile_id}"
+              displayName="Mr X"
+              userName={profiledetails.profile.handle}
+              text={post.data.content}
+              avatar={profiledetails.profile.token_uri}
+              images={post.data.images}
+              timestamp=""
+            />
+          ))
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
