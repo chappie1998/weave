@@ -1,27 +1,4 @@
-import React,{useState,useEffect} from "react";
-
-const PPD = () => {
-
-  const [follower, setFollower] = useState("");
-  const [following, setFollowing] = useState("");
-  const [avtar, setAvtar] = useState("")
-
-  useEffect(() => {
-    profileDeatils();
-  },[]);
-
-  const profileDeatils = async () => {
-    const data = await fetch(
-      "https://peerpost-api.vercel.app/profile/details/1"
-    );
-    let result = await data.json();
-   
-    
-    setFollowing(result.profile.following_count);
-    setFollower(result.profile.followers_count);
-    setAvtar(result.profile.token_uri)
-  };
-
+const PPD = ({ profileData }) => {
   const ProfileDropdown = ({
     displayName,
     userName,
@@ -70,12 +47,12 @@ const PPD = () => {
       <div className="flex flex-row container mx-auto max-w-screen-xl px-5">
         <div>
           <ProfileDropdown
-            displayName="Mr X"
-            userName="MR X"
-            text="Hello from Mr X.."
-            avatarppd={avtar}
-            follower={follower}
-            following={following}
+            displayName={profileData.handle}
+            userName={profileData.handle}
+            text={"bio"}
+            avatarppd={profileData.token_uri}
+            followers={profileData.followers_count}
+            following={profileData.following_count}
           />
         </div>
       </div>

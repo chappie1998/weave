@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiChat } from "react-icons/bi";
 import { BsArrowDownUp } from "react-icons/bs";
@@ -10,13 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Post = ({
   id,
+  profileId,
   displayName,
   userName,
   text,
   images,
   avatar,
   timestamp,
-  profileData,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const notify = () => toast.error("Please Sign In Your Wallet");
@@ -26,7 +26,7 @@ const Post = ({
       pathname: "/CommentsPage",
       query: { id },
       state: {
-        post: { displayName, userName, text, images, avatar, timestamp },
+        post: { displayName, userName, text, image, avatar, timestamp },
       },
     });
   };
@@ -41,17 +41,17 @@ const Post = ({
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <Link href={`/u/${userName}`}>
+              <Link href={`/u/${profileId}`}>
                 <button className="dropdown-button  transition-transform   -translate-x-5 translate-y-5">
                   {" "}
                   <img
-                    className="w-10 h-10 border bg-gray-600   rounded-full cursor-pointer    "
+                    className="w-10 h-10 border bg-gray-600   rounded-full cursor-pointer"
                     src={avatar}
                     alt="Rounded avatar"
                   />
                 </button>
               </Link>
-              {isDropdownOpen && <PPD profileData={profileData} />}
+              {isDropdownOpen && <PPD />}
             </div>
           </div>
         </div>
@@ -59,16 +59,12 @@ const Post = ({
         <div className="post__body w-full mx-6">
           <div className="post__header">
             <div className="post__headerText">
-              <Link href={`/u/${userName}`}>
-                <h3 className="font-medium flex flex-col">
-                  {userName}
-
-                  <span className="post__headerSpecial font-thin text-sm text-red-400">
-                    @{userName}
-                    <span className="text-black">- {timestamp}</span>
-                  </span>
-                </h3>
-              </Link>
+              <h3 className="font-medium flex flex-col">
+                {displayName}
+                <span className="post__headerSpecial font-thin text-sm text-red-400">
+                  @{userName} <span className="text-black">- {timestamp}</span>
+                </span>
+              </h3>
             </div>
             <div className="post__headerDescription break-words space-y-6">
               <p>{text}</p>

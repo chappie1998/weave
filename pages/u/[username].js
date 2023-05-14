@@ -1,12 +1,12 @@
 // pages/[username].js
 
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 import React, { useState, useEffect } from "react";
-import Right from '../Right';
-import ProfileCover from '../ProfileCover';
-import Left from "../Left"
-import ButtonForProfile from '../ButtonForProfile';
+import Right from "../Right";
+import ProfileCover from "../ProfileCover";
+import Left from "../Left";
+import ButtonForProfile from "../ButtonForProfile";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -35,14 +35,14 @@ export default function UserProfile() {
         <ProfileCover />
       </div>
       <div className="flex flex-col md:flex-row mt-[2rem] container mx-auto max-w-screen-xl space-y-6">
-        <div className="left items-center md:w-1/3"><Left/></div>
+        <div className="left items-center md:w-1/3">
+          <Left />
+        </div>
         <div className="right w-full md:w-2/3 ">
-        <ButtonForProfile/>
-        <Right profiledetails={profiledetails} />
+          <ButtonForProfile />
+          <Right profiledetails={profiledetails} />
         </div>
       </div>
     </div>
   );
-
-
 }

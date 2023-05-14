@@ -4,11 +4,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Post from "./Post";
 
-const Right = ({profiledetails}) => {
-  
-
+const Right = ({ profiledetails }) => {
   const formatTimestamp = (timestamp) => {
-    const hoursAgo = Math.floor((Date.now() - timestamp * 1000) / (1000 * 60 * 60));
+    const hoursAgo = Math.floor(
+      (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
+    );
     if (hoursAgo >= 24) {
       const daysAgo = Math.floor(hoursAgo / 24);
       return `${daysAgo}d`;
@@ -16,7 +16,6 @@ const Right = ({profiledetails}) => {
       return `${hoursAgo}h`;
     }
   };
-
 
   return (
     <div className="flex flex-row container mx-auto max-w-screen-xl">
@@ -31,10 +30,10 @@ const Right = ({profiledetails}) => {
               avatar={profiledetails.profile.token_uri}
               images={post.data.images}
               timestamp={formatTimestamp(post.timetamp)}
+              profileData={profiledetails.profile}
             />
           ))
         ) : (
-          (
           <div>
             {[...Array(2)].map((_, index) => (
               <div
@@ -60,7 +59,6 @@ const Right = ({profiledetails}) => {
               </div>
             ))}
           </div>
-        ) 
         )}
       </div>
     </div>

@@ -6,9 +6,7 @@ import { ModalforPost } from "./ModalforPost";
 const PPD = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [postOpen, setPostOpen] = useState(false);
-  const [data, setData] = useState(null);
-
-
+  const [data, setData] = useState();
 
   useEffect(() => {
     fetchData();
@@ -19,14 +17,12 @@ const PPD = () => {
         "https://peerpost-api.vercel.app/profile/details/1"
       );
       const data = await response.json();
-      
+
       setData(data);
     } catch (error) {
       console.error(error);
     }
   };
-
- 
 
   const ProfileDropdown = ({
     displayName,
@@ -75,12 +71,23 @@ const PPD = () => {
             <ul className="space-y-2">
               <li>Intagram</li>
               <li>Twitter</li>
-
               <li>Github</li>
             </ul>
           </div>
-          <div><button onClick={()=>{setPostOpen(true)}} className="button m-4 px-10 py-3 rounded-full bg-purple-500 text-white items-center justify-center">Post</button>
-          <ModalforPost open={postOpen} onClose={() => setPostOpen(false)}></ModalforPost></div>
+          <div>
+            <button
+              onClick={() => {
+                setPostOpen(true);
+              }}
+              className="button m-4 px-10 py-3 rounded-full bg-purple-500 text-white items-center justify-center"
+            >
+              Post
+            </button>
+            <ModalforPost
+              open={postOpen}
+              onClose={() => setPostOpen(false)}
+            ></ModalforPost>
+          </div>
         </div>
       </div>
     );
@@ -89,17 +96,19 @@ const PPD = () => {
     <>
       <div className="flex flex-row container  mx-auto max-w-screen-xl px-5">
         <div>
-          <ProfileDropdown
-            displayName={data.profile.handle}
-            userName={data.profile.handle}
-            text="Hello from Mr X.."
-            avatarppd={data.profile.token_uri}
-            follower={data.profile.followers_count}
-            following={data.profile.following_count}
-          />
-           
+          {data ? (
+            <ProfileDropdown
+              displayName={data.profile.handle}
+              userName={data.profile.handle}
+              text="I am the ghost"
+              avatarppd={data.profile.token_uri}
+              follower={data.profile.followers_count}
+              following={data.profile.following_count}
+            />
+          ) : (
+            <></>
+          )}
         </div>
-      
       </div>
     </>
   );

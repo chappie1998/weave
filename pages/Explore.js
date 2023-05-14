@@ -18,8 +18,8 @@ const Explore = () => {
         "https://peerpost-api.vercel.app/post?page=0&limit=2"
       );
       const data = await response.json();
-      
 
+      console.log(data);
       setPosts(data);
 
       setLoading(false); // Set loading to false after receiving the response
@@ -28,7 +28,9 @@ const Explore = () => {
     }
   };
   const formatTimestamp = (timestamp) => {
-    const hoursAgo = Math.floor((Date.now() - timestamp * 1000) / (1000 * 60 * 60));
+    const hoursAgo = Math.floor(
+      (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
+    );
     if (hoursAgo >= 24) {
       const daysAgo = Math.floor(hoursAgo / 24);
       return `${daysAgo}d`;
@@ -37,11 +39,10 @@ const Explore = () => {
     }
   };
 
-
   return (
     <div className="flex flex-row container mx-auto max-w-screen-xl p-5 overflow-hidden">
       <div className="rounded-3xl">
-        {loading ?(
+        {loading ? (
           <div>
             {[...Array(2)].map((_, index) => (
               <div
@@ -67,7 +68,7 @@ const Explore = () => {
               </div>
             ))}
           </div>
-        )  : (
+        ) : (
           posts.map((post) => (
             <Post
               key={post.post_id}
@@ -77,6 +78,7 @@ const Explore = () => {
               avatar={post.profile.token_uri}
               images={post.data.images}
               timestamp={formatTimestamp(post.timetamp)}
+              profileData={post.profile}
             />
           ))
         )}
