@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const PPD = ({ profileData }) => {
   const ProfileDropdown = ({
     displayName,
@@ -10,13 +12,16 @@ const PPD = ({ profileData }) => {
     return (
       <div className="flex flex-row items-center justify-center h-64 w-64 bg-white">
         <div className="post flex flex-col border-2 shadow-xl p-4 my-1 rounded-lg h-64 w-64">
-          <div className="post__avatarppd p-2">
-            <img
-              className="w-10 h-10 rounded-full cursor-pointer"
-              src={avatarppd}
-              alt="Rounded avatarppd"
-            />
-          </div>
+          <Link href={`/u/${userName}`}>
+            {" "}
+            <div className="post__avatarppd p-2">
+              <img
+                className="w-10 h-10 rounded-full cursor-pointer"
+                src={avatarppd}
+                alt="Rounded avatarppd"
+              />
+            </div>
+          </Link>
           <div className="post__body p-2">
             <div className="post__header">
               <div className="post__headerText">

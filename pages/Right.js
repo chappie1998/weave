@@ -23,7 +23,8 @@ const Right = ({ profiledetails }) => {
         {profiledetails ? (
           profiledetails.posts.map((post) => (
             <Post
-              key={post._id}
+             key={post.post_id}
+              postID={post.post_id}
               displayName={post.data.name}
               userName={profiledetails.profile.handle}
               text={post.data.content}

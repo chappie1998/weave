@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Post = ({
-  key,
+ 
   postID,
   displayName,
   userName,
@@ -25,7 +25,7 @@ const Post = ({
   const handleCommentClick = () => {
     router.push({
       pathname: "/CommentsPage",
-      query: { postID },
+      query: { key},
       state: {
         post: {
           postID,
@@ -41,6 +41,7 @@ const Post = ({
   };
 
   return (
+    <>
     <div className=" container flex flex-row items-center justify-center  ">
       <Link href={`/posts/${postID}`}>
         <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer  sm:w-4/5  ">
@@ -122,7 +123,7 @@ const Post = ({
           </div>
         </div>
       </Link>
-    </div>
+    </div></>
   );
 };
 

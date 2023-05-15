@@ -19,7 +19,7 @@ const Explore = () => {
       );
       const data = await response.json();
 
-      console.log(data[0].post_id);
+     
       setPosts(data);
 
       setLoading(false); // Set loading to false after receiving the response
@@ -40,6 +40,7 @@ const Explore = () => {
   };
 
   return (
+    <>
     <div className="flex flex-row container mx-auto max-w-screen-xl p-5 overflow-hidden ">
       <div className="rounded-3xl">
         {loading ? (
@@ -95,7 +96,7 @@ const Explore = () => {
       <div className="sr-only sm:not-sr-only">
         <Footer />
       </div>
-    </div>
+    </div></>
   );
 };
 
