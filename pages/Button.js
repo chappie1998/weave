@@ -4,7 +4,7 @@ const Button = ({ handleButtonSelect }) => {
   const buttonNames = ["All Post", "Text", "Video", "Audio", "Images"];
 
   return (
-    <div className="my-2 mx-3">
+    <div className="my-2 mx-6">
       {buttonNames.map((buttonName) => (
         <button
           key={buttonName}

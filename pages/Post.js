@@ -32,7 +32,7 @@ const Post = ({
   };
 
   return (
-    <div className=" container flex flex-row items-center justify-center  ">
+    <div className=" container flex flex-row items-center justify-center sm:-mx-16  ">
       <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer  sm:w-4/5  ">
         <div className="flex flex-col ">
           <div className="">
@@ -45,7 +45,7 @@ const Post = ({
                 <button className="dropdown-button  transition-transform   -translate-x-5 translate-y-5">
                   {" "}
                   <img
-                    className="w-10 h-10 border bg-gray-600   rounded-full cursor-pointer    "
+                    className="w-10 h-10 border bg-gray-600 -mt-3  rounded-full cursor-pointer    "
                     src={avatar}
                     alt="Rounded avatar"
                   />
@@ -70,7 +70,7 @@ const Post = ({
                 </h3>
               </Link>
             </div>
-            <div className="post__headerDescription break-words space-y-6">
+            <div className="post__headerDescription break-words my-5 space-y-6">
               <p>{text}</p>
             </div>
           </div>
