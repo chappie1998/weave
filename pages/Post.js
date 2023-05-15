@@ -4,12 +4,15 @@ import { BiChat } from "react-icons/bi";
 import { BsArrowDownUp } from "react-icons/bs";
 import PPD from "./ProfileDropDown";
 import Link from "next/link";
+import NextLink from "next/link";
+
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Post = ({
   id,
+  postID,
   displayName,
   userName,
   text,
@@ -24,16 +27,16 @@ const Post = ({
   const handleCommentClick = () => {
     router.push({
       pathname: "/CommentsPage",
-      query: { id },
+      query: { key },
       state: {
-        post: { displayName, userName, text, images, avatar, timestamp },
+        post: {postID,displayName, userName, text, images, avatar, timestamp },
       },
     });
   };
 
   return (
-    <div className=" container flex flex-row items-center justify-center sm:-mx-16  ">
-      <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer  sm:w-4/5  ">
+    <div className=" container flex flex-row items-center justify-center   ">
+     <Link href={`/posts/${postID}`}><div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer  sm:w-4/5  ">
         <div className="flex flex-col ">
           <div className="">
             <div
@@ -45,7 +48,7 @@ const Post = ({
                 <button className="dropdown-button  transition-transform   -translate-x-5 translate-y-5">
                   {" "}
                   <img
-                    className="w-10 h-10 border bg-gray-600 -mt-3  rounded-full cursor-pointer    "
+                    className="w-10 h-10 border bg-gray-600  rounded-full cursor-pointer    "
                     src={avatar}
                     alt="Rounded avatar"
                   />
@@ -110,7 +113,7 @@ const Post = ({
             </div>
           </div>
         </div>
-      </div>
+      </div></Link> 
     </div>
   );
 };
