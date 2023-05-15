@@ -18,26 +18,14 @@ const Post = ({
   avatar,
   timestamp,
   profileData,
+  comments,
+  likes,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const notify = () => toast.error("Please Sign In Your Wallet");
   const router = useRouter();
   const handleCommentClick = () => {
-    router.push({
-      pathname: "/CommentsPage",
-      query: { key},
-      state: {
-        post: {
-          postID,
-          displayName,
-          userName,
-          text,
-          images,
-          avatar,
-          timestamp,
-        },
-      },
-    });
+    router.push(`/posts/${postID}` )
   };
 
   return (
@@ -93,24 +81,28 @@ const Post = ({
                 className="p-10 h-auto w-auto "
               />
             ))}
-            <div className="post__footer flex flex-row space-x-6">
-              <button
+            <div className="post__footer flex flex-row space-x-6 ">
+           <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">  <button
                 onClick={handleCommentClick}
-                className="hover:bg-blue-200 rounded-full px-1.5  "
+                
               >
                 {" "}
                 <BiChat className=" h-5 w-10" />{" "}
-              </button>{" "}
-              <div className="hover:bg-red-200 rounded-full p-1.5">
+                
+              </button>
+              <span className="-mt-1 p-2">{comments}</span>
+              </div> {" "}
+              <div className="hover:bg-red-200 rounded-full p-1.5 flex flex-row items-center">
                 {" "}
                 <AiOutlineHeart onClick={notify} className="h-5 w-10" />
+                <span className="-mt-1 p-2">{likes}</span>
                 <ToastContainer
                   position="bottom-right"
                   autoClose={1000}
                   hideProgressBar={true}
                 />
               </div>
-              <div className=" hover:bg-purple-200 rounded-full p-1.5">
+              {/* <div className=" hover:bg-purple-200 rounded-full p-1.5">
                 {" "}
                 <BsArrowDownUp onClick={notify} className="h-5 w-10" />
                 <ToastContainer
@@ -118,7 +110,7 @@ const Post = ({
                   autoClose={1000}
                   hideProgressBar={true}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

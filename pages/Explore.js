@@ -21,8 +21,9 @@ const Explore = () => {
 
      
       setPosts(data);
+      
 
-      setLoading(false); // Set loading to false after receiving the response
+      setLoading(false); 
     } catch (error) {
       console.error(error);
     }

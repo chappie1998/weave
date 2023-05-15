@@ -18,8 +18,10 @@ const PostDetails = () => {
         `https://peerpost-api.vercel.app/post/details/${postID}`
       );
       const data = await response.json();
-
+      console.log(data)
       setPosts(data);
+      
+
 
       setLoading(false);
     } catch (error) {
@@ -37,6 +39,7 @@ const PostDetails = () => {
       return `${hoursAgo}h`;
     }
   };
+ 
 
   return (
     <div className="justify-center flex">
@@ -98,6 +101,8 @@ const PostDetails = () => {
                   images={posts.post.data.images}
                   timestamp={formatTimestamp(posts.post.timetamp)}
                   profileData={posts.post.profile}
+                  likes={posts.likes.length}
+                  comments={posts.comments.length}
                 />
               </div>
               <div className="lg:-ml-48">
