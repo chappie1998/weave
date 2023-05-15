@@ -38,7 +38,7 @@ export default function UserProfile() {
         <div className="left items-center md:w-1/3">
           <Left />
         </div>
-        <div className="right w-full md:w-2/3 ">
+        <div className="right w-full space-y-3 md:w-2/3 ">
           <ButtonForProfile />
           <Right profiledetails={profiledetails} />
         </div>
