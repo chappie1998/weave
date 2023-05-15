@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Post from "../Post";
+import Post from "./Post";
 import PPD from "../ProfileDropDown";
+import PostComponentForComments from "./PostComponetsForComments";
 const PostDetails = () => {
   const router = useRouter();
   const { postID } = router.query;
@@ -9,8 +10,10 @@ const PostDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    if (postID) {
+      fetchPosts();
+    }
+  }, [postID]);
 
   const fetchPosts = async () => {
     try {
@@ -37,54 +40,55 @@ const PostDetails = () => {
       return `${hoursAgo}h`;
     }
   };
-
+  //Error is coming when refreshing the
   return (
-    <div className="justify-center flex"> //Error is coming when refreshing the page
-      {posts ? (
+    <div className="justify-center flex">
+      {!loading ? (
         <>
-        <div>
+          <div>
             <div className="flex flex-col lg:flex-row ">
-            <div className="flex flex-col space-y-2">
-              <div className="ml-10">
-                <Post
-                  key={posts.post.post_id}
-                  postId={posts.post.post_id}
-                  displayName={posts.post.profile.handle}
-                  userName={posts.post.profile.handle}
-                  text={posts.post.data.content}
-                  avatar={posts.post.profile.token_uri}
-                  images={posts.post.data.images}
-                  timestamp={formatTimestamp(posts.post.timetamp)}
-                  profileData={posts.post.profile}
-                  likes={posts.likes.length}
-                  comments={posts.comments.length}
-                />
+              <div className="flex flex-col space-y-2">
+                <div className="ml-10">
+                  <Post
+                    key={posts.post.post_id}
+                    postId={posts.post.post_id}
+                    displayName={posts.post.profile.handle}
+                    userName={posts.post.profile.handle}
+                    text={posts.post.data.content}
+                    avatar={posts.post.profile.token_uri}
+                    images={posts.post.data.images}
+                    timestamp={formatTimestamp(posts.post.timetamp)}
+                    profileData={posts.post.profile}
+                    likes={posts.likes.length}
+                    comments={posts.comments.length}
+                  />
+                </div>
+                <div className="items-center ">
+                  {" "}
+                  {posts.comments.map((comment) => (
+                    <PostComponentForComments
+                      key={comment.comment_id}
+                      postId={comment.comment_id}
+                      displayName={comment.profile.handle}
+                      userName={comment.profile.handle}
+                      text={comment.content}
+                      avatar={comment.profile.token_uri}
+                      
+                      timestamp={formatTimestamp(comment.timetamp)}
+                      profileData={comment.profile}
+                    />
+                  ))}
+                </div>
               </div>
-              <div>
-                {" "}
-                <Post
-                  key={posts.comments[0].comment_id}
-                  postId={posts.comments[0].comment_id}
-                  displayName={posts.comments[0].profile.handle}
-                  userName={posts.comments[0].profile.handle}
-                  text={posts.comments[0].token_uri}
-                  avatar={posts.post.profile.token_uri}
-                  images={posts.post.data.images}
-                  timestamp={formatTimestamp(posts.comments[0].timetamp)}
-                  profileData={posts.comments[0].profile}
-                 
-                />
-              </div></div>
               <div className="lg:-ml-48">
                 <PPD profileData={posts.post.profile} />
               </div>
             </div>
           </div>
-         
         </>
       ) : (
         <>
-        <div className="flex flex-row">
+          <div className="flex flex-row">
             <div className="w-[115vh] items-center justify-center">
               <div
                 role="status"

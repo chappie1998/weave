@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Post = ({
+const PostComponentForComments = ({
  
   postID,
   displayName,
@@ -30,9 +30,9 @@ const Post = ({
 
   return (
     <>
-    <div className=" container flex flex-row items-center justify-center  ">
+    <div className=" container flex flex-row items-center justify-center">
       <Link href={"#"}>
-        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer  sm:w-4/5  ">
+        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer -ml-44  w-[870px] ">
           <div className="flex flex-col ">
             <div className="">
               <div
@@ -73,17 +73,17 @@ const Post = ({
                 <p>{text}</p>
               </div>
             </div>
-            {images.map((image) => (
+            {/* {images.map((image) => (
               <img
                 key={Math.random()}
                 src={image}
                 alt=""
                 className="p-10 h-auto w-auto "
               />
-            ))}
+            ))} */}
             <div className="post__footer flex flex-row space-x-6 ">
            <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">  <button
-                onClick={handleCommentClick}
+                
                 
               >
                 {" "}
@@ -119,4 +119,4 @@ const Post = ({
   );
 };
 
-export default Post;
+export default PostComponentForComments ;
