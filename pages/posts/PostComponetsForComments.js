@@ -90,12 +90,12 @@ const PostComponentForComments = ({
                 <BiChat className=" h-5 w-10" />{" "}
                 
               </button>
-              <span className="-mt-1 p-2">{comments}</span>
+              <span className="-mt-1 py-2">{comments}</span>
               </div> {" "}
               <div className="hover:bg-red-200 rounded-full p-1.5 flex flex-row items-center">
                 {" "}
                 <AiOutlineHeart onClick={notify} className="h-5 w-10" />
-                <span className="-mt-1 p-2">{likes}</span>
+                <span className="-mt-1 py-2">{likes}</span>
                 <ToastContainer
                   position="bottom-right"
                   autoClose={1000}
