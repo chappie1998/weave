@@ -5,7 +5,7 @@ import PPD from "../ProfileDropDown";
 const PostDetails = () => {
   const router = useRouter();
   const { postID } = router.query;
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,10 +18,8 @@ const PostDetails = () => {
         `https://peerpost-api.vercel.app/post/details/${postID}`
       );
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setPosts(data);
-      
-
 
       setLoading(false);
     } catch (error) {
@@ -39,13 +37,54 @@ const PostDetails = () => {
       return `${hoursAgo}h`;
     }
   };
- 
 
   return (
-    <div className="justify-center flex">
-      {loading ? (
+    <div className="justify-center flex"> //Error is coming when refreshing the page
+      {posts ? (
         <>
-          <div className="flex flex-row">
+        <div>
+            <div className="flex flex-col lg:flex-row ">
+            <div className="flex flex-col space-y-2">
+              <div className="ml-10">
+                <Post
+                  key={posts.post.post_id}
+                  postId={posts.post.post_id}
+                  displayName={posts.post.profile.handle}
+                  userName={posts.post.profile.handle}
+                  text={posts.post.data.content}
+                  avatar={posts.post.profile.token_uri}
+                  images={posts.post.data.images}
+                  timestamp={formatTimestamp(posts.post.timetamp)}
+                  profileData={posts.post.profile}
+                  likes={posts.likes.length}
+                  comments={posts.comments.length}
+                />
+              </div>
+              <div>
+                {" "}
+                <Post
+                  key={posts.comments[0].comment_id}
+                  postId={posts.comments[0].comment_id}
+                  displayName={posts.comments[0].profile.handle}
+                  userName={posts.comments[0].profile.handle}
+                  text={posts.comments[0].token_uri}
+                  avatar={posts.post.profile.token_uri}
+                  images={posts.post.data.images}
+                  timestamp={formatTimestamp(posts.comments[0].timetamp)}
+                  profileData={posts.comments[0].profile}
+                 
+                />
+              </div></div>
+              <div className="lg:-ml-48">
+                <PPD profileData={posts.post.profile} />
+              </div>
+            </div>
+          </div>
+         
+        </>
+      ) : (
+        <>
+        <div className="flex flex-row">
             <div className="w-[115vh] items-center justify-center">
               <div
                 role="status"
@@ -82,31 +121,6 @@ const PostDetails = () => {
                   <div className="h-6 bg-gray-300 rounded-md w-36 "></div>
                   <div className="w-24 h-6 bg-gray-300 rounded-md "></div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div>
-            <div className="flex flex-col lg:flex-row ">
-              <div className="ml-10">
-                <Post
-                  key={posts.post.post_id}
-                  postId={posts.post.post_id}
-                  displayName={posts.post.profile.handle}
-                  userName={posts.post.profile.handle}
-                  text={posts.post.data.content}
-                  avatar={posts.post.profile.token_uri}
-                  images={posts.post.data.images}
-                  timestamp={formatTimestamp(posts.post.timetamp)}
-                  profileData={posts.post.profile}
-                  likes={posts.likes.length}
-                  comments={posts.comments.length}
-                />
-              </div>
-              <div className="lg:-ml-48">
-                <PPD profileData={posts.post.profile} />
               </div>
             </div>
           </div>

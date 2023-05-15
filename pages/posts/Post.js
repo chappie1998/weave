@@ -1,104 +1,122 @@
 import React, { useState, useEffect } from "react";
+import { AiOutlineHeart } from "react-icons/ai";
+import { BiChat } from "react-icons/bi";
+import { BsArrowDownUp } from "react-icons/bs";
+import PPD from "../ProfileDropDown";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import Footer from "@/components/Footer";
-
-import Post from "./Post";
-
-const Explore = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch(
-        "https://peerpost-api.vercel.app/post/details/0"
-      );
-      const data = await response.json();
-
-      console.log(data.post_id);
-      setPosts(data);
-
-      setLoading(false); // Set loading to false after receiving the response
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const formatTimestamp = (timestamp) => {
-    const hoursAgo = Math.floor(
-      (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
-    );
-    if (hoursAgo >= 24) {
-      const daysAgo = Math.floor(hoursAgo / 24);
-      return `${daysAgo}d`;
-    } else {
-      return `${hoursAgo}h`;
-    }
+const Post = ({
+ 
+  postID,
+  displayName,
+  userName,
+  text,
+  images,
+  avatar,
+  timestamp,
+  profileData,
+  comments,
+  likes,
+}) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const notify = () => toast.error("Please Sign In Your Wallet");
+  const router = useRouter();
+  const handleCommentClick = () => {
+    router.push(`/posts/${postID}` )
   };
 
   return (
-    <div className="flex flex-row container mx-auto max-w-screen-xl p-5 overflow-hidden ">
-      <div className="rounded-3xl">
-        {loading ? (
-          <div className="w-[115vh] items-center justify-center">
-            {[...Array(2)].map((_, index) => (
+    <>
+    <div className=" container flex flex-row items-center justify-center  ">
+     
+        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer  sm:w-4/5  ">
+          <div className="flex flex-col ">
+            <div className="">
               <div
-                key={index}
-                role="status"
-                className="max-w-sm p-4  container  w-[90vh] rounded animate-pulse md:p-6 items-center justify-center "
+                className="dropdown absolute"
+                onMouseEnter={() => setIsDropdownOpen(true)}
+                onMouseLeave={() => setIsDropdownOpen(false)}
               >
-              <div className="flex flex-row space-x-2">
-              <div className=" bg-gray-200 rounded-full w-7 h-7 mb-4"></div>
-              <div>
-              <div className=" bg-gray-200 rounded-full w-28 h-1.5 mb-4"></div>
-              <div className=" bg-gray-200 rounded-full w-28 h-1.5 mb-4"></div>
-              </div>
-              
-              </div>
-              
-                <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-[80vh]"></div>
-                <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-[80vh]"></div>
-                <div className="h-2 bg-gray-200 rounded-full w-[80vh]"></div>
-                <div className="flex items-center justify-center h-48 w-[80vh] mb-4 bg-gray-300 rounded">
-                  <svg
-                    className="w-12 h-12 text-gray-200"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    fill="currentColor"
-                    viewBox="0 0 640 512"
-                  >
-                    <path d="M480 80C480 35.82 515.8 0 560 0C604.2 0 640 35.82 640 80C640 124.2 604.2 160 560 160C515.8 160 480 124.2 480 80zM0 456.1C0 445.6 2.964 435.3 8.551 426.4L225.3 81.01C231.9 70.42 243.5 64 256 64C268.5 64 280.1 70.42 286.8 81.01L412.7 281.7L460.9 202.7C464.1 196.1 472.2 192 480 192C487.8 192 495 196.1 499.1 202.7L631.1 419.1C636.9 428.6 640 439.7 640 450.9C640 484.6 612.6 512 578.9 512H55.91C25.03 512 .0006 486.1 .0006 456.1L0 456.1z" />
-                  </svg>
-                </div>
                 
+                  <button className="dropdown-button  transition-transform -mt-4   -translate-x-5 translate-y-5">
+                    {" "}
+                    <img
+                      className="w-10 h-10 border bg-gray-600  rounded-full cursor-pointer    "
+                      src={avatar}
+                      alt="Rounded avatar"
+                    />
+                  </button>
+                
+                {isDropdownOpen && <PPD profileData={profileData} />}
               </div>
-            ))}
+            </div>
           </div>
-        ) : (
-          posts.map((post) => (
-            <Post
-              key={post.post_id}
-              postId={post.post_id}
-              displayName={post.data.name}
-              userName={post.profile.handle}
-              text={post.data.content}
-              avatar={post.profile.token_uri}
-              images={post.data.images}
-              timestamp={formatTimestamp(post.timetamp)}
-              profileData={post.profile}
-            />
-          ))
-        )}
-      </div>
 
-      <div className="sr-only sm:not-sr-only">
-        <Footer />
-      </div>
-    </div>
+          <div className="post__body w-full mx-6">
+            <div className="post__header">
+              <div className="post__headerText">
+                <Link href={`/u/${userName}`}>
+                  <h3 className="font-medium flex flex-col">
+                    {userName}
+
+                    <span className="post__headerSpecial font-thin text-sm text-red-400">
+                      @{userName}
+                      <span className="text-black">- {timestamp}</span>
+                    </span>
+                  </h3>
+                </Link>
+              </div>
+              <div className="post__headerDescription break-words my-5 space-y-6">
+                <p>{text}</p>
+              </div>
+            </div>
+            {images.map((image) => (
+              <img
+                key={Math.random()}
+                src={image}
+                alt=""
+                className="p-10 h-auto w-auto "
+              />
+            ))}
+            <div className="post__footer flex flex-row space-x-6 ">
+           <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">  <button
+                onClick={handleCommentClick}
+                
+              >
+                {" "}
+                <BiChat className=" h-5 w-10" />{" "}
+                
+              </button>
+              <span className="-mt-1 p-2">{comments}</span>
+              </div> {" "}
+              <div className="hover:bg-red-200 rounded-full p-1.5 flex flex-row items-center">
+                {" "}
+                <AiOutlineHeart onClick={notify} className="h-5 w-10" />
+                <span className="-mt-1 p-2">{likes}</span>
+                <ToastContainer
+                  position="bottom-right"
+                  autoClose={1000}
+                  hideProgressBar={true}
+                />
+              </div>
+              {/* <div className=" hover:bg-purple-200 rounded-full p-1.5">
+                {" "}
+                <BsArrowDownUp onClick={notify} className="h-5 w-10" />
+                <ToastContainer
+                  position="bottom-right"
+                  autoClose={1000}
+                  hideProgressBar={true}
+                />
+              </div> */}
+            </div>
+          </div>
+        </div>
+      
+    </div></>
   );
 };
 
-export default Explore;
+export default Post;
