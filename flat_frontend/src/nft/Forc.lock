@@ -4,7 +4,7 @@ source = 'member'
 dependencies = [
     'std',
     'storage_string',
-    'string git+https://github.com/FuelLabs/sway-libs?default-branch#0444499cf24b383eda96ad24c93e3b8bc31ab1b9',
+    'string git+https://github.com/FuelLabs/sway-libs?default-branch#b22a1975f3639f0bf5e53cfa13443ebfff0e9413',
 ]
 
 [[package]]
@@ -18,18 +18,18 @@ dependencies = ['core']
 
 [[package]]
 name = 'storage_string'
-source = 'git+https://github.com/FuelLabs/sway-libs?default-branch#0444499cf24b383eda96ad24c93e3b8bc31ab1b9'
+source = 'git+https://github.com/FuelLabs/sway-libs?default-branch#b22a1975f3639f0bf5e53cfa13443ebfff0e9413'
 dependencies = [
     'std',
-    'string path+from-root-AB4E79532F566986',
+    'string path+from-root-59B8B2FC9AEB490D',
 ]
 
 [[package]]
 name = 'string'
-source = 'git+https://github.com/FuelLabs/sway-libs?default-branch#0444499cf24b383eda96ad24c93e3b8bc31ab1b9'
+source = 'git+https://github.com/FuelLabs/sway-libs?default-branch#b22a1975f3639f0bf5e53cfa13443ebfff0e9413'
 dependencies = ['std']
 
 [[package]]
 name = 'string'
-source = 'path+from-root-AB4E79532F566986'
+source = 'path+from-root-59B8B2FC9AEB490D'
 dependencies = ['std']
