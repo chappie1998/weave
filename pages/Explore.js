@@ -19,7 +19,7 @@ const Explore = () => {
       );
       const data = await response.json();
 
-      console.log(data);
+      console.log(data[0].post_id);
       setPosts(data);
 
       setLoading(false); // Set loading to false after receiving the response
@@ -81,6 +81,7 @@ const Explore = () => {
           posts.map((post) => (
             <Post
               key={post.post_id}
+              postId={post.post_id}
               displayName={post.data.name}
               userName={post.profile.handle}
               text={post.data.content}
