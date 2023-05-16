@@ -31,8 +31,8 @@ const Post = ({
   return (
     <>
     <div className=" container flex flex-row items-center justify-center  ">
-      <Link href={"#"}>
-        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer  sm:w-4/5  ">
+     
+        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer w-5/6  ">
           <div className="flex flex-col ">
             <div className="">
               <div
@@ -114,7 +114,7 @@ const Post = ({
             </div>
           </div>
         </div>
-      </Link>
+     
     </div></>
   );
 };

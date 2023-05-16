@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Post from "./Post";
 import PPD from "../ProfileDropDown";
 import PostComponentForComments from "./PostComponetsForComments";
+
 const PostDetails = () => {
   const router = useRouter();
   const { postID } = router.query;
@@ -47,7 +48,7 @@ const PostDetails = () => {
         <>
           <div>
             <div className="flex flex-col lg:flex-row ">
-              <div className="flex flex-col  ">
+             
                 <div className="ml-8 ">
                   <Post
                     key={posts.post.post_id}
@@ -82,8 +83,8 @@ const PostDetails = () => {
                   ))}
                 </div>
                
-              </div>
-              <div className="lg:-ml-48">
+              
+              <div className="">
                 <PPD profileData={posts.post.profile} />
               </div>
             </div>
