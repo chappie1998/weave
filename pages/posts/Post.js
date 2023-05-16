@@ -32,7 +32,7 @@ const Post = ({
     <>
     <div className=" container flex flex-row items-center justify-center  ">
      
-        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer w-5/6  ">
+        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer w-5/6  mb-6">
           <div className="flex flex-col ">
             <div className="">
               <div

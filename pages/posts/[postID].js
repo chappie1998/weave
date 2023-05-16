@@ -48,42 +48,41 @@ const PostDetails = () => {
         <>
           <div>
             <div className="flex flex-col lg:flex-row ">
-             
-                <div className="ml-8 ">
-                  <Post
-                    key={posts.post.post_id}
-                    postId={posts.post.post_id}
-                    displayName={posts.post.profile.handle}
-                    userName={posts.post.profile.handle}
-                    text={posts.post.data.content.split("\\n").map((line, index) => (
-                  <React.Fragment key={index}>
-                    {line}
-                    <br />
-                  </React.Fragment>
-                ))}
-                    avatar={posts.post.profile.token_uri}
-                    images={posts.post.data.images}
-                    timestamp={formatTimestamp(posts.post.timetamp)}
-                    profileData={posts.post.profile}
-                    likes={posts.likes.length}
-                    comments={posts.comments.length}
+              <div className="ml-8 ">
+                <Post
+                  key={posts.post.post_id}
+                  postId={posts.post.post_id}
+                  displayName={posts.post.profile.handle}
+                  userName={posts.post.profile.handle}
+                  text={posts.post.data.content
+                    .split("\\n")
+                    .map((line, index) => (
+                      <React.Fragment key={index}>
+                        {line}
+                        <br />
+                      </React.Fragment>
+                    ))}
+                  avatar={posts.post.profile.token_uri}
+                  images={posts.post.data.images}
+                  timestamp={formatTimestamp(posts.post.timetamp)}
+                  profileData={posts.post.profile}
+                  likes={posts.likes.length}
+                  comments={posts.comments.length}
+                />
+                {posts.comments.map((comment) => (
+                  <PostComponentForComments
+                    key={comment.comment_id}
+                    postId={comment.comment_id}
+                    displayName={comment.profile.handle}
+                    userName={comment.profile.handle}
+                    text={comment.content}
+                    avatar={comment.profile.token_uri}
+                    timestamp={formatTimestamp(comment.timetamp)}
+                    profileData={comment.profile}
                   />
-                  {posts.comments.map((comment) => (
-                    <PostComponentForComments
-                      key={comment.comment_id}
-                      postId={comment.comment_id}
-                      displayName={comment.profile.handle}
-                      userName={comment.profile.handle}
-                      text={comment.content}
-                      avatar={comment.profile.token_uri}
-                      
-                      timestamp={formatTimestamp(comment.timetamp)}
-                      profileData={comment.profile}
-                    />
-                  ))}
-                </div>
-               
-              
+                ))}
+              </div>
+
               <div className="">
                 <PPD profileData={posts.post.profile} />
               </div>
