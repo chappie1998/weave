@@ -32,7 +32,7 @@ const PostComponentForComments = ({
     <>
     <div className=" container flex flex-row items-center justify-center">
       <Link href={"#"}>
-        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer -ml-36 w-[728px] ">
+        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer -ml-[183px] w-[728px] ">
           <div className="flex flex-col ">
             <div className="">
               <div

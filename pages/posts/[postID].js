@@ -47,8 +47,8 @@ const PostDetails = () => {
         <>
           <div>
             <div className="flex flex-col lg:flex-row ">
-              <div className="flex flex-col space-y-2 w-[990px]">
-                <div className="ml-10">
+              <div className="flex flex-col  ">
+                <div className="ml-8 ">
                   <Post
                     key={posts.post.post_id}
                     postId={posts.post.post_id}
@@ -67,9 +67,6 @@ const PostDetails = () => {
                     likes={posts.likes.length}
                     comments={posts.comments.length}
                   />
-                </div>
-                <div className="items-center ">
-                  {" "}
                   {posts.comments.map((comment) => (
                     <PostComponentForComments
                       key={comment.comment_id}
@@ -84,6 +81,7 @@ const PostDetails = () => {
                     />
                   ))}
                 </div>
+               
               </div>
               <div className="lg:-ml-48">
                 <PPD profileData={posts.post.profile} />
@@ -93,7 +91,7 @@ const PostDetails = () => {
         </>
       ) : (
         <>
-          <div className="flex flex-row">
+          <div className="flex flex-row justify-center max-w-6xl">
             <div className="w-[115vh] items-center justify-center">
               <div
                 role="status"
