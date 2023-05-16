@@ -27,7 +27,12 @@ const Right = ({ profiledetails }) => {
               postID={post.post_id}
               displayName={post.data.name}
               userName={profiledetails.profile.handle}
-              text={post.data.content}
+              text={post.data.content.split("\\n").map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
               avatar={profiledetails.profile.token_uri}
               images={post.data.images}
               timestamp={formatTimestamp(post.timetamp)}

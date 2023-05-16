@@ -47,14 +47,19 @@ const PostDetails = () => {
         <>
           <div>
             <div className="flex flex-col lg:flex-row ">
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 w-[990px]">
                 <div className="ml-10">
                   <Post
                     key={posts.post.post_id}
                     postId={posts.post.post_id}
                     displayName={posts.post.profile.handle}
                     userName={posts.post.profile.handle}
-                    text={posts.post.data.content}
+                    text={posts.post.data.content.split("\\n").map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
                     avatar={posts.post.profile.token_uri}
                     images={posts.post.data.images}
                     timestamp={formatTimestamp(posts.post.timetamp)}
