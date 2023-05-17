@@ -67,6 +67,7 @@ const ProfileDropdownForLeft = ({
           <ModalforPost
             open={postOpen}
             onClose={() => setPostOpen(false)}
+            imageComponent={avatarppd}
           ></ModalforPost>
         </div>
       </div>
