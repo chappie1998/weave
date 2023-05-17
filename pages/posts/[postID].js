@@ -56,12 +56,34 @@ const PostDetails = () => {
                   userName={posts.post.profile.handle}
                   text={posts.post.data.content
                     .split("\\n")
-                    .map((line, index) => (
-                      <React.Fragment key={index}>
-                        {line}
-                        <br />
-                      </React.Fragment>
-                    ))}
+                    .map((line, index) => {
+                      const regex = /@\w+/g;
+                      const words = line.split(" ").map((word, i) => {
+                        if (regex.test(word)) {
+                          return (
+                            <a className="text-red-400" key={i} href={`/u/${word.slice(1)}`}>
+                              {word}
+                            </a>
+                          );
+                        } else {
+                          return word;
+                        }
+                      });
+
+                      return (
+                        <React.Fragment key={index}>
+                          {words.reduce(
+                            (prev, curr, i) => [
+                              ...prev,
+                              i > 0 ? " " : "",
+                              curr,
+                            ],
+                            []
+                          )}
+                          <br />
+                        </React.Fragment>
+                      );
+                    })}
                   avatar={posts.post.profile.token_uri}
                   images={posts.post.data.images}
                   timestamp={formatTimestamp(posts.post.timetamp)}
