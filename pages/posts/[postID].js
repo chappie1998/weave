@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Post from "./Post";
 import PPD from "../ProfileDropDown";
 import PostComponentForComments from "./PostComponetsForComments";
+import Link from "next/link";
 
 const PostDetails = () => {
   const router = useRouter();
@@ -61,9 +62,9 @@ const PostDetails = () => {
                       const words = line.split(" ").map((word, i) => {
                         if (regex.test(word)) {
                           return (
-                            <a className="text-red-400" key={i} href={`/u/${word.slice(1)}`}>
+                            <Link className="text-red-400" key={i} href={`/u/${word.slice(1)}`}>
                               {word}
-                            </a>
+                            </Link>
                           );
                         } else {
                           return word;

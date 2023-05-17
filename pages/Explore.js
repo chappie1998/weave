@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Footer from "@/components/Footer";
 
 import Post from "./Post";
+import Link from "next/link";
 
 const Explore = () => {
   const [posts, setPosts] = useState([]);
@@ -89,9 +90,9 @@ const Explore = () => {
                       const words = line.split(" ").map((word, i) => {
                         if (regex.test(word)) {
                           return (
-                            <a className="text-red-400" key={i} href={`/u/${word.slice(1)}`}>
+                            <Link className="text-red-400" key={i} href={`/u/${word.slice(1)}`}>
                               {word}
-                            </a>
+                            </Link>
                           );
                         } else {
                           return word;
