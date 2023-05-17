@@ -81,6 +81,9 @@ const Post = ({
                 className="p-10 h-auto w-auto "
               />
             ))}
+            <div class="border border-gray-300 w-11/12 m-2 "></div>
+            <div class="text-gray-500 w-11/12 m-2 ">11:29 AM · May 17, 2023 · Posted via Lenster</div>
+            <div class="border border-gray-300 w-11/12 m-2 "></div>
             <div className="post__footer flex flex-row space-x-6 ">
            <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">  <button
                 onClick={handleCommentClick}
