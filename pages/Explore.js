@@ -82,12 +82,36 @@ const Explore = () => {
                 postID={post.post_id}
                 displayName={post.data.name}
                 userName={post.profile.handle}
-                text={post.data.content.split("\\n").map((line, index) => (
-                  <React.Fragment key={index}>
-                    {line}
-                    <br />
-                  </React.Fragment>
-                ))}
+                text={post.data.content
+                    .split("\\n")
+                    .map((line, index) => {
+                      const regex = /@\w+/g;
+                      const words = line.split(" ").map((word, i) => {
+                        if (regex.test(word)) {
+                          return (
+                            <a className="text-red-400" key={i} href={`/u/${word.slice(1)}`}>
+                              {word}
+                            </a>
+                          );
+                        } else {
+                          return word;
+                        }
+                      });
+
+                      return (
+                        <React.Fragment key={index}>
+                          {words.reduce(
+                            (prev, curr, i) => [
+                              ...prev,
+                              i > 0 ? " " : "",
+                              curr,
+                            ],
+                            []
+                          )}
+                          <br />
+                        </React.Fragment>
+                      );
+                    })}
                 avatar={post.profile.token_uri}
                 images={post.data.images}
                 timestamp={formatTimestamp(post.timetamp)}
