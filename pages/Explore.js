@@ -100,6 +100,8 @@ const Explore = () => {
                       });
 
                       return (
+                        <>
+                        <div className="my-5">
                         <React.Fragment key={index}>
                           {words.reduce(
                             (prev, curr, i) => [
@@ -109,8 +111,10 @@ const Explore = () => {
                             ],
                             []
                           )}
-                          <br />
+                          <br/>
                         </React.Fragment>
+                        </div>
+                        </>
                       );
                     })}
                 avatar={post.profile.token_uri}

@@ -44,7 +44,9 @@ const Right = ({ profiledetails }) => {
                       });
 
                       return (
-                        <React.Fragment key={index}>
+                        <>
+                          <div className="my-5">
+                          <React.Fragment key={index}>
                           {words.reduce(
                             (prev, curr, i) => [
                               ...prev,
@@ -55,6 +57,8 @@ const Right = ({ profiledetails }) => {
                           )}
                           <br />
                         </React.Fragment>
+                          </div>
+                        </>
                       );
                     })}
               avatar={profiledetails.profile.token_uri}

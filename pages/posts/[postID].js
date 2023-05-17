@@ -72,7 +72,9 @@ const PostDetails = () => {
                       });
 
                       return (
-                        <React.Fragment key={index}>
+                        <>
+                          <div className="my-5">
+                          <React.Fragment key={index}>
                           {words.reduce(
                             (prev, curr, i) => [
                               ...prev,
@@ -83,6 +85,9 @@ const PostDetails = () => {
                           )}
                           <br />
                         </React.Fragment>
+                          </div>
+                        </>
+                        
                       );
                     })}
                   avatar={posts.post.profile.token_uri}
