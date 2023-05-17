@@ -5,11 +5,12 @@ import {GiCancel } from "react-icons/gi"
 
 export const Modal = ({ children, open, onClose }) => {
   const [mounted, setMounted] = useState(false);
-  if (!open) return null;
+ 
 
   useEffect(() => {
     setMounted(true);
   }, []);
+  if (!open) return null;
 
   const modelContent = open ? (
     <div className="modal-overlay">

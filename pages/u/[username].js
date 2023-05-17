@@ -12,6 +12,7 @@ export default function UserProfile() {
   const router = useRouter();
   const { username } = router.query;
   const [profiledetails, setProfiledetails] = useState();
+  const [data, setData] = useState();
 
   useEffect(() => {
     fetchProfileDetails();
@@ -24,6 +25,7 @@ export default function UserProfile() {
       );
       const data = await response.json();
       setProfiledetails(data);
+      setData(data);
     } catch (error) {
       console.error(error);
     }
@@ -36,7 +38,7 @@ export default function UserProfile() {
       </div>
       <div className="flex flex-col md:flex-row mt-[2rem] container mx-auto max-w-screen-xl space-y-6">
         <div className="left items-center md:w-1/3">
-          <Left />
+          <Left data={data}/>
         </div>
         <div className="right w-full space-y-3 md:w-2/3 ">
           <ButtonForProfile />
