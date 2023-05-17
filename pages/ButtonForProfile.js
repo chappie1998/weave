@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const ButtonForProfile = () => {
-  const [selectedButton, setSelectedButton] = useState('');
+  const [selectedButton, setSelectedButton] = useState('Feed');
 
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
