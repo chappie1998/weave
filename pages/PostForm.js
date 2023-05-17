@@ -22,7 +22,7 @@ const PostForm = ({ onCancel, imageComponent }) => {
   };
 
   return (
-    <div className="bg-black h-80 p-9 rounded-2xl -mt-96 flex flex-col justify-between w-[800px]">
+    <div className="bg-black h-80 p-9 rounded-2xl -mt-36 flex flex-col justify-between w-[800px]">
   <div className="flex justify-between">
   <div className="post__avatarppd p-2 border-double">
   <img
