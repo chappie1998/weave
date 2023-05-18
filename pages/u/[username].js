@@ -7,11 +7,11 @@ import Right from "../Right";
 import ProfileCover from "../ProfileCover";
 import Left from "../Left";
 import ButtonForProfile from "../ButtonForProfile";
+import { config } from "@/config";
 
 export default function UserProfile() {
   const router = useRouter();
   const { username } = router.query;
-  const [profiledetails, setProfiledetails] = useState();
   const [data, setData] = useState();
 
   useEffect(() => {
@@ -20,11 +20,14 @@ export default function UserProfile() {
 
   const fetchProfileDetails = async () => {
     try {
-      const response = await fetch(
-        "https://peerpost-api.vercel.app/profile/details/1"
-      );
+      const response = await fetch(`${config.baseUrl}/profile/details`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ profile_id: 2 }),
+      });
       const data = await response.json();
-      setProfiledetails(data);
       setData(data);
     } catch (error) {
       console.error(error);
@@ -38,11 +41,11 @@ export default function UserProfile() {
       </div>
       <div className="flex flex-col md:flex-row mt-[2rem] container mx-auto max-w-screen-xl space-y-6">
         <div className="left items-center md:w-1/3">
-          <Left data={data}/>
+          <Left data={data} />
         </div>
         <div className="right w-full space-y-3 md:w-2/3 ">
           <ButtonForProfile />
-          <Right profiledetails={profiledetails} />
+          <Right profiledetails={data} />
         </div>
       </div>
     </div>

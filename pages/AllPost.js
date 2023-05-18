@@ -1,7 +1,8 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 import Footer from "@/components/Footer";
 import Post from "./Post";
+import { config } from "@/config";
 
 const AllPost = () => {
   const [posts, setPosts] = useState([]);
@@ -13,11 +14,9 @@ const AllPost = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(
-        "https://peerpost-api.vercel.app/post?page=0&limit=2"
-      );
+      const response = await fetch(`${config.baseUrl}/post?page=0&limit=10`);
       const data = await response.json();
-      console.log(data)
+      console.log(data);
 
       setPosts(data);
 
@@ -27,7 +26,9 @@ const AllPost = () => {
     }
   };
   const formatTimestamp = (timestamp) => {
-    const hoursAgo = Math.floor((Date.now() - timestamp * 1000) / (1000 * 60 * 60));
+    const hoursAgo = Math.floor(
+      (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
+    );
     if (hoursAgo >= 24) {
       const daysAgo = Math.floor(hoursAgo / 24);
       return `${daysAgo}d`;
@@ -36,11 +37,10 @@ const AllPost = () => {
     }
   };
 
-
   return (
     <div className="flex flex-row container mx-auto max-w-screen-xl p-5 overflow-hidden">
       <div className="rounded-3xl">
-        {loading ?(
+        {loading ? (
           <div className="w-[115vh] items-center justify-center">
             {[...Array(2)].map((_, index) => (
               <div
@@ -73,7 +73,7 @@ const AllPost = () => {
               </div>
             ))}
           </div>
-        )  : (
+        ) : (
           posts.map((post) => (
             <Post
               key={post.post_id}

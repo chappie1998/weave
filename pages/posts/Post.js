@@ -9,7 +9,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Post = ({
- 
   postID,
   displayName,
   userName,
@@ -25,13 +24,12 @@ const Post = ({
   const notify = () => toast.error("Please Sign In Your Wallet");
   const router = useRouter();
   const handleCommentClick = () => {
-    router.push(`/posts/${postID}` )
+    router.push(`/posts/${postID}`);
   };
 
   return (
     <>
-    <div className=" container flex flex-row items-center justify-center  ">
-     
+      <div className=" container flex flex-row items-center justify-center  ">
         <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer w-5/6  mb-6">
           <div className="flex flex-col ">
             <div className="">
@@ -73,28 +71,28 @@ const Post = ({
                 <p>{text}</p>
               </div>
             </div>
-            {images.map((image) => (
+            {images.map((image, index) => (
               <img
-                key={Math.random()}
+                key={index}
                 src={image}
                 alt=""
                 className="p-10 h-auto w-auto "
               />
             ))}
             <div class="border border-gray-300 w-11/12 m-2 "></div>
-            <div class="text-gray-500 w-11/12 m-2 ">11:29 AM · May 17, 2023 · Posted via Lenster</div>
+            <div class="text-gray-500 w-11/12 m-2 ">
+              11:29 AM · May 17, 2023 · Posted via Lenster
+            </div>
             <div class="border border-gray-300 w-11/12 m-2 "></div>
             <div className="post__footer flex flex-row space-x-6 ">
-           <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">  <button
-                onClick={handleCommentClick}
-                
-              >
+              <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">
                 {" "}
-                <BiChat className=" h-5 w-10" />{" "}
-                
-              </button>
-              <span className="-mt-1 p-2">{comments}</span>
-              </div> {" "}
+                <button onClick={handleCommentClick}>
+                  {" "}
+                  <BiChat className=" h-5 w-10" />{" "}
+                </button>
+                <span className="-mt-1 p-2">{comments}</span>
+              </div>{" "}
               <div className="hover:bg-red-200 rounded-full p-1.5 flex flex-row items-center">
                 {" "}
                 <AiOutlineHeart onClick={notify} className="h-5 w-10" />
@@ -117,8 +115,8 @@ const Post = ({
             </div>
           </div>
         </div>
-     
-    </div></>
+      </div>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -7,11 +7,11 @@ import {
   AiOutlineAppstore,
   AiOutlineHome,
 } from "react-icons/ai";
-import { useRef } from "react";
 import { GiCancel } from "react-icons/gi";
 
 import { GrMailOption } from "react-icons/gr";
 import { useRouter } from "next/router";
+import { config } from "@/config";
 
 const Navbar = () => {
   const [seachOpen, setSeachOpen] = useState(false);
@@ -19,7 +19,7 @@ const Navbar = () => {
   const [selectedButton, setSelectedButton] = useState("home");
   const [walletConneted, setWalletConneted] = useState(false);
   const [user, setUser] = useState();
-  const router=useRouter();
+  const router = useRouter();
 
   const connectWallet = async () => {
     try {
@@ -32,7 +32,7 @@ const Navbar = () => {
         console.log(accounts);
         localStorage.setItem("publicKey", accounts[0]);
         setWalletConneted(true);
-        router.push("http://localhost:3000/u/chappie1")
+        router.push("/u/chappie1");
       }
     } catch (error) {
       console.error("Error connecting wallet:", error);
@@ -46,13 +46,21 @@ const Navbar = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(
-        "https://peerpost-api.vercel.app/profile/owner/6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e"
-      );
+      const response = await fetch(`${config.baseUrl}/profile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          owner:
+            "6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e",
+        }),
+      });
       const data = await response.json();
-      console.log(data.handle)
+      const s = "chappie1";
+      // s.length = 15;
+      console.log(data.handle.length, s);
       setUser(data);
-    
     } catch (error) {
       console.error(error);
     }
@@ -262,10 +270,7 @@ const Navbar = () => {
                 <div>Login</div>
               </button>
             ) : (
-              <button
-                className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50"
-                
-              >
+              <button className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50">
                 <Image
                   className=""
                   width={16}

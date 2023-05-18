@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import Post from "./Post";
 import Link from "next/link";
+import { config } from "@/config";
 
 const Explore = () => {
   const [posts, setPosts] = useState([]);
@@ -15,9 +16,7 @@ const Explore = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(
-        "https://peerpost-api.vercel.app/post?page=0&limit=2"
-      );
+      const response = await fetch(`${config.baseUrl}/post?page=0&limit=10`);
       const data = await response.json();
 
       setPosts(data);
@@ -83,25 +82,27 @@ const Explore = () => {
                 postID={post.post_id}
                 displayName={post.data.name}
                 userName={post.profile.handle}
-                text={post.data.content
-                    .split("\\n")
-                    .map((line, index) => {
-                      const regex = /@\w+/g;
-                      const words = line.split(" ").map((word, i) => {
-                        if (regex.test(word)) {
-                          return (
-                            <Link className="text-red-400" key={i} href={`/u/${word.slice(1)}`}>
-                              {word}
-                            </Link>
-                          );
-                        } else {
-                          return word;
-                        }
-                      });
-
+                text={post.data.content.split("\\n").map((line, index) => {
+                  const regex = /@\w+/g;
+                  const words = line.split(" ").map((word, i) => {
+                    if (regex.test(word)) {
                       return (
-                        <>
-                        <div className="my-5">
+                        <Link
+                          className="text-red-400"
+                          key={i}
+                          href={`/u/${word.slice(1)}`}
+                        >
+                          {word}
+                        </Link>
+                      );
+                    } else {
+                      return word;
+                    }
+                  });
+
+                  return (
+                    <>
+                      <div className="my-5">
                         <React.Fragment key={index}>
                           {words.reduce(
                             (prev, curr, i) => [
@@ -111,12 +112,12 @@ const Explore = () => {
                             ],
                             []
                           )}
-                          <br/>
+                          <br />
                         </React.Fragment>
-                        </div>
-                        </>
-                      );
-                    })}
+                      </div>
+                    </>
+                  );
+                })}
                 avatar={post.profile.token_uri}
                 images={post.data.images}
                 timestamp={formatTimestamp(post.timetamp)}

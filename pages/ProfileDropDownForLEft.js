@@ -3,6 +3,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { Modal } from "./Modal";
 import { ModalforPost } from "./ModalforPost";
 import { SlUserFollow } from "react-icons/sl";
+import { config } from "@/config";
 
 const ProfileDropdownForLeft = ({
   displayName,
@@ -11,9 +12,32 @@ const ProfileDropdownForLeft = ({
   avatarppd,
   follower,
   following,
+  profileID,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [postOpen, setPostOpen] = useState(false);
+  const [isFollowedByMe, setIsFollowedByMe] = useState(false);
+
+  useEffect(() => {
+    fetchfollowDetail();
+  }, [profileID]);
+
+  const fetchfollowDetail = async () => {
+    try {
+      const response = await fetch(`${config.baseUrl}/follow/isFollowedByMe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ request: profileID, who: 0 }),
+      });
+      const data = await response.json();
+      setIsFollowedByMe(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex flex-row items-center justify-center h-96 w-64 bg-white">
       <div className="post flex flex-col  p-4 my-1 rounded-lg h-full w-full">
@@ -49,12 +73,13 @@ const ProfileDropdownForLeft = ({
           <div className="font-semibold">{following} Following</div>
           <div className="font-semibold">{follower} Followers</div>
         </div>
-        <div className="follow mt-6 mb-6 flex space-x-2 ring-2 rounded-md ring-purple-400 w-20 items-center  justify-center p-1">
+        <div className="follow mt-6 mb-6 flex space-x-2 ring-2 rounded-md ring-purple-400 items-center  justify-center p-1">
           <button className="fill-purple-400 font-bold text-purple-500 text-sm flex items-center">
-            <SlUserFollow className="mr-2" /> Follow
+            <SlUserFollow className="mr-2" />
+            {isFollowedByMe ? "Following" : "Follow"}
           </button>
         </div>
-        <div class="border border-gray-100 w-72 mb-2 "></div>
+        <div className="border border-gray-100 w-72 mb-2 "></div>
         <div className="">
           <ul className="space-y-2">
             <li>Intagram</li>
@@ -62,7 +87,7 @@ const ProfileDropdownForLeft = ({
             <li>Github</li>
           </ul>
         </div>
-        <div class="border border-gray-100 w-72 mb-2 mt-2 "></div>
+        <div className="border border-gray-100 w-72 mb-2 mt-2 "></div>
         <div>
           <button
             onClick={() => {

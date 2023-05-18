@@ -1,4 +1,5 @@
 import { NFTAbi__factory } from "@/contracts/nft";
+import { Address } from "fuels";
 
 export const getWallet = async () => {
   if (w.fuel) {
@@ -8,7 +9,7 @@ export const getWallet = async () => {
   }
 };
 
-export const getPublicKey = async () => {
+export const getPublicKey = async (w = window) => {
   if (w.fuel) {
     const accounts = await w.fuel.accounts();
     const publicKey = accounts[0];

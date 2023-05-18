@@ -4,6 +4,7 @@ import Post from "./Post";
 import PPD from "../ProfileDropDown";
 import PostComponentForComments from "./PostComponetsForComments";
 import Link from "next/link";
+import { config } from "@/config";
 
 const PostDetails = () => {
   const router = useRouter();
@@ -19,9 +20,13 @@ const PostDetails = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(
-        `https://peerpost-api.vercel.app/post/details/${postID}`
-      );
+      const response = await fetch(`${config.baseUrl}/profile/details`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ profile_id: postID }),
+      });
       const data = await response.json();
       console.log(data);
       setPosts(data);
@@ -62,7 +67,11 @@ const PostDetails = () => {
                       const words = line.split(" ").map((word, i) => {
                         if (regex.test(word)) {
                           return (
-                            <Link className="text-red-400" key={i} href={`/u/${word.slice(1)}`}>
+                            <Link
+                              className="text-red-400"
+                              key={i}
+                              href={`/u/${word.slice(1)}`}
+                            >
                               {word}
                             </Link>
                           );
@@ -74,20 +83,19 @@ const PostDetails = () => {
                       return (
                         <>
                           <div className="my-5">
-                          <React.Fragment key={index}>
-                          {words.reduce(
-                            (prev, curr, i) => [
-                              ...prev,
-                              i > 0 ? " " : "",
-                              curr,
-                            ],
-                            []
-                          )}
-                          <br />
-                        </React.Fragment>
+                            <React.Fragment key={index}>
+                              {words.reduce(
+                                (prev, curr, i) => [
+                                  ...prev,
+                                  i > 0 ? " " : "",
+                                  curr,
+                                ],
+                                []
+                              )}
+                              <br />
+                            </React.Fragment>
                           </div>
                         </>
-                        
                       );
                     })}
                   avatar={posts.post.profile.token_uri}
