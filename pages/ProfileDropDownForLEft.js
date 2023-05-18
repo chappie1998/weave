@@ -53,7 +53,7 @@ const ProfileDropdownForLeft = ({
         <button className="fill-purple-400 font-bold text-purple-500 flex items-center">
   <SlUserFollow className="mr-2" /> Follow</button>
         </div>
-        <div class="border border-gray-300 w-72 mb-2 "></div>
+        <div class="border border-gray-100 w-72 mb-2 "></div>
         <div className="">
           <ul className="space-y-2">
             <li>Intagram</li>
@@ -61,7 +61,7 @@ const ProfileDropdownForLeft = ({
             <li>Github</li>
           </ul>
         </div>
-        <div class="border border-gray-300 w-72 mb-2 mt-2 "></div>
+        <div class="border border-gray-100 w-72 mb-2 mt-2 "></div>
         <div>
           <button
             onClick={() => {
