@@ -61,7 +61,7 @@ const ProfileDropdownForLeft = ({
             <li>Github</li>
           </ul>
         </div>
-        <div class="border border-gray-300 w-72 mb-2 "></div>
+        <div class="border border-gray-300 w-72 mb-2 mt-2 "></div>
         <div>
           <button
             onClick={() => {
