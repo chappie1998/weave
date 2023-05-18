@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { Modal } from "./Modal";
 import { ModalforPost } from "./ModalforPost";
+import {SlUserFollow} from "react-icons/sl";
 
 const ProfileDropdownForLeft = ({
   displayName,
@@ -48,6 +49,11 @@ const ProfileDropdownForLeft = ({
           <div className="font-semibold">{following} Following</div>
           <div className="font-semibold">{follower} Followers</div>
         </div>
+        <div className="follow mt-6 mb-6 flex space-x-2 ring-2 rounded-md ring-purple-400 w-1/2 items-center  justify-center p-1">
+        <button className="fill-purple-400 font-bold text-purple-500 flex items-center">
+  <SlUserFollow className="mr-2" /> Follow</button>
+        </div>
+        <div class="border border-gray-300 w-72 mb-2 "></div>
         <div className="">
           <ul className="space-y-2">
             <li>Intagram</li>
@@ -55,6 +61,7 @@ const ProfileDropdownForLeft = ({
             <li>Github</li>
           </ul>
         </div>
+        <div class="border border-gray-300 w-72 mb-2 "></div>
         <div>
           <button
             onClick={() => {
