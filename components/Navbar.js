@@ -11,6 +11,7 @@ import { useRef } from "react";
 import { GiCancel } from "react-icons/gi";
 
 import { GrMailOption } from "react-icons/gr";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [seachOpen, setSeachOpen] = useState(false);
@@ -18,6 +19,7 @@ const Navbar = () => {
   const [selectedButton, setSelectedButton] = useState("home");
   const [walletConneted, setWalletConneted] = useState(false);
   const [user, setUser] = useState();
+  const router=useRouter();
 
   const connectWallet = async () => {
     try {
@@ -30,6 +32,7 @@ const Navbar = () => {
         console.log(accounts);
         localStorage.setItem("publicKey", accounts[0]);
         setWalletConneted(true);
+        router.push("http://localhost:3000/u/chappie1")
       }
     } catch (error) {
       console.error("Error connecting wallet:", error);
