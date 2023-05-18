@@ -16,19 +16,44 @@ const Navbar = () => {
   const [seachOpen, setSeachOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const [selectedButton, setSelectedButton] = useState("home");
+  const [walletConneted, setWalletConneted] = useState(false);
+  const [user, setUser] = useState();
 
   const connectWallet = async () => {
-    const w = window;
-    const isConnected = await w.fuel.connect();
-    console.log("Connection response", isConnected);
-    const accounts = await w.fuel.accounts();
-    console.log(accounts);
-    localStorage.setItem("publicKey", accounts[0]);
+    try {
+      const w = window;
+      const isConnected = await w.fuel.connect();
+
+      console.log("Connection response", isConnected);
+      if (isConnected) {
+        const accounts = await w.fuel.accounts();
+        console.log(accounts);
+        localStorage.setItem("publicKey", accounts[0]);
+        setWalletConneted(true);
+      }
+    } catch (error) {
+      console.error("Error connecting wallet:", error);
+    }
   };
 
-  // useEffect(() => {
-  //   connectWallet();
-  // }, []);
+  useEffect(() => {
+    fetchUser();
+    //   connectWallet();
+  }, []);
+
+  const fetchUser = async () => {
+    try {
+      const response = await fetch(
+        "https://peerpost-api.vercel.app/profile/owner/6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e"
+      );
+      const data = await response.json();
+      console.log(data.handle)
+      setUser(data);
+    
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
@@ -219,19 +244,35 @@ const Navbar = () => {
           </div>
           <div className="button absolute right-4 top-4">
             {/* <Link href={"/LoginPage"}> */}{" "}
-            <button
-              className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50"
-              onClick={connectWallet}
-            >
-              <Image
-                className=""
-                width={16}
-                height={16}
-                src="./LoginImage.svg"
-                alt="logo"
-              ></Image>{" "}
-              <div>Login</div>
-            </button>
+            {!walletConneted ? (
+              <button
+                className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50"
+                onClick={connectWallet}
+              >
+                <Image
+                  className=""
+                  width={16}
+                  height={16}
+                  src="./LoginImage.svg"
+                  alt="logo"
+                ></Image>{" "}
+                <div>Login</div>
+              </button>
+            ) : (
+              <button
+                className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50"
+                
+              >
+                <Image
+                  className=""
+                  width={16}
+                  height={16}
+                  src="./LoginImage.svg"
+                  alt="logo"
+                ></Image>{" "}
+                {user && <div>{user.handle}</div>}
+              </button>
+            )}
             {/* </Link> */}
           </div>
         </div>
