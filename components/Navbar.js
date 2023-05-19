@@ -12,59 +12,77 @@ import { GiCancel } from "react-icons/gi";
 import { GrMailOption } from "react-icons/gr";
 import { useRouter } from "next/router";
 import { config } from "@/config";
+import { Address } from "fuels";
 
 const Navbar = () => {
   const [seachOpen, setSeachOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const [selectedButton, setSelectedButton] = useState("home");
-  const [walletConneted, setWalletConneted] = useState(false);
+  // const [walletConneted, setWalletConneted] = useState(false);
   const [user, setUser] = useState();
-  const router = useRouter();
 
   const connectWallet = async () => {
     try {
       const w = window;
       const isConnected = await w.fuel.connect();
-
       console.log("Connection response", isConnected);
       if (isConnected) {
         const accounts = await w.fuel.accounts();
         console.log(accounts);
-        localStorage.setItem("publicKey", accounts[0]);
-        setWalletConneted(true);
-        router.push("/u/chappie1");
+        // localStorage.setItem("publicKey", accounts[0]);
+        // router.push("/u/chappie1");
+        console.log(Address.fromAddressOrString(accounts[0]).toB256().slice(2));
+        const response = await fetch(`${config.baseUrl}/profile`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            owner: Address.fromAddressOrString(accounts[0]).toB256().slice(2),
+            // owner:
+            // "6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e",
+          }),
+        });
+        console.log(response);
+        const data = await response.json();
+        console.log(data);
+        if (response.ok) {
+          setUser(data);
+          // setWalletConneted(true);
+        } else {
+          await w.fuel.disconnect();
+        }
       }
     } catch (error) {
       console.error("Error connecting wallet:", error);
     }
   };
 
-  useEffect(() => {
-    fetchUser();
-    //   connectWallet();
-  }, []);
+  // useEffect(() => {
+  //   fetchUser();
+  //   //   connectWallet();
+  // }, []);
 
-  const fetchUser = async () => {
-    try {
-      const response = await fetch(`${config.baseUrl}/profile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          owner:
-            "6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e",
-        }),
-      });
-      const data = await response.json();
-      const s = "chappie1";
-      // s.length = 15;
-      console.log(data.handle.length, s);
-      setUser(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const fetchUser = async () => {
+  //   try {
+  //     const response = await fetch(`${config.baseUrl}/profile`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         owner:
+  //           "6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e",
+  //       }),
+  //     });
+  //     const data = await response.json();
+  //     const s = "chappie1";
+  //     // s.length = 15;
+  //     setUser(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
@@ -254,8 +272,18 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="button absolute right-4 top-4">
-            {/* <Link href={"/LoginPage"}> */}{" "}
-            {!walletConneted ? (
+            {user ? (
+              <button className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50">
+                <Image
+                  className=""
+                  width={16}
+                  height={16}
+                  src="/lens.png"
+                  alt="login"
+                ></Image>{" "}
+                <div>{user.handle}</div>
+              </button>
+            ) : (
               <button
                 className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50"
                 onClick={connectWallet}
@@ -264,24 +292,12 @@ const Navbar = () => {
                   className=""
                   width={16}
                   height={16}
-                  src="./LoginImage.svg"
-                  alt="logo"
+                  src="/lens.png"
+                  alt="login"
                 ></Image>{" "}
                 <div>Login</div>
               </button>
-            ) : (
-              <button className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50">
-                <Image
-                  className=""
-                  width={16}
-                  height={16}
-                  src="./LoginImage.svg"
-                  alt="logo"
-                ></Image>{" "}
-                {user && <div>{user.handle}</div>}
-              </button>
             )}
-            {/* </Link> */}
           </div>
         </div>
 

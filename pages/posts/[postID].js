@@ -20,15 +20,8 @@ const PostDetails = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(`${config.baseUrl}/profile/details`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ profile_id: postID }),
-      });
+      const response = await fetch(`${config.baseUrl}/post/details/${postID}`);
       const data = await response.json();
-      console.log(data);
       setPosts(data);
 
       setLoading(false);
