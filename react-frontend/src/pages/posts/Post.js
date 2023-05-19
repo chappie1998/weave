@@ -37,7 +37,7 @@ const Post = ({
                 onMouseEnter={() => setIsDropdownOpen(true)}
                 onMouseLeave={() => setIsDropdownOpen(false)}
               >
-                <Link href={`/u/${userName}`}>
+                <Link to={`/u/${userName}`}>
                   <button className="dropdown-button  transition-transform -mt-4   -translate-x-5 translate-y-5">
                     {" "}
                     <img

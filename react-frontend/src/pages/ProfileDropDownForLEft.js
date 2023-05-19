@@ -3,7 +3,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { Modal } from "./Modal";
 import { ModalforPost } from "./ModalforPost";
 import { SlUserFollow } from "react-icons/sl";
-import { config } from "@/config";
+import { config } from "../config";
 
 const ProfileDropdownForLeft = ({
   displayName,
