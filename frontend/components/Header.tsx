@@ -14,12 +14,13 @@ import { GiCancel } from "react-icons/gi";
 import { GrMailOption } from "react-icons/gr";
 import { config } from "@/config";
 import { Address } from "fuels";
+import logo from "@/media/images/logo.svg";
 
 export default function Header() {
   const [seachOpen, setSeachOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const [selectedButton, setSelectedButton] = useState("home");
-  const [user, setUser] = useState({ handle: "User" });
+  const [user, setUser] = useState<any>(null);
 
   const connectWallet = async () => {
     try {
@@ -82,8 +83,8 @@ export default function Header() {
   const ref: any = useRef(null);
 
   return (
-    <header className=" sticky top-0 bg-white container mx-auto max-w-screen-xl px-5">
-      <div className="p-4 flex flex-col md:flex-row md:justify-start justify-center items-center space-x-4 ">
+    <header className="z-10 sticky top-0 bg-white px-5">
+      <div className="p-4 flex flex-col md:flex-row md:justify-start justify-center items-center space-x-4 container mx-auto max-w-screen-xl relative">
         <button className="absolute left-3 top-4 text-3xl md:invisible sm:visible">
           {!seachOpen ? (
             <AiOutlineSearch onClick={toggleSearch} />
@@ -133,7 +134,7 @@ export default function Header() {
 
         <div className="logo mx-5 cursor-pointer">
           <Link href={"/"}>
-            <Image width={32} height={32} src="./logo.svg" alt="logo" />
+            <Image width={32} height={32} src={logo} alt="logo" />
           </Link>
         </div>
         <div className="search space-x-10 invisible md:visible  ">

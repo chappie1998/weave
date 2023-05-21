@@ -1,10 +1,10 @@
-import Middle from "@/components/Middle";
+import TopBanner from "@/components/TopBanner";
 import Explore from "@/components/Explore";
 
 export default function Page() {
   return (
     <>
-      <Middle />
+      <TopBanner />
       <Explore />
     </>
   );

@@ -3,35 +3,23 @@
 import { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiChat } from "react-icons/bi";
-import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProfileDropDown from "@/components/ProfileDropDown";
 import { useRouter } from "next/navigation";
 
-export default function Post({
-  postId,
-  displayName,
-  userName,
-  text,
-  images,
-  avatar,
-  timestamp,
-  profileData,
-  comments,
-  likes,
-}: any) {
+export default function Post(props: any) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const notify = () => toast.error("Please Sign In Your Wallet");
   const router = useRouter();
 
   const navigateToProfile = (e: any) => {
     e.stopPropagation();
-    router.push(`/u/${userName}`);
+    router.push(`/u/${props.userName}`);
   };
 
   const navigateToPost = () => {
-    router.push(`/posts/${postId}`);
+    router.push(`/posts/${props.postId}`);
   };
 
   return (
@@ -54,12 +42,12 @@ export default function Post({
                 >
                   <img
                     className="w-10 h-10 border bg-gray-600  rounded-full cursor-pointer"
-                    src={avatar}
+                    src={props.avatar}
                     alt="Rounded avatar"
                   />
                 </button>
                 {isDropdownOpen && (
-                  <ProfileDropDown profileData={profileData} />
+                  <ProfileDropDown profileData={props.profileData} />
                 )}
               </div>
             </div>
@@ -72,19 +60,19 @@ export default function Post({
                   onClick={navigateToProfile}
                   className="font-medium flex flex-col"
                 >
-                  {userName}
+                  {props.userName}
 
                   <span className="post__headerSpecial font-thin text-sm text-red-400">
-                    @{userName}
-                    <span className="text-black">- {timestamp}</span>
+                    @{props.userName}
+                    <span className="text-black">- {props.timestamp}</span>
                   </span>
                 </h3>
               </div>
               <div className="post__headerDescription break-words my-5 space-y-6">
-                <div>{text}</div>
+                <div>{props.text}</div>
               </div>
             </div>
-            {images.map((image: string, index: number) => (
+            {props.images.map((image: string, index: number) => (
               <img
                 key={index}
                 src={image}
@@ -94,13 +82,16 @@ export default function Post({
             ))}
             <div className="post__footer flex flex-row space-x-6 ">
               <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">
-                <BiChat className=" h-5 w-10" />{" "}
-                <span className="-mt-1 p-2">{comments}</span>
-              </div>{" "}
-              <div className="hover:bg-red-200 rounded-full p-1.5 flex flex-row items-center">
-                {" "}
+                <BiChat className=" h-5 w-10" />
+                <span className="-mt-1 p-2">{props.totalComments}</span>
+              </div>
+              <div
+                className={`hover:bg-red-200 rounded-full p-1.5 flex flex-row items-center ${
+                  props.isLikedByMe && "bg-red-200"
+                }`}
+              >
                 <AiOutlineHeart onClick={notify} className="h-5 w-10" />
-                <span className="-mt-1 p-2">{likes}</span>
+                <span className="-mt-1 p-2">{props.totalLikes}</span>
                 <ToastContainer
                   position="bottom-right"
                   autoClose={1000}

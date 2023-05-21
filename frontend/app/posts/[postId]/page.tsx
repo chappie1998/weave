@@ -95,8 +95,8 @@ export default function Page({ params }: any) {
                 images={posts.post.data.images}
                 timestamp={formatTimestamp(posts.post.timetamp)}
                 profileData={posts.post.profile}
-                likes={posts.likes.length}
-                comments={posts.comments.length}
+                totalLikes={posts.likes.length}
+                totalComments={posts.comments.length}
               />
               {posts.comments.map((comment: any) => (
                 <PostComponentForComments

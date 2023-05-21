@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Footer from "@/components/Footer";
-import Post from "./Post";
+import Post from "@/components/Post";
 import Link from "next/link";
 import { config } from "@/config";
 
@@ -16,11 +16,19 @@ export default function Explore() {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(`${config.baseUrl}/post?page=0&limit=10`);
+      const response = await fetch(`${config.baseUrl}/post?page=0&limit=10`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          page: 0,
+          limit: 10,
+          who: 1,
+        }),
+      });
       const data = await response.json();
-
       setPosts(data);
-
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -81,7 +89,7 @@ export default function Explore() {
                 key={post.post_id}
                 postId={post.post_id}
                 displayName={post.data.name}
-                userName={post.profile.handle}
+                userName={post.profile.handle.replace(/[^a-zA-Z0-9 ]/g, "")}
                 text={post.data.content.split("\\n").map((line, index) => {
                   const regex = /@\w+/g;
                   const words = line.split(" ").map((word, i) => {
@@ -122,6 +130,9 @@ export default function Explore() {
                 images={post.data.images}
                 timestamp={formatTimestamp(post.timetamp)}
                 profileData={post.profile}
+                totalLikes={post.total_likes}
+                totalComments={post.total_comments}
+                isLikedByMe={post.is_liked_by_me}
               />
             ))
           )}

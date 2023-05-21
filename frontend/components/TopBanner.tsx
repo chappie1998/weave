@@ -1,4 +1,4 @@
-export default function Middle() {
+export default function TopBanner() {
   return (
     <div
       className=" mx-auto flex w-full  items-stretch px-5 py-8 text-center sm:py-12 sm:text-left bg-gradient-to-r from-white to-fuchsia-300
