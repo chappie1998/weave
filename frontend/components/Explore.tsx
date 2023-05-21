@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import Footer from "@/components/Footer";
 import Post from "@/components/Post";
-import Link from "next/link";
 import { config } from "@/config";
 
 export default function Explore() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  let user: any = sessionStorage.getItem("user");
+  if (user) user = JSON.parse(user);
 
   useEffect(() => {
     fetchPosts();
@@ -16,7 +18,7 @@ export default function Explore() {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(`${config.baseUrl}/post?page=0&limit=10`, {
+      const response = await fetch(`${config.baseUrl}/post`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +26,7 @@ export default function Explore() {
         body: JSON.stringify({
           page: 0,
           limit: 10,
-          who: 1,
+          who: user?.profile_id ?? null,
         }),
       });
       const data = await response.json();
@@ -34,7 +36,7 @@ export default function Explore() {
       console.error(error);
     }
   };
-  const formatTimestamp = (timestamp) => {
+  const formatTimestamp = (timestamp: number) => {
     const hoursAgo = Math.floor(
       (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
     );
@@ -48,7 +50,7 @@ export default function Explore() {
 
   return (
     <>
-      <div className="flex flex-row container mx-auto max-w-screen-xl p-5 overflow-hidden ">
+      <div className="flex flex-row container mx-auto max-w-screen-xl p-5">
         <div className="rounded-3xl">
           {loading ? (
             <div className="w-[115vh] items-center justify-center">
@@ -85,55 +87,24 @@ export default function Explore() {
             </div>
           ) : (
             posts.map((post) => (
-              <Post
+              <div
                 key={post.post_id}
-                postId={post.post_id}
-                displayName={post.data.name}
-                userName={post.profile.handle.replace(/[^a-zA-Z0-9 ]/g, "")}
-                text={post.data.content.split("\\n").map((line, index) => {
-                  const regex = /@\w+/g;
-                  const words = line.split(" ").map((word, i) => {
-                    if (regex.test(word)) {
-                      return (
-                        <Link
-                          className="text-red-400"
-                          key={i}
-                          href={`/u/${word.slice(1)}`}
-                        >
-                          {word}
-                        </Link>
-                      );
-                    } else {
-                      return word;
-                    }
-                  });
-
-                  return (
-                    <>
-                      <div className="my-5">
-                        <div key={index}>
-                          {words.reduce(
-                            (prev, curr, i) => [
-                              ...prev,
-                              i > 0 ? " " : "",
-                              curr,
-                            ],
-                            []
-                          )}
-                          <br />
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
-                avatar={post.profile.token_uri}
-                images={post.data.images}
-                timestamp={formatTimestamp(post.timetamp)}
-                profileData={post.profile}
-                totalLikes={post.total_likes}
-                totalComments={post.total_comments}
-                isLikedByMe={post.is_liked_by_me}
-              />
+                className="first:rounded-t-xl last:rounded-b-xl hover:bg-slate-100 cursor-pointer border border-solid"
+              >
+                <Post
+                  postId={post.post_id}
+                  displayName={post.data.name}
+                  userName={post.profile.handle.replace(/[^a-zA-Z0-9 ]/g, "")}
+                  text={post.data.content}
+                  avatar={post.profile.token_uri}
+                  images={post.data.images}
+                  timestamp={formatTimestamp(post.timetamp)}
+                  profileData={post.profile}
+                  totalLikes={post.total_likes}
+                  totalComments={post.total_comments}
+                  isLikedByMe={post.is_liked_by_me}
+                />
+              </div>
             ))
           )}
         </div>

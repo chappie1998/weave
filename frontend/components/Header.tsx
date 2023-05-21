@@ -38,8 +38,6 @@ export default function Header() {
           },
           body: JSON.stringify({
             owner: Address.fromAddressOrString(accounts[0]).toB256().slice(2),
-            // owner:
-            // "6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e",
           }),
         });
         console.log(response);
@@ -47,7 +45,7 @@ export default function Header() {
         console.log(data);
         if (response.ok) {
           setUser(data);
-          // setWalletConneted(true);
+          sessionStorage.setItem("user", JSON.stringify(data));
         } else {
           await w.fuel.disconnect();
         }
@@ -85,7 +83,7 @@ export default function Header() {
   return (
     <header className="z-10 sticky top-0 bg-white px-5">
       <div className="p-4 flex flex-col md:flex-row md:justify-start justify-center items-center space-x-4 container mx-auto max-w-screen-xl relative">
-        <button className="absolute left-3 top-4 text-3xl md:invisible sm:visible">
+        <button className="absolute left-3 top-4 text-3xl md:hidden">
           {!seachOpen ? (
             <AiOutlineSearch onClick={toggleSearch} />
           ) : (

@@ -5,7 +5,6 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BiChat } from "react-icons/bi";
 import ProfileDropDown from "@/components/ProfileDropDown";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,8 +27,8 @@ export default function PostComponentForComments({
 
   return (
     <>
-      <div className=" container flex flex-row items-center justify-center">
-        <div className="post flex flex-row border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer  w-[740px] ">
+      <div className="container flex flex-row items-center justify-center">
+        <div className="post flex flex-row rounded-xl border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 cursor-pointer w-[740px]">
           <div className="flex flex-col ">
             <div className="">
               <div

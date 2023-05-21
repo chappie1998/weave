@@ -3,14 +3,18 @@
 import React, { useState, useEffect } from "react";
 import Post from "@/components/Post";
 import ProfileDropDown from "@/components/ProfileDropDown";
-import Link from "next/link";
 import { config } from "@/config";
 import PostComponentForComments from "@/components/PostComponetForComments";
+import { toast } from "react-toastify";
 
 export default function Page({ params }: any) {
   const { postId } = params;
   const [posts, setPosts] = useState<any>();
   const [loading, setLoading] = useState(true);
+
+  let user: any = sessionStorage.getItem("user");
+  if (user) user = JSON.parse(user);
+  console.log("s", user);
 
   useEffect(() => {
     if (postId) {
@@ -40,70 +44,93 @@ export default function Page({ params }: any) {
       return `${hoursAgo}h`;
     }
   };
-  //Error is coming when refreshing the
+
+  const addComment = async (comment: string) => {
+    try {
+      await fetch(`${config.baseUrl}/comment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          post_id: +postId,
+          profile_id: user.profile_id,
+          token_uri:
+            "https://bafkreie7qjq564mty2tdd7juhoeachbbi74nyedf37bdfxhwytyve64rwq.ipfs.w3s.link",
+          timestamp: 1683609426,
+          content: comment,
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCommentSubmit = async (event: any) => {
+    event.preventDefault();
+    const comment = event.target.comment.value;
+    if (!user) return toast.error("Please Sign In Your Wallet");
+    if (!comment) return toast.error("Comment can not be empty");
+    await addComment(comment);
+    event.target.reset();
+    fetchPosts();
+  };
+
   return (
-    <div className="justify-center flex">
-      {!loading ? (
-        <div>
-          <div className="flex flex-col lg:flex-row ">
-            <div className="ml-8 ">
+    <section className="container mx-auto max-w-screen-xl grow px-0 pb-2 pt-8 sm:px-5 ">
+      <div className="grid grid-cols-12 lg:gap-8">
+        {!loading ? (
+          <>
+            <div className="col-span-12 mb-5 md:col-span-12 lg:col-span-8 space-y-5 rounded-xl border border-solid pb-7">
               <Post
                 postId={posts.post.post_id}
                 displayName={posts.post.profile.handle}
-                userName={posts.post.profile.handle}
-                text={posts.post.data.content
-                  .split("\\n")
-                  .map((line: any, index: number) => {
-                    const regex = /@\w+/g;
-                    const words = line
-                      .split(" ")
-                      .map((word: any, i: number) => {
-                        if (regex.test(word)) {
-                          return (
-                            <Link
-                              className="text-red-400"
-                              key={i}
-                              href={`/u/${word.slice(1)}`}
-                            >
-                              {word}
-                            </Link>
-                          );
-                        } else {
-                          return <span key={i}>{word}</span>;
-                        }
-                      });
-
-                    return (
-                      <>
-                        <div className="my-5">
-                          <span key={index}>
-                            {words.reduce(
-                              (prev: any, curr: any, i: any) => [
-                                ...prev,
-                                i > 0 ? " " : "",
-                                curr,
-                              ],
-                              []
-                            )}
-                            <br />
-                          </span>
-                        </div>
-                      </>
-                    );
-                  })}
+                userName={posts.post.profile.handle.replace(
+                  /[^a-zA-Z0-9 ]/g,
+                  ""
+                )}
+                text={posts.post.data.content}
                 avatar={posts.post.profile.token_uri}
                 images={posts.post.data.images}
                 timestamp={formatTimestamp(posts.post.timetamp)}
                 profileData={posts.post.profile}
                 totalLikes={posts.likes.length}
                 totalComments={posts.comments.length}
+                isLikedByMe={
+                  posts.likes.filter(
+                    (like: any) => like.profile_id === user?.profile_id
+                  ).length
+                }
               />
+              <div className=" shadow-md ">
+                <form onSubmit={handleCommentSubmit} className="w-full p-4">
+                  <div className="mb-2">
+                    <label htmlFor="comment" className="text-lg text-gray-600">
+                      Add a comment
+                    </label>
+                    <textarea
+                      className="w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
+                      name="comment"
+                      placeholder="Enter your comment"
+                    ></textarea>
+                  </div>
+                  <button className="px-3 py-2 text-sm text-purple-100 bg-purple-600 rounded">
+                    Comment
+                  </button>
+                </form>
+              </div>
               {posts.comments.map((comment: any) => (
                 <PostComponentForComments
                   key={comment.comment_id}
                   postId={comment.comment_id}
-                  displayName={comment.profile.handle}
-                  userName={comment.profile.handle}
+                  displayName={comment.profile.handle.replace(
+                    /[^a-zA-Z0-9 ]/g,
+                    ""
+                  )}
+                  userName={comment.profile.handle.replace(
+                    /[^a-zA-Z0-9 ]/g,
+                    ""
+                  )}
                   text={comment.content}
                   avatar={comment.profile.token_uri}
                   timestamp={formatTimestamp(comment.timetamp)}
@@ -112,15 +139,13 @@ export default function Page({ params }: any) {
               ))}
             </div>
 
-            <div className="">
+            <div className="col-span-12 md:col-span-12 lg:col-span-4 space-y-5">
               <ProfileDropDown profileData={posts.post.profile} />
             </div>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="flex flex-row justify-center max-w-6xl">
-            <div className="w-[115vh] items-center justify-center">
+          </>
+        ) : (
+          <>
+            <div className="col-span-12 mb-5 md:col-span-12 lg:col-span-8">
               <div
                 role="status"
                 className="max-w-sm p-4  container  w-[90vh] rounded animate-pulse md:p-6 items-center justify-center "
@@ -149,7 +174,7 @@ export default function Page({ params }: any) {
                 </div>
               </div>
             </div>
-            <div className="h-24 mx-auto border-2 rounded-md w-60">
+            <div className="col-span-12 md:col-span-12 lg:col-span-4 mx-auto border-2 rounded-md w-60">
               <div className="flex flex-row items-center justify-center h-full space-x-5 animate-pulse">
                 <div className="w-12 h-12 bg-gray-300 rounded-full "></div>
                 <div className="flex flex-col space-y-3">
@@ -158,9 +183,9 @@ export default function Page({ params }: any) {
                 </div>
               </div>
             </div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </section>
   );
 }
