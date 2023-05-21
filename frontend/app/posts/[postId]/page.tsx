@@ -12,9 +12,13 @@ export default function Page({ params }: any) {
   const [posts, setPosts] = useState<any>();
   const [loading, setLoading] = useState(true);
 
-  let user: any = sessionStorage.getItem("user");
-  if (user) user = JSON.parse(user);
-  console.log("s", user);
+  let user: any;
+
+  // window is not accessable on server
+  if (typeof window !== "undefined") {
+    user = sessionStorage.getItem("user");
+    if (user) user = JSON.parse(user);
+  }
 
   useEffect(() => {
     if (postId) {
@@ -102,7 +106,7 @@ export default function Page({ params }: any) {
                   ).length
                 }
               />
-              <div className=" shadow-md ">
+              <div className="shadow-md ">
                 <form onSubmit={handleCommentSubmit} className="w-full p-4">
                   <div className="mb-2">
                     <label htmlFor="comment" className="text-lg text-gray-600">

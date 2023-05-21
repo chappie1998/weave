@@ -9,8 +9,12 @@ export default function Explore() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  let user: any = sessionStorage.getItem("user");
-  if (user) user = JSON.parse(user);
+  let user: any;
+  // window is not accessable on server
+  if (typeof window !== "undefined") {
+    user = sessionStorage.getItem("user");
+    if (user) user = JSON.parse(user);
+  }
 
   useEffect(() => {
     fetchPosts();

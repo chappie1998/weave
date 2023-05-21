@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import EditProfile from "./EditProfile";
-import {GiCancel } from "react-icons/gi"
+import { GiCancel } from "react-icons/gi";
 
-export const Modal = ({ children, open, onClose }) => {
+export const Modal = ({ children = <></>, open, onClose }) => {
   const [mounted, setMounted] = useState(false);
- 
 
   useEffect(() => {
     setMounted(true);
@@ -17,7 +16,7 @@ export const Modal = ({ children, open, onClose }) => {
       <div className="modal-content-profile">
         {children}
         <button onClick={onClose} className=" ">
-          <GiCancel/>
+          <GiCancel />
         </button>
         <EditProfile />
       </div>

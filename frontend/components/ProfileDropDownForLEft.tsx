@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { Modal } from "./Modal";
 import { ModalforPost } from "./ModalforPost";
@@ -13,7 +15,7 @@ const ProfileDropdownForLeft = ({
   follower,
   following,
   profileID,
-}) => {
+}: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [postOpen, setPostOpen] = useState(false);
   const [isFollowedByMe, setIsFollowedByMe] = useState(false);
@@ -97,11 +99,12 @@ const ProfileDropdownForLeft = ({
           >
             Post
           </button>
-          <ModalforPost
-            open={postOpen}
-            onClose={() => setPostOpen(false)}
-            imageComponent={avatarppd}
-          ></ModalforPost>
+          {postOpen && (
+            <ModalforPost
+              onClose={() => setPostOpen(false)}
+              imageComponent={avatarppd}
+            />
+          )}
         </div>
       </div>
     </div>
