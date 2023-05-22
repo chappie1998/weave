@@ -56,7 +56,8 @@ export default function Post(props: any) {
   //   }
   // };
 
-  const like_post = async () => {
+  const like_post = async (event: any) => {
+    event.stopPropagation();
     try {
       console.log("like_post start");
       const contract = await getContract();
@@ -72,7 +73,8 @@ export default function Post(props: any) {
     }
   };
 
-  const unlike_post = async () => {
+  const unlike_post = async (event: any) => {
+    event.stopPropagation();
     try {
       console.log("unlike_post start");
       const contract = await getContract();
