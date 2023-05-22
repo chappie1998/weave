@@ -9,8 +9,7 @@ import { toast } from "react-toastify";
 
 export default function Page({ params }: any) {
   const { postId } = params;
-  const [posts, setPosts] = useState<any>();
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>();
 
   let user: any;
 
@@ -30,9 +29,7 @@ export default function Page({ params }: any) {
     try {
       const response = await fetch(`${config.baseUrl}/post/details/${postId}`);
       const data = await response.json();
-      setPosts(data);
-
-      setLoading(false);
+      setData(data);
     } catch (error) {
       console.error(error);
     }
@@ -83,28 +80,39 @@ export default function Page({ params }: any) {
   return (
     <section className="container mx-auto max-w-screen-xl grow px-0 pb-2 pt-8 sm:px-5 ">
       <div className="grid grid-cols-12 lg:gap-8">
-        {!loading ? (
+        {data ? (
           <>
             <div className="col-span-12 mb-5 md:col-span-12 lg:col-span-8 space-y-5 rounded-xl border border-solid pb-7">
               <Post
-                postId={posts.post.post_id}
-                displayName={posts.post.profile.handle}
-                userName={posts.post.profile.handle.replace(
-                  /[^a-zA-Z0-9 ]/g,
-                  ""
-                )}
-                text={posts.post.data.content}
-                avatar={posts.post.profile.token_uri}
-                images={posts.post.data.images}
-                timestamp={formatTimestamp(posts.post.timetamp)}
-                profileData={posts.post.profile}
-                totalLikes={posts.likes.length}
-                totalComments={posts.comments.length}
-                isLikedByMe={
-                  posts.likes.filter(
+                post={{
+                  post_id: data.post.post_id,
+                  data: data.post.data,
+                  timestamp: data.post.timestamp,
+                  total_likes: data.likes.length,
+                  total_comments: data.comments.length,
+                  is_liked_by_me: data.likes.filter(
                     (like: any) => like.profile_id === user?.profile_id
-                  ).length
-                }
+                  ).length,
+                }}
+                profile={data.post.profile}
+                // postId={post.post.post_id}
+                // displayName={post.post.profile.handle}
+                // userName={post.post.profile.handle.replace(
+                //   /[^a-zA-Z0-9 ]/g,
+                //   ""
+                // )}
+                // text={post.post.data.content}
+                // avatar={post.post.profile.token_uri}
+                // images={post.post.data.images}
+                // timestamp={formatTimestamp(post.post.timetamp)}
+                // profileData={post.post.profile}
+                // totalLikes={post.likes.length}
+                // totalComments={post.comments.length}
+                // isLikedByMe={
+                //   post.likes.filter(
+                //     (like: any) => like.profile_id === user?.profile_id
+                //   ).length
+                // }
               />
               <div className="shadow-md ">
                 <form onSubmit={handleCommentSubmit} className="w-full p-4">
@@ -123,7 +131,7 @@ export default function Page({ params }: any) {
                   </button>
                 </form>
               </div>
-              {posts.comments.map((comment: any) => (
+              {data.comments.map((comment: any) => (
                 <PostComponentForComments
                   key={comment.comment_id}
                   postId={comment.comment_id}
@@ -144,7 +152,7 @@ export default function Page({ params }: any) {
             </div>
 
             <div className="col-span-12 md:col-span-12 lg:col-span-4 space-y-5">
-              <ProfileDropDown profileData={posts.post.profile} />
+              <ProfileDropDown profileData={data.post.profile} />
             </div>
           </>
         ) : (

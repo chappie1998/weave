@@ -173,9 +173,8 @@ export default function Header() {
         </div>
         <div className="nav invisible md:visible">
           <ul className="flex items-center space-x-2">
-            <Link href={"/"}>
+            <Link href="/">
               <li
-                onClick={() => handleButtonClick("home")}
                 className={`w-full cursor-pointer rounded-md px-2 py-1 text-left text-sm font-bold tracking-wide md:px-3 ${isButtonSelected(
                   "home"
                 )}`}
@@ -183,7 +182,7 @@ export default function Header() {
                 Home
               </li>
             </Link>
-            <Link href={"/ExploreForHome"}>
+            {/* <Link href={"/ExploreForHome"}>
               <li
                 onClick={() => handleButtonClick("explore")}
                 className={`w-full cursor-pointer rounded-md px-2 py-1 text-left text-sm font-bold tracking-wide md:px-3 ${isButtonSelected(
@@ -192,9 +191,9 @@ export default function Header() {
               >
                 Explore
               </li>
-            </Link>
+            </Link> */}
 
-            <li
+            {/* <li
               onClick={() => {
                 setDropdown(!dropdown);
               }}
@@ -203,7 +202,7 @@ export default function Header() {
               )} hover:bg-gray-200 hover:text-black`}
             >
               More
-            </li>
+            </li> */}
 
             {dropdown && (
               <div
@@ -242,7 +241,10 @@ export default function Header() {
         </div>
         <div className="button absolute right-4 top-4">
           {user ? (
-            <button className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50">
+            <Link
+              className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50"
+              href={`/u/${user.handle}`}
+            >
               <Image
                 className=""
                 width={16}
@@ -251,7 +253,7 @@ export default function Header() {
                 alt="login"
               />
               <div>{user.handle}</div>
-            </button>
+            </Link>
           ) : (
             <button
               className="bg-purple-500 hover:bg-purple-600 border-purple-600 focus:ring-purple-400 border text-white px-3 py-1 inline-flex items-center space-x-1.5 rounded-lg font-bold shadow-sm outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 disabled:opacity-50"

@@ -40,17 +40,6 @@ export default function Explore() {
       console.error(error);
     }
   };
-  const formatTimestamp = (timestamp: number) => {
-    const hoursAgo = Math.floor(
-      (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
-    );
-    if (hoursAgo >= 24) {
-      const daysAgo = Math.floor(hoursAgo / 24);
-      return `${daysAgo}d`;
-    } else {
-      return `${hoursAgo}h`;
-    }
-  };
 
   return (
     <>
@@ -96,17 +85,24 @@ export default function Explore() {
                 className="first:rounded-t-xl last:rounded-b-xl hover:bg-slate-100 cursor-pointer border border-solid"
               >
                 <Post
-                  postId={post.post_id}
-                  displayName={post.data.name}
-                  userName={post.profile.handle.replace(/[^a-zA-Z0-9 ]/g, "")}
-                  text={post.data.content}
-                  avatar={post.profile.token_uri}
-                  images={post.data.images}
-                  timestamp={formatTimestamp(post.timetamp)}
-                  profileData={post.profile}
-                  totalLikes={post.total_likes}
-                  totalComments={post.total_comments}
-                  isLikedByMe={post.is_liked_by_me}
+                  profile={post.profile}
+                  post={{
+                    post_id: post.post_id,
+                    data: post.data,
+                    timestamp: post.timestamp,
+                    total_likes: post.total_likes,
+                    total_comments: post.total_comments,
+                    is_liked_by_me: post.is_liked_by_me,
+                  }}
+                  // userName={post.profile.handle.replace(/[^a-zA-Z0-9 ]/g, "")}
+                  // text={post.data.content}
+                  // avatar={post.profile.token_uri}
+                  // images={post.data.images}
+                  // timestamp={formatTimestamp(post.timetamp)}
+                  // profileData={post.profile}
+                  // totalLikes={post.total_likes}
+                  // totalComments={post.total_comments}
+                  // isLikedByMe={post.is_liked_by_me}
                 />
               </div>
             ))

@@ -5,17 +5,17 @@ import "react-toastify/dist/ReactToastify.css";
 import Post from "./Post";
 
 const Right = ({ profiledetails }) => {
-  const formatTimestamp = (timestamp) => {
-    const hoursAgo = Math.floor(
-      (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
-    );
-    if (hoursAgo >= 24) {
-      const daysAgo = Math.floor(hoursAgo / 24);
-      return `${daysAgo}d`;
-    } else {
-      return `${hoursAgo}h`;
-    }
-  };
+  // const formatTimestamp = (timestamp) => {
+  //   const hoursAgo = Math.floor(
+  //     (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
+  //   );
+  //   if (hoursAgo >= 24) {
+  //     const daysAgo = Math.floor(hoursAgo / 24);
+  //     return `${daysAgo}d`;
+  //   } else {
+  //     return `${hoursAgo}h`;
+  //   }
+  // };
 
   return (
     <div className="flex flex-row container mx-auto max-w-screen-xl">
@@ -23,46 +23,48 @@ const Right = ({ profiledetails }) => {
         {profiledetails ? (
           profiledetails.posts.map((post) => (
             <Post
-              key={post.post_id}
-              postId={post.post_id}
-              displayName={post.data.name}
-              userName={profiledetails.profile.handle}
-              text={post.data.content.split("\\n").map((line, index) => {
-                const regex = /@\w+/g;
-                const words = line.split(" ").map((word, i) => {
-                  if (regex.test(word)) {
-                    return (
-                      <a
-                        className="text-red-400"
-                        key={i}
-                        href={`/u/${word.slice(1)}`}
-                      >
-                        {word}
-                      </a>
-                    );
-                  } else {
-                    return word;
-                  }
-                });
+              post={post}
+              profile={profiledetails.profile}
+              // key={post.post_id}
+              // postId={post.post_id}
+              // displayName={post.data.name}
+              // userName={profiledetails.profile.handle}
+              // text={post.data.content.split("\\n").map((line, index) => {
+              //   const regex = /@\w+/g;
+              //   const words = line.split(" ").map((word, i) => {
+              //     if (regex.test(word)) {
+              //       return (
+              //         <a
+              //           className="text-red-400"
+              //           key={i}
+              //           href={`/u/${word.slice(1)}`}
+              //         >
+              //           {word}
+              //         </a>
+              //       );
+              //     } else {
+              //       return word;
+              //     }
+              //   });
 
-                return (
-                  <>
-                    <div className="my-5">
-                      <React.Fragment key={index}>
-                        {words.reduce(
-                          (prev, curr, i) => [...prev, i > 0 ? " " : "", curr],
-                          []
-                        )}
-                        <br />
-                      </React.Fragment>
-                    </div>
-                  </>
-                );
-              })}
-              avatar={profiledetails.profile.token_uri}
-              images={post.data.images}
-              timestamp={formatTimestamp(post.timetamp)}
-              profileData={profiledetails.profile}
+              //   return (
+              //     <>
+              //       <div className="my-5">
+              //         <React.Fragment key={index}>
+              //           {words.reduce(
+              //             (prev, curr, i) => [...prev, i > 0 ? " " : "", curr],
+              //             []
+              //           )}
+              //           <br />
+              //         </React.Fragment>
+              //       </div>
+              //     </>
+              //   );
+              // })}
+              // avatar={profiledetails.profile.token_uri}
+              // images={post.data.images}
+              // timestamp={formatTimestamp(post.timetamp)}
+              // profileData={profiledetails.profile}
             />
           ))
         ) : (
