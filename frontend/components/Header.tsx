@@ -28,27 +28,32 @@ export default function Header() {
 
   const connectWallet = async () => {
     try {
-      const w: any = window;
-      const isConnected = await w.fuel.connect();
-      console.log("Connection response", isConnected);
-      if (isConnected) {
-        const accounts = await w.fuel.accounts();
-        console.log(Address.fromAddressOrString(accounts[0]).toB256().slice(2));
-        const response = await fetch(`${config.baseUrl}/profile`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            owner: Address.fromAddressOrString(accounts[0]).toB256().slice(2),
-          }),
-        });
-        const data = await response.json();
-        if (response.ok) {
-          setUser(data);
-          sessionStorage.setItem("user", JSON.stringify(data));
-        } else {
-          await w.fuel.disconnect();
+      let w: any;
+      if (typeof window !== "undefined") {
+        w = window;
+        const isConnected = await w.fuel.connect();
+        console.log("Connection response", isConnected);
+        if (isConnected) {
+          const accounts = await w.fuel.accounts();
+          console.log(
+            Address.fromAddressOrString(accounts[0]).toB256().slice(2)
+          );
+          const response = await fetch(`${config.baseUrl}/profile`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              owner: Address.fromAddressOrString(accounts[0]).toB256().slice(2),
+            }),
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setUser(data);
+            sessionStorage.setItem("user", JSON.stringify(data));
+          } else {
+            await w.fuel.disconnect();
+          }
         }
       }
     } catch (error) {

@@ -41,7 +41,7 @@ const PostForm = ({ onCancel, imageComponent }) => {
         htmlFor="message"
         className="block mb-2 font-medium text-white text-xl"
       >
-        What's on your mind
+        {"What's on your mind"}
       </label>
       <form
         onSubmit={handleSumbit}

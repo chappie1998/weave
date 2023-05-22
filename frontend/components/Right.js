@@ -25,7 +25,7 @@ const Right = ({ profiledetails }) => {
             <Post
               post={post}
               profile={profiledetails.profile}
-              // key={post.post_id}
+              key={post.post_id}
               // postId={post.post_id}
               // displayName={post.data.name}
               // userName={profiledetails.profile.handle}
