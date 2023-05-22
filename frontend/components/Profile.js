@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ProfileCover from "./ProfileCover";
 import Right from "./Right";
 import ButtonForProfile from "./ButtonForProfile";
 import Left from "./Left";
-import { config } from "@/config";
+import { useFetch } from "@/hooks/useFetch";
 
 function Profile() {
-  const [profiledetails, setProfiledetails] = useState();
+  const { data } = useFetch({
+    url: "profile/details",
+    method: "post",
+    body: { profile_id: 1 },
+  });
 
-  useEffect(() => {
-    fetchProfileDetails();
-  }, []);
-
-  const fetchProfileDetails = async () => {
-    try {
-      const response = await fetch(`${config.baseUrl}/profile/details`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ profile_id: 1 }),
-      });
-      const data = await response.json();
-      setProfiledetails(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <div className=" flex flex-col items-center justify-center">
       <div className="coverPage">
@@ -38,7 +23,7 @@ function Profile() {
         </div>
         <div className="right w-full md:w-2/3 ">
           <ButtonForProfile />
-          <Right profiledetails={profiledetails} />
+          <Right profiledetails={data} />
         </div>
       </div>
     </div>

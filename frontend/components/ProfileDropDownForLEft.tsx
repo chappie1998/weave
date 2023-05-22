@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import { Modal } from "./Modal";
 import { ModalforPost } from "./ModalforPost";
 import { SlUserFollow } from "react-icons/sl";
-import { config } from "@/config";
+import { useFetch } from "@/hooks/useFetch";
 
 const ProfileDropdownForLeft = ({
   displayName,
@@ -18,29 +18,12 @@ const ProfileDropdownForLeft = ({
 }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [postOpen, setPostOpen] = useState(false);
-  const [isFollowedByMe, setIsFollowedByMe] = useState(false);
 
-  useEffect(() => {
-    fetchfollowDetail();
-  }, [profileID]);
-
-  const fetchfollowDetail = async () => {
-    try {
-      const response = await fetch(`${config.baseUrl}/follow/isFollowedByMe`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ request: profileID, who: 0 }),
-      });
-      const data = await response.json();
-      setIsFollowedByMe(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const follow = async () => {};
+  const { data } = useFetch({
+    url: "follow/isFollowedByMe",
+    method: "post",
+    body: { request: profileID, who: 0 },
+  });
 
   return (
     <div className="flex flex-row items-center justify-center h-96 w-64 bg-white">
@@ -80,7 +63,7 @@ const ProfileDropdownForLeft = ({
         <div className="follow mt-6 mb-6 flex space-x-2 ring-2 rounded-md ring-purple-400 items-center  justify-center p-1">
           <button className="fill-purple-400 font-bold text-purple-500 text-sm flex items-center">
             <SlUserFollow className="mr-2" />
-            {isFollowedByMe ? "Following" : "Follow"}
+            {data ? "Following" : "Follow"}
           </button>
         </div>
         <div className="border border-gray-100 w-72 mb-2 "></div>

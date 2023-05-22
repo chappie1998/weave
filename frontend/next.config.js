@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // disbaled for dev mode coz' rendring every api components twice
+  // reactStrictMode: true,
   images: {
     domains: [],
   },

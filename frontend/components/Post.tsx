@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiChat } from "react-icons/bi";
-import { toast } from "react-toastify";
 import ProfileDropDown from "@/components/ProfileDropDown";
 import { useRouter } from "next/navigation";
-import { config } from "@/config";
-import React from "react";
 import Link from "next/link";
 import { getContract } from "./utils";
 
@@ -28,33 +25,6 @@ export default function Post(props: any) {
       return `${hoursAgo}h`;
     }
   };
-
-  let user: any;
-  // window is not accessable on server
-  if (typeof window !== "undefined") {
-    user = sessionStorage.getItem("user");
-    if (user) user = JSON.parse(user);
-  }
-
-  // const addLike = async (e: any) => {
-  //   e.stopPropagation();
-  //   if (!user) return toast.error("Please Sign In Your Wallet");
-  //   try {
-  //     await fetch(`${config.baseUrl}/like`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         post_id: props.postId,
-  //         profile_id: user.profile_id,
-  //         timestamp: 123456863435,
-  //       }),
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const like_post = async (event: any) => {
     event.stopPropagation();
@@ -199,7 +169,11 @@ export default function Post(props: any) {
               <BiChat className=" h-5 w-10" />
               <span className="-mt-1 p-2">{props.post.total_comments}</span>
             </div>
-            <div className="hover:bg-red-200 cursor-pointer rounded-full p-1.5 flex flex-row items-center">
+            <div
+              className={`${
+                isLikedByMe && "bg-red-200"
+              } hover:bg-red-200 cursor-pointer rounded-full p-1.5 flex flex-row items-center`}
+            >
               {isLikedByMe ? (
                 <AiFillHeart onClick={unlike_post} className="h-5 w-10" />
               ) : (

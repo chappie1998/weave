@@ -1,40 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Post from "@/components/Post";
 import ProfileDropDown from "@/components/ProfileDropDown";
-import { config } from "@/config";
 import PostComponentForComments from "@/components/PostComponetForComments";
 import { toast } from "react-toastify";
 import { getContract } from "@/components/utils";
+import { useFetch } from "@/hooks/useFetch";
 
 export default function Page({ params }: any) {
   const { postId } = params;
-  const [data, setData] = useState<any>();
 
   let user: any;
-
   // window is not accessable on server
   if (typeof window !== "undefined") {
     user = sessionStorage.getItem("user");
     if (user) user = JSON.parse(user);
   }
 
-  useEffect(() => {
-    if (postId) {
-      fetchPosts();
-    }
-  }, [postId]);
+  const { data } = useFetch({ url: `post/details/${postId}` });
 
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch(`${config.baseUrl}/post/details/${postId}`);
-      const data = await response.json();
-      setData(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   const formatTimestamp = (timestamp: number) => {
     const hoursAgo = Math.floor(
       (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
@@ -71,7 +56,6 @@ export default function Page({ params }: any) {
     if (!comment) return toast.error("Comment can not be empty");
     await addComment(comment);
     event.target.reset();
-    fetchPosts();
   };
 
   return (
