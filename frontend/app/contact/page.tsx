@@ -6,7 +6,7 @@ export default function contact() {
       <section className="mb-32 text-gray-800">
         <div className="flex flex-wrap">
           <div className="grow-0 shrink-0 basis-auto mb-6 md:mb-0 w-full md:w-6/12 px-3 lg:px-6">
-            <h2 className="text-3xl font-medium mb-6">Contact Lenster</h2>
+            <h2 className="text-3xl font-medium mb-6">Contact Peerpost</h2>
             <p className="text-gray-500 mb-6 text-lg">
               Contact us to help you get the issue resolved.
             </p>
