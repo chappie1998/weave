@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -22,6 +22,10 @@ export default function Header() {
   const [selectedButton, setSelectedButton] = useState("home");
   const [user, setUser] = useState<any>(null);
 
+  useEffect(() => {
+    connectWallet();
+  }, []);
+
   const connectWallet = async () => {
     try {
       const w: any = window;
@@ -29,7 +33,6 @@ export default function Header() {
       console.log("Connection response", isConnected);
       if (isConnected) {
         const accounts = await w.fuel.accounts();
-        console.log(accounts);
         console.log(Address.fromAddressOrString(accounts[0]).toB256().slice(2));
         const response = await fetch(`${config.baseUrl}/profile`, {
           method: "POST",
@@ -40,9 +43,7 @@ export default function Header() {
             owner: Address.fromAddressOrString(accounts[0]).toB256().slice(2),
           }),
         });
-        console.log(response);
         const data = await response.json();
-        console.log(data);
         if (response.ok) {
           setUser(data);
           sessionStorage.setItem("user", JSON.stringify(data));
@@ -263,7 +264,7 @@ export default function Header() {
                 className=""
                 width={16}
                 height={16}
-                src="/logo.svg"
+                src="/lens.png"
                 alt="login"
               />
               <div>Login</div>

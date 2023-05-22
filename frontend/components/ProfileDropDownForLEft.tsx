@@ -40,6 +40,8 @@ const ProfileDropdownForLeft = ({
     }
   };
 
+  const follow = async () => {};
+
   return (
     <div className="flex flex-row items-center justify-center h-96 w-64 bg-white">
       <div className="post flex flex-col  p-4 my-1 rounded-lg h-full w-full">

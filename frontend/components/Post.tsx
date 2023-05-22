@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiChat } from "react-icons/bi";
 import { toast } from "react-toastify";
 import ProfileDropDown from "@/components/ProfileDropDown";
@@ -9,9 +9,11 @@ import { useRouter } from "next/navigation";
 import { config } from "@/config";
 import React from "react";
 import Link from "next/link";
+import { getContract } from "./utils";
 
 export default function Post(props: any) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [totalLikes, setTotalLikes] = useState(props.post.total_likes);
   const router = useRouter();
 
   const formatTimestamp = (timestamp: number) => {
@@ -33,40 +35,65 @@ export default function Post(props: any) {
     if (user) user = JSON.parse(user);
   }
 
-  const navigateToProfile = (e: any) => {
-    e.stopPropagation();
-    router.push(`/u/${props.profile.handle}`);
+  // const addLike = async (e: any) => {
+  //   e.stopPropagation();
+  //   if (!user) return toast.error("Please Sign In Your Wallet");
+  //   try {
+  //     await fetch(`${config.baseUrl}/like`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         post_id: props.postId,
+  //         profile_id: user.profile_id,
+  //         timestamp: 123456863435,
+  //       }),
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const like_post = async () => {
+    try {
+      console.log("like_post start");
+      const contract = await getContract();
+      const like_post = await contract.functions
+        .like_post(props.post.post_id)
+        .txParams({ gasPrice: 1 })
+        .call();
+      console.log("like_post", like_post);
+      setTotalLikes(totalLikes + 1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const unlike_post = async () => {
+    try {
+      console.log("unlike_post start");
+      const contract = await getContract();
+      const unlike_post = await contract.functions
+        .unlike_post(props.post.post_id)
+        .txParams({ gasPrice: 1 })
+        .call();
+      console.log("unlike_post", unlike_post);
+      setTotalLikes(totalLikes - 1);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const navigateToPost = () => {
     router.push(`/posts/${props.post.post_id}`);
   };
 
-  const addLike = async (e: any) => {
-    e.stopPropagation();
-    if (!user) return toast.error("Please Sign In Your Wallet");
-    try {
-      await fetch(`${config.baseUrl}/like`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          post_id: props.postId,
-          profile_id: user.profile_id,
-          timestamp: 123456863435,
-        }),
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <div className="container">
-      <Link
-        // onClick={navigateToPost}
-        href={`/posts/${props.post.post_id}`}
+      <div
+        onClick={navigateToPost}
+        // href={`/posts/${props.post.post_id}`}
         className="post shadow-sm py-5 px-7 flex gap-1"
       >
         <div className="dropdown relative">
@@ -167,17 +194,18 @@ export default function Post(props: any) {
               <BiChat className=" h-5 w-10" />
               <span className="-mt-1 p-2">{props.post.total_comments}</span>
             </div>
-            <div
-              className={`hover:bg-red-200 cursor-pointer rounded-full p-1.5 flex flex-row items-center ${
-                props.post.is_liked_by_me && "bg-red-200"
-              }`}
-            >
-              <AiOutlineHeart onClick={addLike} className="h-5 w-10" />
-              <span className="-mt-1 p-2">{props.post.total_likes}</span>
+            <div className="hover:bg-red-200 cursor-pointer rounded-full p-1.5 flex flex-row items-center">
+              {props.post.is_liked_by_me ? (
+                <AiFillHeart onClick={unlike_post} className="h-5 w-10" />
+              ) : (
+                <AiOutlineHeart onClick={like_post} className="h-5 w-10" />
+              )}
+              {/* <AiOutlineHeart onClick={addLike} className="h-5 w-10" /> */}
+              <span className="-mt-1 p-2">{totalLikes}</span>
             </div>
           </div>
         </div>
-      </Link>
+      </div>
     </div>
   );
 }

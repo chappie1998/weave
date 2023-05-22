@@ -6,6 +6,7 @@ import ProfileDropDown from "@/components/ProfileDropDown";
 import { config } from "@/config";
 import PostComponentForComments from "@/components/PostComponetForComments";
 import { toast } from "react-toastify";
+import { getContract } from "@/components/utils";
 
 export default function Page({ params }: any) {
   const { postId } = params;
@@ -48,20 +49,16 @@ export default function Page({ params }: any) {
 
   const addComment = async (comment: string) => {
     try {
-      await fetch(`${config.baseUrl}/comment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          post_id: +postId,
-          profile_id: user.profile_id,
-          token_uri:
-            "https://bafkreie7qjq564mty2tdd7juhoeachbbi74nyedf37bdfxhwytyve64rwq.ipfs.w3s.link",
-          timestamp: 1683609426,
-          content: comment,
-        }),
-      });
+      console.log("comment_post start");
+      const contract = await getContract();
+      const comment_post = await contract.functions
+        .comment_post(
+          postId,
+          "https://bafkreie7qjq564mty2tdd7juhoeachbbi74nyedf37bdfxhwytyve64rwq.ipfs.w3s.link/"
+        )
+        .txParams({ gasPrice: 1 })
+        .call();
+      console.log("comment_post", comment_post);
     } catch (error) {
       console.error(error);
     }
