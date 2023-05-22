@@ -2,15 +2,72 @@
 
 import React, { useState } from "react";
 import { GiCancel } from "react-icons/gi";
+import { config } from "@/config";
+import { Web3Storage } from "web3.storage";
 
 const PostForm = ({ onCancel, imageComponent }) => {
   const [formData, setFormData] = useState({});
-  const handleSumbit = (e) => {
+  const [imagesURL, setImagesURL] = useState();
+  const [images, setImages] = useState();
+
+  function getFiles(e) {
+    if (e.target.files && e.target.files.length) {
+      const files = e.target.files;
+      console.log(files);
+      // if (file.size < 2e7) {
+      // setImagesURL(URL.createObjectURL(files));
+      // console.log(files);
+      setImages(e.target.files);
+      // } else {
+      //   alert("file size should not exceed 20 mb");
+      // }
+    }
+  }
+
+  const storeFiles = async (files) => {
+    const client = new Web3Storage({ token: config.web3StorageToken });
+    const cid = await client.put(files, {
+      // wrapWithDirectory: false,
+    });
+    return cid;
+  };
+
+  function makeFileObjects(data) {
+    const blob = new Blob([JSON.stringify(data)], {
+      type: "application/json",
+    });
+
+    return [new File([blob], "post.json")];
+  }
+
+  const upload = async () => {
+    // let cid = [""];
+    if (images) {
+      // const cid = await storeFiles(images);
+      console.log(images[0].name);
+    }
+    // const nftMetaData = {
+    //   name: nftName,
+    //   image: "https://" + cid + ".ipfs.w3s.link",
+    //   description: description,
+    //   attributes: [],
+    // };
+    // const cid2 = await storeFiles(makeFileObjects(nftMetaData));
+    // const md1 = {
+    //   name: nftName,
+    //   token_uri: "https://" + cid2 + ".ipfs.w3s.link",
+    // };
+    // return md1;
+  };
+
+  const create_post = async (e) => {
     e.preventDefault();
     const jsonData = JSON.stringify(formData);
     console.log(jsonData);
+    await upload();
     setFormData({});
   };
+
   const handleCancel = () => {
     onCancel();
   };
@@ -43,8 +100,34 @@ const PostForm = ({ onCancel, imageComponent }) => {
       >
         {"What's on your mind"}
       </label>
+      <form action="#">
+        <h4 className="title-create-item">Upload file</h4>
+        <label className="uploadFile">
+          <span className="filename">
+            PNG, JPG, GIF, WEBP or MP4. Max 20mb.
+          </span>
+          <input
+            accept="image/*"
+            type="file"
+            name="file"
+            className="inputfile form-control"
+            multiple
+            onChange={getFiles}
+          />
+        </label>
+      </form>
+      <div className="card-media">
+        {/* {images ? (
+          images.map((image) => (
+            <img src={URL.createObjectURL(image)} alt="Fuelart" />
+          ))
+        ) : (
+          <></>
+        )} */}
+        {/* <img src={get_url(images)} alt="Fuelart" /> */}
+      </div>
       <form
-        onSubmit={handleSumbit}
+        onSubmit={create_post}
         className="flex flex-col justify-between items-center flex-grow"
       >
         <textarea

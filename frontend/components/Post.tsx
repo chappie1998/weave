@@ -14,6 +14,7 @@ import { getContract } from "./utils";
 export default function Post(props: any) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [totalLikes, setTotalLikes] = useState(props.post.total_likes);
+  const [isLikedByMe, setIsLikedByMe] = useState(props.post.is_liked_by_me);
   const router = useRouter();
 
   const formatTimestamp = (timestamp: number) => {
@@ -65,6 +66,7 @@ export default function Post(props: any) {
         .call();
       console.log("like_post", like_post);
       setTotalLikes(totalLikes + 1);
+      setIsLikedByMe(true);
     } catch (error) {
       console.log(error);
     }
@@ -80,6 +82,7 @@ export default function Post(props: any) {
         .call();
       console.log("unlike_post", unlike_post);
       setTotalLikes(totalLikes - 1);
+      setIsLikedByMe(false);
     } catch (error) {
       console.log(error);
     }
@@ -195,7 +198,7 @@ export default function Post(props: any) {
               <span className="-mt-1 p-2">{props.post.total_comments}</span>
             </div>
             <div className="hover:bg-red-200 cursor-pointer rounded-full p-1.5 flex flex-row items-center">
-              {props.post.is_liked_by_me ? (
+              {isLikedByMe ? (
                 <AiFillHeart onClick={unlike_post} className="h-5 w-10" />
               ) : (
                 <AiOutlineHeart onClick={like_post} className="h-5 w-10" />
