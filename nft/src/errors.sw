@@ -23,4 +23,8 @@ pub enum InputError {
     TokenDoesNotExist: (),
     TokenSupplyCannotBeZero: (),
     IncorrectAmountProvided: (),
+    AlreadyFollowing: (),
+    PostAlreadyLiked: (),
+    PostNotLiked: (),
+    PostDoesNotExist: (),
 }

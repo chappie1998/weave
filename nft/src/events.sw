@@ -25,11 +25,18 @@ pub struct BurnEvent {
     profile_id: u64,
 }
 
+// pub struct CreateProfilEvent {
+//     owner: Identity,
+//     profile_id: u64,
+//     token_uri: str[81],
+//     handle: StorageString
+// }
+
 pub struct CreateProfilEvent {
     owner: Identity,
     profile_id: u64,
     token_uri: str[81],
-    handle: StorageString
+    handle: str[15],
 }
 
 pub struct FollowEvent {
@@ -53,7 +60,7 @@ pub struct MintEvent {
 
 pub struct ProfileUpdatEvent {
     profile_id: u64,
-    bio: StorageString,
+    // bio: StorageString,
     profile_picture: str[81],
 }
 
@@ -79,6 +86,7 @@ pub struct TransferEvent {
 }
 
 pub struct PostEvent {
+    post_id: u64,
     profile_id: u64,
     token_uri: str[81],
     collect_amount: u64,
@@ -105,4 +113,9 @@ pub struct PostCollectedEvent {
     profile_id: u64,
     post_id: u64,
     collect_amount: u64,
+}
+
+pub struct SetDefaultProfileByAddress {
+    profile_id: u64,
+    owner: Identity,
 }

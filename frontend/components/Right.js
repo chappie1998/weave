@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
 import Post from "./Post";
+import { useRouter } from "next/navigation";
 
 const Right = ({ profiledetails }) => {
+  const router = useRouter();
   // const formatTimestamp = (timestamp) => {
   //   const hoursAgo = Math.floor(
   //     (Date.now() - timestamp * 1000) / (1000 * 60 * 60)
@@ -17,55 +19,25 @@ const Right = ({ profiledetails }) => {
   //   }
   // };
 
+  const navigateToPost = (post_id) => {
+    router.push(`/posts/${post_id}`);
+  };
+
   return (
     <div className="flex flex-row container mx-auto max-w-screen-xl">
       <div>
         {profiledetails ? (
           profiledetails.posts.map((post) => (
-            <Post
-              post={post}
-              profile={profiledetails.profile}
-              key={post.post_id}
-              // postId={post.post_id}
-              // displayName={post.data.name}
-              // userName={profiledetails.profile.handle}
-              // text={post.data.content.split("\\n").map((line, index) => {
-              //   const regex = /@\w+/g;
-              //   const words = line.split(" ").map((word, i) => {
-              //     if (regex.test(word)) {
-              //       return (
-              //         <a
-              //           className="text-red-400"
-              //           key={i}
-              //           href={`/u/${word.slice(1)}`}
-              //         >
-              //           {word}
-              //         </a>
-              //       );
-              //     } else {
-              //       return word;
-              //     }
-              //   });
-
-              //   return (
-              //     <>
-              //       <div className="my-5">
-              //         <React.Fragment key={index}>
-              //           {words.reduce(
-              //             (prev, curr, i) => [...prev, i > 0 ? " " : "", curr],
-              //             []
-              //           )}
-              //           <br />
-              //         </React.Fragment>
-              //       </div>
-              //     </>
-              //   );
-              // })}
-              // avatar={profiledetails.profile.token_uri}
-              // images={post.data.images}
-              // timestamp={formatTimestamp(post.timetamp)}
-              // profileData={profiledetails.profile}
-            />
+            <div
+              className="first:rounded-t-xl last:rounded-b-xl hover:bg-slate-100 cursor-pointer border border-solid"
+              onClick={() => navigateToPost(post.post_id)}
+            >
+              <Post
+                post={post}
+                profile={profiledetails.profile}
+                key={post.post_id}
+              />
+            </div>
           ))
         ) : (
           <div className="w-[115vh] items-center justify-center">

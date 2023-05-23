@@ -1,6 +1,6 @@
 library;
 
-use ::data_structures::{TokenMetaData, Profile, Post};
+use ::data_structures::{Post, Profile, TokenMetaData};
 use storage_string::*;
 
 // use data_structures::Profile;
@@ -88,7 +88,7 @@ abi NFT {
     /// * When the `token_supply` is set to 0.
     /// * When `access_control` is set to true and no admin `Identity` was given.
     #[storage(read, write)]
-    fn constructor(admin: Identity, max_supply: Option<u64>);
+    fn constructor(admin: Identity, max_supply: u64);
 
     /// Returns whether the `operator` user is approved to transfer all tokens on the `owner`
     /// user's behalf.
@@ -113,8 +113,11 @@ abi NFT {
     ///
     /// * When the sender attempts to mint more tokens than total supply.
     /// * When the sender is not the admin and `access_control` is set.
+
+    // #[storage(read, write)]
+    // fn create_profile(to: Identity, token_uri: str[81], handle: StorageString);
     #[storage(read, write)]
-    fn create_profile(to: Identity, token_uri: str[81], handle: StorageString);
+    fn create_profile(to: Identity, token_uri: str[81], handle: str[15]);
 
     #[storage(read)]
     fn max_supply() -> Option<u64>;
@@ -133,8 +136,7 @@ abi NFT {
     fn profle_data(profile_id: u64) -> Option<Profile>;
 
     #[storage(read)]
-    fn token_metadata(profile_id: u64) -> Option<TokenMetaData>; 
-
+    fn token_metadata(profile_id: u64) -> Option<TokenMetaData>;
     /// Returns the user which owns the specified token.
     ///
     /// # Arguments
@@ -200,28 +202,31 @@ abi NFT {
     fn transfer(to: Identity, profile_id: u64);
 
     #[storage(read, write)]
-    fn update_profile(profile_id: u64, bio: StorageString, profile_picture: str[81]);
+    fn update_profile(profile_picture: str[81]);
 
     #[storage(read, write)]
-    fn follow(profile_id: u64, follow: u64);
+    fn follow(follow: u64);
 
     #[storage(read, write)]
-    fn unfollow(profile_id: u64, follow: u64);
+    fn unfollow(follow: u64);
 
     #[storage(read, write)]
-    fn create_post(profile_id: u64, token_uri: str[81], collect_amount: u64);
+    fn create_post(token_uri: str[81], collect_amount: u64);
+
+    #[storage(read)]
+    fn get_follow(profile_id: u64, follow: u64) -> Option<bool>;
 
     #[storage(read, write)]
-    fn comment_post(profile_id: u64, post_id: u64, token_uri: str[81]);
+    fn comment_post(post_id: u64, token_uri: str[81]);
 
     #[storage(read, write)]
-    fn like_post(profile_id: u64, post_id: u64);
+    fn like_post(post_id: u64);
 
     #[storage(read, write)]
-    fn unlike_post(profile_id: u64, post_id: u64);
+    fn unlike_post(post_id: u64);
 
-    #[storage(read, write)]
-    fn collect_post(profile_id: u64, post_id: u64);
+    #[payable, storage(read, write)]
+    fn collect_post(post_id: u64);
 
     fn get_balance() -> u64;
 
@@ -230,4 +235,10 @@ abi NFT {
 
     #[storage(read)]
     fn post_data(post_id: u64) -> Option<Post>;
+
+    #[storage(read)]
+    fn get_default_profile_by_address(address: Identity) -> Option<u64>;
+
+    #[storage(read, write)]
+    fn set_default_profile_by_address(profile_id: u64);
 }

@@ -7,6 +7,7 @@ import PostComponentForComments from "@/components/PostComponetForComments";
 import { toast } from "react-toastify";
 import { getContract } from "@/components/utils";
 import { useFetch } from "@/hooks/useFetch";
+import { comment } from "postcss";
 
 export default function Page({ params }: any) {
   const { postId } = params;
@@ -54,7 +55,9 @@ export default function Page({ params }: any) {
     const comment = event.target.comment.value;
     if (!user) return toast.error("Please Sign In Your Wallet");
     if (!comment) return toast.error("Comment can not be empty");
-    await addComment(comment);
+    console.log(comment);
+
+    // await addComment(comment);
     event.target.reset();
   };
 
@@ -76,24 +79,6 @@ export default function Page({ params }: any) {
                   ).length,
                 }}
                 profile={data.post.profile}
-                // postId={post.post.post_id}
-                // displayName={post.post.profile.handle}
-                // userName={post.post.profile.handle.replace(
-                //   /[^a-zA-Z0-9 ]/g,
-                //   ""
-                // )}
-                // text={post.post.data.content}
-                // avatar={post.post.profile.token_uri}
-                // images={post.post.data.images}
-                // timestamp={formatTimestamp(post.post.timetamp)}
-                // profileData={post.post.profile}
-                // totalLikes={post.likes.length}
-                // totalComments={post.comments.length}
-                // isLikedByMe={
-                //   post.likes.filter(
-                //     (like: any) => like.profile_id === user?.profile_id
-                //   ).length
-                // }
               />
               <div className="shadow-md ">
                 <form onSubmit={handleCommentSubmit} className="w-full p-4">

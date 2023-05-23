@@ -11,16 +11,31 @@ pub struct TokenMetaData {
     // symbol: str[5],
 }
 
+// pub struct Profile {
+//     // This is left as an example. Support for dynamic length string is needed here
+//     token_uri: str[81],
+//     // user_name: str[10],
+//     // token_uri: StorageString,
+//     handle: StorageString,
+//     // post_ids: [u64; 10],
+//     // bio: Option<str[100]>,
+//     bio: Option<StorageString>,
+//     profile_picture: Option<str[81]>,
+//     // followers: StorageMap<u64, bool>,
+//     // following: StorageMap<u64, bool>,
+//     // post_ids: StorageVec<u64>,
+//     // posts: StorageMap<u64, Post>,
+// }
 
 pub struct Profile {
     // This is left as an example. Support for dynamic length string is needed here
     token_uri: str[81],
     // user_name: str[10],
     // token_uri: StorageString,
-    handle: StorageString,
+    handle: str[15],
     // post_ids: [u64; 10],
     // bio: Option<str[100]>,
-    bio: Option<StorageString>,
+    // bio: Option<StorageString>,
     profile_picture: Option<str[81]>,
     // followers: StorageMap<u64, bool>,
     // following: StorageMap<u64, bool>,
@@ -29,18 +44,18 @@ pub struct Profile {
 }
 
 impl Profile {
-    pub fn new(token_uri: str[81], handle: StorageString) -> Self {
+    pub fn new(token_uri: str[81], handle: str[15]) -> Self {
         Profile {
             token_uri,
             handle,
-            bio: Option::None, 
+            // bio: Option::None, 
             profile_picture: Option::None,
             // followers: StorageMap {},
             // following: StorageMap {},
             // post_ids: StorageVec {},
             // posts: StorageMap {},
         }
-    } 
+    }
 }
 
 pub struct Post {
@@ -58,14 +73,18 @@ pub struct Post {
     // swayed_by: StorageMap<u64, bool>,
 }
 
-
 impl Post {
-    pub fn new(token_uri: str[81], profile_id: u64, timestamp: u64, collect_amount: u64) -> Self {
+    pub fn new(
+        token_uri: str[81],
+        profile_id: u64,
+        timestamp: u64,
+        collect_amount: u64,
+    ) -> Self {
         Post {
             token_uri,
             profile_id,
             timestamp,
-            collect_amount, 
+            collect_amount,
             likes: 0,
             swayed: 0,
             comments: 0,
@@ -74,9 +93,8 @@ impl Post {
             // collected_by: StorageMap {},
             // swayed_by: StorageMap {},
         }
-    } 
+    }
 }
-
 
 // Define the comment struct
 pub struct Comment {
@@ -92,7 +110,7 @@ impl Comment {
             profile_id,
             timestamp,
         }
-    } 
+    }
 }
 
 pub enum State {

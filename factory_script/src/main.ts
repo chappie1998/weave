@@ -10,13 +10,9 @@ const main = async () => {
   );
 
   const deployContract = async () => {
-    const bytecode = readFileSync(
-      "/home/ankit/peerpost/flat_frontend/src/nft/out/debug/NFT.bin"
-    ); // Read the binary file
+    const bytecode = readFileSync("/home/ankit/peerpost/nft/out/debug/NFT.bin"); // Read the binary file
     const abiJSON = JSON.parse(
-      readFileSync(
-        "/home/ankit/peerpost/flat_frontend/src/nft/out/debug/NFT-abi.json"
-      ).toString()
+      readFileSync("/home/ankit/peerpost/nft/out/debug/NFT-abi.json").toString()
     ) as JsonAbi;
     const factory = new ContractFactory(bytecode, abiJSON, wallet);
     console.log("deploying contract");

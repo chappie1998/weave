@@ -4,16 +4,17 @@ import React, { useState } from "react";
 import { GiCancel } from "react-icons/gi";
 import { config } from "@/config";
 import { Web3Storage } from "web3.storage";
+import { getContract } from "./utils";
 
 const PostForm = ({ onCancel, imageComponent }) => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ text: "" });
   const [imagesURL, setImagesURL] = useState();
   const [images, setImages] = useState();
 
   function getFiles(e) {
     if (e.target.files && e.target.files.length) {
       const files = e.target.files;
-      console.log(files);
+      // console.log(files);
       // if (file.size < 2e7) {
       // setImagesURL(URL.createObjectURL(files));
       // console.log(files);
@@ -24,10 +25,16 @@ const PostForm = ({ onCancel, imageComponent }) => {
     }
   }
 
-  const storeFiles = async (files) => {
+  const storeImages = async (files) => {
+    const client = new Web3Storage({ token: config.web3StorageToken });
+    const cid = await client.put(files, {});
+    return cid;
+  };
+
+  const storeFile = async (files) => {
     const client = new Web3Storage({ token: config.web3StorageToken });
     const cid = await client.put(files, {
-      // wrapWithDirectory: false,
+      wrapWithDirectory: false,
     });
     return cid;
   };
@@ -40,32 +47,48 @@ const PostForm = ({ onCancel, imageComponent }) => {
     return [new File([blob], "post.json")];
   }
 
-  const upload = async () => {
-    // let cid = [""];
+  const upload = async (formData) => {
+    let uploadimages = [];
     if (images) {
-      // const cid = await storeFiles(images);
-      console.log(images[0].name);
+      const cid = await storeImages(images);
+      for (const img of images) {
+        uploadimages.push("https://" + cid + ".ipfs.w3s.link/" + img.name);
+      }
     }
-    // const nftMetaData = {
-    //   name: nftName,
-    //   image: "https://" + cid + ".ipfs.w3s.link",
-    //   description: description,
-    //   attributes: [],
-    // };
-    // const cid2 = await storeFiles(makeFileObjects(nftMetaData));
-    // const md1 = {
-    //   name: nftName,
-    //   token_uri: "https://" + cid2 + ".ipfs.w3s.link",
-    // };
-    // return md1;
+    const MetaData = {
+      name: "post",
+      image: "",
+      description: "description",
+      attributes: [],
+      images: uploadimages,
+      content: formData,
+    };
+
+    const cid2 = await storeFile(makeFileObjects(MetaData));
+
+    const token_uri = "https://" + cid2 + ".ipfs.w3s.link";
+    return token_uri;
   };
 
   const create_post = async (e) => {
     e.preventDefault();
-    const jsonData = JSON.stringify(formData);
-    console.log(jsonData);
-    await upload();
-    setFormData({});
+    console.log(formData);
+    try {
+      const uri = await upload(formData.text);
+      // const uri =
+      //   "https://bafkreidnxkfbvn5nhpolu4hitqvvntdwmnz6su4wjvbvqie7vkspwz4hpi.ipfs.w3s.link";
+      console.log("lol", uri);
+      console.log("create_post start");
+      const contract = await getContract();
+      console.log(contract.id.toB256());
+      const create_post = await contract.functions
+        .create_post(uri, 10)
+        .txParams({ gasPrice: 1 })
+        .call();
+      console.log("create_post", create_post);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancel = () => {

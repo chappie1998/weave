@@ -5,28 +5,42 @@ mod errors;
 mod interface;
 mod events;
 
-use data_structures::{TokenMetaData, Post, Profile, State, Comment};
+use data_structures::{Comment, Post, Profile, State, TokenMetaData};
 use errors::{AccessError, InitError, InputError};
 use interface::NFT;
-use events::{AdminEvent, ApprovalEvent, BurnEvent, CommentEvent, PostCollectedEvent, LikedPostEvent, UnlikedPostEvent, CreateProfilEvent, OperatorEvent, PostEvent, TransferEvent, ProfileUpdatEvent, FollowEvent, UnfollowEvent};
+use events::{
+    AdminEvent,
+    ApprovalEvent,
+    BurnEvent,
+    CommentEvent,
+    CreateProfilEvent,
+    FollowEvent,
+    LikedPostEvent,
+    OperatorEvent,
+    PostCollectedEvent,
+    PostEvent,
+    ProfileUpdatEvent,
+    SetDefaultProfileByAddress,
+    TransferEvent,
+    UnfollowEvent,
+    UnlikedPostEvent,
+};
 
 use std::{
     auth::msg_sender,
-    constants::BASE_ASSET_ID,
-    identity::Identity,
-    logging::log,
-    token::transfer,
-    // option::Option,
-    // result::Result,
     block::height,
+    call_frames::contract_id,
+    constants::BASE_ASSET_ID,
     context::{
         balance_of,
         msg_amount,
     },
-    call_frames::contract_id,
+    identity::Identity,
+    logging::log,
+    token::transfer,
 };
-use storage_string::*;
-use string::String;
+// use storage_string::*;
+// use string::String;
 
 storage {
     /// Determines if only the contract's `admin` is allowed to call the mint function.
@@ -51,6 +65,7 @@ storage {
     /// Stores the `Profile` for each token based on the token's unique identifier.
     /// Map(profile_id => Profile)
     profile: StorageMap<u64, Profile> = StorageMap {},
+    default_profile_by_address: StorageMap<Identity, u64> = StorageMap {},
     /// Maps a tuple of (owner, operator) identities and stores whether the operator is allowed to
     /// transfer ALL tokens on the owner's behalf.
     /// Map((owner, operator) => approved)
@@ -70,8 +85,8 @@ storage {
     // following: StorageMap<(u64, u64), bool> = StorageMap {},
     post_ids: u64 = 0,
     // posts: StorageMap<(u64, u64), Post> = StorageMap {},
-    handle_exist: StorageMap<StorageString, bool> = StorageMap {},
-
+    // handle_exist: StorageMap<StorageString, bool> = StorageMap {},
+    handle_exist: StorageMap<str[15], bool> = StorageMap {},
     // first key is profile_id and second key is follower's profile_id
     followers: StorageMap<(u64, u64), bool> = StorageMap {},
     following: StorageMap<(u64, u64), bool> = StorageMap {},
@@ -154,15 +169,15 @@ impl NFT for Contract {
     }
 
     #[storage(read, write)]
-    fn constructor(admin: Identity, max_supply: Option<u64>) {
+    fn constructor(admin: Identity, max_supply: u64) {
         // This function can only be called once so if the token supply is already set it has
         // already been called
         require(storage.state.read() == State::Uninitialized, InitError::CannotReinitialize);
         storage.state.write(State::Initialized);
-        require(max_supply.unwrap() != 0, InputError::TokenSupplyCannotBeZero);
+        require(max_supply != 0, InputError::TokenSupplyCannotBeZero);
 
         storage.admin.write(Option::Some(admin));
-        storage.max_supply.write(max_supply);
+        storage.max_supply.write(Option::Some(max_supply));
     }
 
     #[storage(read)]
@@ -176,23 +191,22 @@ impl NFT for Contract {
     }
 
     #[storage(read, write)]
-    fn create_profile(to: Identity, token_uri: str[81], handle: StorageString) {
-        require(storage.state.read() == State::Initialized, InitError::NotInitialized);
-        require(storage.handle_exist.get(handle).try_read().is_none(), InitError::HandleExists);
+    fn create_profile(to: Identity, token_uri: str[81], handle: str[15]) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
+        require(!storage.handle_exist.get(handle).try_read().unwrap_or(false), InitError::HandleExists);
         let index = storage.profile_id.read();
 
         // The current number of tokens minted plus the amount to be minted cannot be
         // greater than the total supply
         require(storage.max_supply.read().is_none() || (index + 1 <= storage.max_supply.read().unwrap()), InputError::NotEnoughTokensToMint);
 
-        // Ensure that the sender is the admin if this is a controlled access mint
-        // let admin = storage.admin;
-        // require(!storage.access_control || (admin.is_some() && msg_sender().unwrap() == admin.unwrap()), AccessError::SenderNotAdmin);
         // Mint as many tokens as the sender has asked for
         // Create the Profile for this new token
         storage.profile.insert(index, Profile::new(token_uri, handle));
         storage.owners.insert(index, to);
+        storage.handle_exist.insert(handle, true);
 
+        storage.default_profile_by_address.insert(to, index);
         storage.balances.insert(to, storage.balances.get(to).try_read().unwrap_or(0) + 1);
         storage.profile_id.write(index + 1);
         storage.total_supply.write(storage.total_supply.read() + 1);
@@ -205,38 +219,35 @@ impl NFT for Contract {
         log(CreateProfilEvent {
             owner: to,
             profile_id: index,
-            token_uri,
-            handle 
+            token_uri: token_uri,
+            handle: handle,
         });
     }
 
     #[storage(read, write)]
-    fn update_profile(profile_id: u64, bio: StorageString, profile_picture: str[81]) {
-        require(storage.state.read() == State::Initialized, InitError::NotInitialized);
-        let token_owner = storage.owners.get(profile_id).try_read();
-        require(token_owner.is_some(), InputError::TokenDoesNotExist);
-        let sender = msg_sender().unwrap();
-        require(token_owner.unwrap() == sender, AccessError::SenderNotOwner);
+    fn update_profile(profile_picture: str[81]) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
+        let profile_id = storage.default_profile_by_address.get(msg_sender().unwrap()).read();
+
         let mut profile = storage.profile.get(profile_id).read();
-        profile.bio = Option::Some(bio);
+        // profile.bio = Option::Some(bio);
         profile.profile_picture = Option::Some(profile_picture);
         storage.profile.insert(profile_id, profile);
-        
+
         log(ProfileUpdatEvent {
             profile_id,
-            bio,
+            // bio,
             profile_picture,
         });
     }
 
     #[storage(read, write)]
-    fn follow(profile_id: u64, follow: u64) {
-        require(storage.state.read() == State::Initialized, InitError::NotInitialized);
-        let token_owner = storage.owners.get(profile_id).try_read();
-        require(token_owner.is_some(), InputError::TokenDoesNotExist);
-        let sender = msg_sender().unwrap();
-        require(token_owner.unwrap() == sender, AccessError::SenderNotOwner);
-        
+    fn follow(follow: u64) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
+        let profile_id = storage.default_profile_by_address.get(msg_sender().unwrap()).read();
+
+        require(!storage.following.get((profile_id, follow)).try_read().unwrap_or(false), InputError::AlreadyFollowing);
+
         // let mut profile = storage.profile.get(profile_id).read().following.insert(follow, true);
         // storage.profile.get(follow).followers.insert(profile_id, true);
         storage.following.insert((profile_id, follow), true);
@@ -249,13 +260,10 @@ impl NFT for Contract {
     }
 
     #[storage(read, write)]
-    fn unfollow(profile_id: u64, follow: u64) {
-        require(storage.state.read() == State::Initialized, InitError::NotInitialized);
-        let token_owner = storage.owners.get(profile_id).try_read();
-        require(token_owner.is_some(), InputError::TokenDoesNotExist);
-        let sender = msg_sender().unwrap();
-        require(token_owner.unwrap() == sender, AccessError::SenderNotOwner);
-        
+    fn unfollow(follow: u64) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
+        let profile_id = storage.default_profile_by_address.get(msg_sender().unwrap()).read();
+
         // storage.profile.get(profile_id).read().following.insert(follow, false);
         // storage.profile.get(follow).followers.insert(profile_id, false);
         storage.following.insert((profile_id, follow), false);
@@ -268,38 +276,37 @@ impl NFT for Contract {
     }
 
     #[storage(read, write)]
-    fn create_post(profile_id: u64, token_uri: str[81], collect_amount: u64) {
-        require(storage.state.read() == State::Initialized, InitError::NotInitialized);
-        let token_owner = storage.owners.get(profile_id).try_read();
-        require(token_owner.is_some(), InputError::TokenDoesNotExist);
+    fn create_post(token_uri: str[81], collect_amount: u64) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
         let sender = msg_sender().unwrap();
-        require(token_owner.unwrap() == sender, AccessError::SenderNotOwner);
-        let mut post_id = storage.post_ids.read();
+        let profile_id = storage.default_profile_by_address.get(sender).read();
+        let post_id = storage.post_ids.read();
         // let mut profile = storage.profile.get(profile_id).read();
         // profile.post_ids.push(post_id);
         // profile.posts.insert(post_id, Post::new(token_uri, height(), collect_amount));
         // post_id.write(post_id);
-        storage.posts.insert(post_id, Post::new(token_uri, profile_id, height(), collect_amount));
 
+        storage.posts.insert(post_id, Post::new(token_uri, profile_id, height(), collect_amount));
+        storage.post_ids.write(post_id + 1);
         log(MintEvent {
             owner: sender,
             token_id: post_id,
         });
 
         log(PostEvent {
+            post_id,
             profile_id,
             token_uri,
-            collect_amount
+            collect_amount,
         });
     }
 
-    #[storage(read, write)]
-    fn collect_post(profile_id: u64, post_id: u64) {
-        require(storage.state.read() == State::Initialized, InitError::NotInitialized);
-        let token_owner = storage.owners.get(profile_id).try_read();
-        require(token_owner.is_some(), InputError::TokenDoesNotExist);
-        let sender = msg_sender().unwrap();
-        require(token_owner.unwrap() == sender, AccessError::SenderNotOwner);
+    #[payable, storage(read, write)]
+    fn collect_post(post_id: u64) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
+        require(storage.posts.get(post_id).try_read().is_some(), InputError::PostDoesNotExist);
+
+        let profile_id = storage.default_profile_by_address.get(msg_sender().unwrap()).read();
         let mut post_id = storage.post_ids.read();
 
         let post = storage.posts.get(post_id).try_read();
@@ -311,18 +318,16 @@ impl NFT for Contract {
         log(PostCollectedEvent {
             profile_id,
             post_id,
-            collect_amount: post.collect_amount
+            collect_amount: post.collect_amount,
         });
     }
 
     #[storage(read, write)]
-    fn comment_post(profile_id: u64, post_id: u64, token_uri: str[81]) {
-        require(storage.state.read() == State::Initialized, InitError::NotInitialized);
-        let token_owner = storage.owners.get(profile_id).try_read();
-        require(token_owner.is_some(), InputError::TokenDoesNotExist);
-        let sender = msg_sender().unwrap();
-        require(token_owner.unwrap() == sender, AccessError::SenderNotOwner);
+    fn comment_post(post_id: u64, token_uri: str[81]) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
+        require(storage.posts.get(post_id).try_read().is_some(), InputError::PostDoesNotExist);
 
+        let profile_id = storage.default_profile_by_address.get(msg_sender().unwrap()).read();
         let post = storage.posts.get(post_id).try_read();
         require(post.is_some(), AccessError::PostDoesNotExist);
         let mut post = post.unwrap();
@@ -334,17 +339,17 @@ impl NFT for Contract {
             profile_id,
             post_id,
             comment_id: post.comments - 1,
-            token_uri
+            token_uri,
         });
     }
 
     #[storage(read, write)]
-    fn like_post(profile_id: u64, post_id: u64) {
-        require(storage.state.read() == State::Initialized, InitError::NotInitialized);
-        let token_owner = storage.owners.get(profile_id).try_read();
-        require(token_owner.is_some(), InputError::TokenDoesNotExist);
-        let sender = msg_sender().unwrap();
-        require(token_owner.unwrap() == sender, AccessError::SenderNotOwner);
+    fn like_post(post_id: u64) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
+        require(storage.posts.get(post_id).try_read().is_some(), InputError::PostDoesNotExist);
+
+        let profile_id = storage.default_profile_by_address.get(msg_sender().unwrap()).read();
+        require(!storage.liked_by.get((post_id, profile_id)).try_read().unwrap_or(false), InputError::PostAlreadyLiked);
 
         let post = storage.posts.get(post_id).try_read();
         require(post.is_some(), AccessError::PostDoesNotExist);
@@ -360,12 +365,12 @@ impl NFT for Contract {
     }
 
     #[storage(read, write)]
-    fn unlike_post(profile_id: u64, post_id: u64) {
-        require(storage.state.read() == State::Initialized, InitError::NotInitialized);
-        let token_owner = storage.owners.get(profile_id).try_read();
-        require(token_owner.is_some(), InputError::TokenDoesNotExist);
-        let sender = msg_sender().unwrap();
-        require(token_owner.unwrap() == sender, AccessError::SenderNotOwner);
+    fn unlike_post(post_id: u64) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
+        require(storage.posts.get(post_id).try_read().is_some(), InputError::PostDoesNotExist);
+
+        let profile_id = storage.default_profile_by_address.get(msg_sender().unwrap()).read();
+        require(storage.liked_by.get((post_id, profile_id)).try_read().unwrap_or(false), InputError::PostNotLiked);
 
         let post = storage.posts.get(post_id).try_read();
         require(post.is_some(), AccessError::PostDoesNotExist);
@@ -374,10 +379,30 @@ impl NFT for Contract {
         post.likes -= 1;
         storage.posts.insert(post_id, post);
 
-       log(UnlikedPostEvent {
+        log(UnlikedPostEvent {
             profile_id,
             post_id,
         });
+    }
+
+    #[storage(read, write)]
+    fn set_default_profile_by_address(profile_id: u64) {
+        // require(storage.state.read() == State::Initialized, InitError::NotInitialized);
+        let token_owner = storage.owners.get(profile_id).try_read();
+        require(token_owner.is_some(), InputError::TokenDoesNotExist);
+        let sender = msg_sender().unwrap();
+        require(token_owner.unwrap() == sender, AccessError::SenderNotOwner);
+        storage.default_profile_by_address.insert(sender, profile_id);
+
+        log(SetDefaultProfileByAddress {
+            profile_id,
+            owner: sender,
+        });
+    }
+
+    #[storage(read)]
+    fn get_default_profile_by_address(address: Identity) -> Option<u64> {
+        storage.default_profile_by_address.get(address).try_read()
     }
 
     #[storage(read)]
@@ -391,9 +416,14 @@ impl NFT for Contract {
     }
 
     #[storage(read)]
+    fn get_follow(profile_id: u64, follow: u64) -> Option<bool> {
+        storage.following.get((profile_id, follow)).try_read()
+    }
+
+    #[storage(read)]
     fn token_metadata(profile_id: u64) -> Option<TokenMetaData> {
         let profile = storage.profile.get(profile_id).read();
-        let data = TokenMetaData{
+        let data = TokenMetaData {
             token_uri: profile.token_uri,
         };
         Option::Some(data)

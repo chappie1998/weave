@@ -60,15 +60,14 @@ export default function Post(props: any) {
     }
   };
 
-  const navigateToPost = () => {
-    router.push(`/posts/${props.post.post_id}`);
-  };
+  // const navigateToPost = () => {
+  //   router.push(`/posts/${props.post.post_id}`);
+  // };
 
   return (
     <div className="container">
       <div
-        onClick={navigateToPost}
-        // href={`/posts/${props.post.post_id}`}
+        // onClick={navigateToPost}
         className="post shadow-sm py-5 px-7 flex gap-1"
       >
         <div className="dropdown relative">

@@ -39,8 +39,8 @@ use std::{
     logging::log,
     token::transfer,
 };
-use storage_string::*;
-use string::String;
+// use storage_string::*;
+// use string::String;
 
 storage {
     /// Determines if only the contract's `admin` is allowed to call the mint function.

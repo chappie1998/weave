@@ -3,8 +3,11 @@
 import Footer from "@/components/Footer";
 import Post from "@/components/Post";
 import { useFetch } from "@/hooks/useFetch";
+import { useRouter } from "next/navigation";
 
 export default function Explore() {
+  const router = useRouter();
+
   let user: any;
   // window is not accessable on server
   if (typeof window !== "undefined") {
@@ -20,6 +23,10 @@ export default function Explore() {
   if (isLoading) return <ShimmerEffect item={2} />;
   if (error) throw new Error(error.message);
 
+  const navigateToPost = (post_id: string) => {
+    router.push(`/posts/${post_id}`);
+  };
+
   return (
     <div className="flex flex-row container mx-auto max-w-screen-xl p-5">
       <div className="rounded-3xl">
@@ -28,6 +35,7 @@ export default function Explore() {
             <div
               key={post.post_id}
               className="first:rounded-t-xl last:rounded-b-xl hover:bg-slate-100 cursor-pointer border border-solid"
+              onClick={() => navigateToPost(post.post_id)}
             >
               <Post
                 profile={post.profile}
