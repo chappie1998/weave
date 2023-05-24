@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import { getContract } from "@/components/utils";
 import { useFetch } from "@/hooks/useFetch";
 import { comment } from "postcss";
+import { Web3Storage } from "web3.storage";
+import { config } from "@/config";
 
 export default function Page({ params }: any) {
   const { postId } = params;
@@ -33,21 +35,63 @@ export default function Page({ params }: any) {
     }
   };
 
-  const addComment = async (comment: string) => {
-    try {
-      console.log("comment_post start");
-      const contract = await getContract();
-      const comment_post = await contract.functions
-        .comment_post(
-          postId,
-          "https://bafkreie7qjq564mty2tdd7juhoeachbbi74nyedf37bdfxhwytyve64rwq.ipfs.w3s.link/"
-        )
-        .txParams({ gasPrice: 1 })
-        .call();
-      console.log("comment_post", comment_post);
-    } catch (error) {
-      console.error(error);
-    }
+  // function getFiles(e) {
+  //   if (e.target.files && e.target.files.length) {
+  //     const files = e.target.files;
+  //     // console.log(files);
+  //     // if (file.size < 2e7) {
+  //     // setImagesURL(URL.createObjectURL(files));
+  //     // console.log(files);
+  //     setImages(e.target.files);
+  //     // } else {
+  //     //   alert("file size should not exceed 20 mb");
+  //     // }
+  //   }
+  // }
+
+  const storeImages = async (files: any) => {
+    const client = new Web3Storage({ token: config.web3StorageToken });
+    const cid = await client.put(files, {});
+    return cid;
+  };
+
+  const storeFile = async (files: any) => {
+    const client = new Web3Storage({ token: config.web3StorageToken });
+    const cid = await client.put(files, {
+      wrapWithDirectory: false,
+    });
+    return cid;
+  };
+
+  function makeFileObjects(data: {}) {
+    const blob = new Blob([JSON.stringify(data)], {
+      type: "application/json",
+    });
+
+    return [new File([blob], "post.json")];
+  }
+
+  const upload = async (formData: String) => {
+    let uploadimages: string[] = [];
+    // if (images) {
+    //   const cid = await storeImages(images);
+    //   for (const img of images) {
+    //     uploadimages.push("https://" + cid + ".ipfs.w3s.link/" + img.name);
+    //   }
+    // }
+    const MetaData = {
+      name: "comment",
+      image: "",
+      description: "description",
+      attributes: [],
+      images: uploadimages,
+      content: formData,
+    };
+
+    const cid2 = await storeFile(makeFileObjects(MetaData));
+
+    const token_uri = "https://" + cid2 + ".ipfs.w3s.link";
+    return token_uri;
   };
 
   const handleCommentSubmit = async (event: any) => {
@@ -56,8 +100,19 @@ export default function Page({ params }: any) {
     if (!user) return toast.error("Please Sign In Your Wallet");
     if (!comment) return toast.error("Comment can not be empty");
     console.log(comment);
-
-    // await addComment(comment);
+    try {
+      const uri = await upload(comment);
+      console.log("lol", uri);
+      console.log("comment_post start");
+      const contract = await getContract();
+      const comment_post = await contract.functions
+        .comment_post(postId, uri)
+        .txParams({ gasPrice: 1 })
+        .call();
+      console.log("comment_post", comment_post);
+    } catch (error) {
+      console.log(error);
+    }
     event.target.reset();
   };
 
@@ -109,9 +164,9 @@ export default function Page({ params }: any) {
                     /[^a-zA-Z0-9 ]/g,
                     ""
                   )}
-                  text={comment.content}
+                  text={comment.data.content}
                   avatar={comment.profile.token_uri}
-                  timestamp={formatTimestamp(comment.timetamp)}
+                  timestamp={formatTimestamp(comment.timestamp)}
                   profileData={comment.profile}
                 />
               ))}
