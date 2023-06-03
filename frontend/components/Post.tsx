@@ -9,7 +9,6 @@ import Link from "next/link";
 import { getContract } from "./utils";
 
 export default function Post(props: any) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [totalLikes, setTotalLikes] = useState(props.post.total_likes);
   const [isLikedByMe, setIsLikedByMe] = useState(props.post.is_liked_by_me);
   const router = useRouter();
@@ -68,29 +67,25 @@ export default function Post(props: any) {
     <div className="container">
       <div
         // onClick={navigateToPost}
-        className="post shadow-sm py-5 px-7 flex gap-1"
+        className="post shadow-sm py-5 px-7"
       >
-        <div className="dropdown relative">
-          <Link
-            onMouseEnter={() => setIsDropdownOpen(true)}
-            onMouseLeave={() => setIsDropdownOpen(false)}
-            // onClick={navigateToProfile}
-            href={`/u/${props.profile.handle}`}
-            className="dropdown-button transition-transform -mt-4 -translate-x-5 translate-y-5"
-          >
-            <img
-              className="w-10 h-10 border bg-gray-600  rounded-full cursor-pointer"
-              src={props.profile.token_uri}
-              alt="Rounded avatar"
-            />
-          </Link>
-          <div className="absolute">
-            {isDropdownOpen && <ProfileDropDown profileData={props.profile} />}
-          </div>
-        </div>
-
         <div className="post__body w-full">
-          <div className="post__header">
+          <div className="post__header flex gap-2">
+            <div className="dropdown relative group">
+              <Link
+                href={`/u/${props.profile.handle}`}
+                className="dropdown-button"
+              >
+                <img
+                  className="w-10 h-10 border bg-gray-600 rounded-full cursor-pointer"
+                  src={props.profile.token_uri}
+                  alt="Rounded avatar"
+                />
+              </Link>
+              <div className="absolute hidden group-hover:block">
+                <ProfileDropDown profileData={props.profile} />
+              </div>
+            </div>
             <Link
               className="post__headerText inline-block cursor-pointer"
               href={`/u/${props.profile.handle}`}
@@ -110,6 +105,8 @@ export default function Post(props: any) {
                 </span>
               </h3>
             </Link>
+          </div>
+          <div className="ml-[48px]">
             <div className="post__headerDescription break-words my-5 space-y-6">
               <p>
                 {props.post.data.content
@@ -154,32 +151,32 @@ export default function Post(props: any) {
                   })}
               </p>
             </div>
-          </div>
-          {props.post.data.images.map((image: string, index: number) => (
-            <img
-              key={index}
-              src={image}
-              alt=""
-              className="p-10 h-auto w-auto "
-            />
-          ))}
-          <div className="post__footer flex flex-row space-x-6 ">
-            <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">
-              <BiChat className=" h-5 w-10" />
-              <span className="-mt-1 p-2">{props.post.total_comments}</span>
-            </div>
-            <div
-              className={`${
-                isLikedByMe && "bg-red-200"
-              } hover:bg-red-200 cursor-pointer rounded-full p-1.5 flex flex-row items-center`}
-            >
-              {isLikedByMe ? (
-                <AiFillHeart onClick={unlike_post} className="h-5 w-10" />
-              ) : (
-                <AiOutlineHeart onClick={like_post} className="h-5 w-10" />
-              )}
-              {/* <AiOutlineHeart onClick={addLike} className="h-5 w-10" /> */}
-              <span className="-mt-1 p-2">{totalLikes}</span>
+            {props.post.data.images.map((image: string, index: number) => (
+              <img
+                key={index}
+                src={image}
+                alt=""
+                className="p-10 h-auto w-auto "
+              />
+            ))}
+            <div className="post__footer flex flex-row space-x-6 ">
+              <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">
+                <BiChat className=" h-5 w-10" />
+                <span className="-mt-1 p-2">{props.post.total_comments}</span>
+              </div>
+              <div
+                className={`${
+                  isLikedByMe && "bg-red-200"
+                } hover:bg-red-200 cursor-pointer rounded-full p-1.5 flex flex-row items-center`}
+              >
+                {isLikedByMe ? (
+                  <AiFillHeart onClick={unlike_post} className="h-5 w-10" />
+                ) : (
+                  <AiOutlineHeart onClick={like_post} className="h-5 w-10" />
+                )}
+                {/* <AiOutlineHeart onClick={addLike} className="h-5 w-10" /> */}
+                <span className="-mt-1 p-2">{totalLikes}</span>
+              </div>
             </div>
           </div>
         </div>
