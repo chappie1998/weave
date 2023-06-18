@@ -31,9 +31,9 @@ export default function Explore() {
         {data ? (
           data.map((post: any) => (
             <div
-              key={post.post_id}
-              className="first:rounded-t-xl last:rounded-b-xl bg-white hover:bg-slate-100 cursor-pointer border border-solid"
-              onClick={() => navigateToPost(post.post_id)}
+              key={post._id}
+              className="post first:rounded-t-xl last:rounded-b-xl bg-white hover:bg-slate-100 cursor-pointer border border-solid -mt-1"
+              onClick={(e) => navigateToPost(post.post_id)}
             >
               <Post
                 profile={post.profile}
@@ -45,15 +45,6 @@ export default function Explore() {
                   total_comments: post.total_comments,
                   is_liked_by_me: post.is_liked_by_me,
                 }}
-                // userName={post.profile.handle.replace(/[^a-zA-Z0-9 ]/g, "")}
-                // text={post.data.content}
-                // avatar={post.profile.token_uri}
-                // images={post.data.images}
-                // timestamp={formatTimestamp(post.timetamp)}
-                // profileData={post.profile}
-                // totalLikes={post.total_likes}
-                // totalComments={post.total_comments}
-                // isLikedByMe={post.is_liked_by_me}
               />
             </div>
           ))
@@ -76,7 +67,7 @@ const ShimmerEffect = ({ item }: { item: number }) => {
         <div
           key={index}
           role="status"
-          className="animate-pulse px-7 py-5 first:rounded-t-xl last:rounded-b-xl border border-solid"
+          className="animate-pulse px-7 py-5 first:rounded-t-xl last:rounded-b-xl border border-solid -mt-1"
         >
           <div className="flex flex-row space-x-2">
             <div className=" bg-gray-200 rounded-full w-7 h-7 mb-4"></div>
