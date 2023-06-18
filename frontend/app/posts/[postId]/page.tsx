@@ -117,59 +117,66 @@ export default function Page({ params }: any) {
   };
 
   return (
-    <section className="container mx-auto max-w-screen-xl grow px-0 pb-2 pt-8 sm:px-5 ">
+    <section className="container mx-auto max-w-screen-xl grow px-0 pb-2 pt-8 sm:px-5">
       <div className="grid grid-cols-12 lg:gap-8">
         {data ? (
           <>
-            <div className="col-span-12 mb-5 md:col-span-12 lg:col-span-8 space-y-5 rounded-xl border border-solid pb-7">
-              <Post
-                post={{
-                  post_id: data.post.post_id,
-                  data: data.post.data,
-                  timestamp: data.post.timestamp,
-                  total_likes: data.likes.length,
-                  total_comments: data.comments.length,
-                  is_liked_by_me: data.likes.filter(
-                    (like: any) => like.profile_id === user?.profile_id
-                  ).length,
-                }}
-                profile={data.post.profile}
-              />
-              <div className="shadow-md ">
-                <form onSubmit={handleCommentSubmit} className="w-full p-4">
-                  <div className="mb-2">
-                    <label htmlFor="comment" className="text-lg text-gray-600">
-                      Add a comment
-                    </label>
-                    <textarea
-                      className="w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
-                      name="comment"
-                      placeholder="Enter your comment"
-                    ></textarea>
-                  </div>
-                  <button className="px-3 py-2 text-sm text-purple-100 bg-purple-600 rounded">
-                    Comment
-                  </button>
-                </form>
-              </div>
-              {data.comments.map((comment: any) => (
-                <PostComponentForComments
-                  key={comment.comment_id}
-                  postId={comment.comment_id}
-                  displayName={comment.profile.handle.replace(
-                    /[^a-zA-Z0-9 ]/g,
-                    ""
-                  )}
-                  userName={comment.profile.handle.replace(
-                    /[^a-zA-Z0-9 ]/g,
-                    ""
-                  )}
-                  text={comment.data.content}
-                  avatar={comment.profile.token_uri}
-                  timestamp={formatTimestamp(comment.timestamp)}
-                  profileData={comment.profile}
+            <div className="col-span-12 mb-5 md:col-span-12 lg:col-span-8 space-y-5">
+              <div className="rounded-xl border border-solid bg-white">
+                <Post
+                  post={{
+                    post_id: data.post.post_id,
+                    data: data.post.data,
+                    timestamp: data.post.timestamp,
+                    total_likes: data.likes.length,
+                    total_comments: data.comments.length,
+                    is_liked_by_me: data.likes.filter(
+                      (like: any) => like.profile_id === user?.profile_id
+                    ).length,
+                  }}
+                  profile={data.post.profile}
                 />
-              ))}
+                <div className="">
+                  <form onSubmit={handleCommentSubmit} className="w-full p-4">
+                    <div className="mb-2">
+                      <label
+                        htmlFor="comment"
+                        className="text-lg text-gray-600"
+                      >
+                        Add a comment
+                      </label>
+                      <textarea
+                        className="w-full h-20 p-2 border rounded focus:outline-none focus:ring-gray-300 focus:ring-1"
+                        name="comment"
+                        placeholder="Enter your comment"
+                      ></textarea>
+                    </div>
+                    <button className="px-3 py-2 text-sm text-purple-100 bg-purple-600 rounded">
+                      Comment
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <div className="first:rounded-t-xl last:rounded-b-xl">
+                {data.comments.map((comment: any) => (
+                  <PostComponentForComments
+                    key={comment.comment_id}
+                    postId={comment.comment_id}
+                    displayName={comment.profile.handle.replace(
+                      /[^a-zA-Z0-9 ]/g,
+                      ""
+                    )}
+                    userName={comment.profile.handle.replace(
+                      /[^a-zA-Z0-9 ]/g,
+                      ""
+                    )}
+                    text={comment.data.content}
+                    avatar={comment.profile.token_uri}
+                    timestamp={formatTimestamp(comment.timestamp)}
+                    profileData={comment.profile}
+                  />
+                ))}
+              </div>
             </div>
 
             <div className="col-span-12 md:col-span-12 lg:col-span-4 space-y-5">
@@ -178,10 +185,10 @@ export default function Page({ params }: any) {
           </>
         ) : (
           <>
-            <div className="col-span-12 mb-5 md:col-span-12 lg:col-span-8">
+            <div className="col-span-12 md:col-span-12 lg:col-span-8 rounded-xl border border-solid">
               <div
                 role="status"
-                className="max-w-sm p-4  container  w-[90vh] rounded animate-pulse md:p-6 items-center justify-center "
+                className="rounded animate-pulse md:p-6 items-center justify-center "
               >
                 <div className="flex flex-row space-x-2">
                   <div className=" bg-gray-200 rounded-full w-7 h-7 mb-4"></div>
@@ -191,10 +198,10 @@ export default function Page({ params }: any) {
                   </div>
                 </div>
 
-                <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-[80vh]"></div>
-                <div className="h-2 bg-gray-200 rounded-full mb-2.5 w-[80vh]"></div>
-                <div className="h-2 bg-gray-200 rounded-full w-[80vh]"></div>
-                <div className="flex items-center justify-center h-48 w-[80vh] mb-4 bg-gray-300 rounded">
+                <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full mb-2.5"></div>
+                <div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded">
                   <svg
                     className="w-12 h-12 text-gray-200"
                     xmlns="http://www.w3.org/2000/svg"
@@ -207,12 +214,15 @@ export default function Page({ params }: any) {
                 </div>
               </div>
             </div>
-            <div className="col-span-12 md:col-span-12 lg:col-span-4 mx-auto border-2 rounded-md w-60">
-              <div className="flex flex-row items-center justify-center h-full space-x-5 animate-pulse">
-                <div className="w-12 h-12 bg-gray-300 rounded-full "></div>
-                <div className="flex flex-col space-y-3">
-                  <div className="h-6 bg-gray-300 rounded-md w-36 "></div>
-                  <div className="w-24 h-6 bg-gray-300 rounded-md "></div>
+            <div className="col-span-12 md:col-span-12 lg:col-span-4 mx-auto border h-60 rounded-md w-60 p-4">
+              <div className="w-10 h-10 bg-gray-300 rounded-full mb-4"></div>
+              <div className="flex flex-col gap-4 h-full animate-pulse">
+                <div className="w-24 h-4 bg-gray-300 rounded-md"></div>
+                <div className="w-24 h-4 bg-gray-300 rounded-md"></div>
+                <div className="w-24 h-4 bg-gray-300 rounded-md"></div>
+                <div className="flex gap-4">
+                  <div className="h-4 bg-gray-300 rounded-md w-36"></div>
+                  <div className="h-4 bg-gray-300 rounded-md w-36"></div>
                 </div>
               </div>
             </div>

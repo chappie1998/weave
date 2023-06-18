@@ -32,3 +32,13 @@
   padding: 20px;
   border-radius: 4px;
 }
+
+.bg-hero {
+  background: linear-gradient(90deg, #fff, #fff 50%, transparent),
+    url(https://static-assets.lenster.xyz/images/hero.webp);
+  background-size: cover;
+}
+
+.divider {
+  border-bottom-width: 1px;
+}

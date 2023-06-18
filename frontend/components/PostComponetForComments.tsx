@@ -22,69 +22,57 @@ export default function PostComponentForComments({
   const notify = () => toast.error("Please Sign In Your Wallet");
 
   return (
-    <>
-      <div className="container flex flex-row items-center justify-center">
-        <div className="post flex flex-row rounded-xl border border-solid shadow-sm py-5 px-7 hover:bg-slate-100 w-[740px]">
-          <div className="flex flex-col ">
-            <div className="">
-              <div
-                className="dropdown absolute"
-                onMouseEnter={() => setIsDropdownOpen(true)}
-                onMouseLeave={() => setIsDropdownOpen(false)}
-              >
-                <Link href={`/u/${userName}`}>
-                  <button className="dropdown-button transition-transform -mt-4 -translate-x-5 translate-y-5">
-                    <img
-                      className="w-10 h-10 border bg-gray-600  rounded-full cursor-pointer    "
-                      src={avatar}
-                      alt="Rounded avatar"
-                    />
-                  </button>
-                </Link>
-                {isDropdownOpen && (
-                  <ProfileDropDown profileData={profileData} />
-                )}
-              </div>
-            </div>
+    <div className="p-4 hover:bg-slate-100 first:rounded-t-xl last:rounded-b-xl border">
+      <div className="flex gap-2">
+        <div className="dropdown relative group">
+          <Link href={`/u/${userName}`} className="dropdown-button">
+            <img
+              className="w-10 h-10 border bg-gray-600 rounded-full cursor-pointer"
+              src={avatar}
+              alt="Rounded avatar"
+            />
+          </Link>
+          <div className="absolute hidden group-hover:block">
+            <ProfileDropDown profileData={profileData} />
           </div>
+        </div>
+        <Link
+          className="post__headerText inline-block cursor-pointer"
+          href={`/u/${userName}`}
+        >
+          <h3 className="font-medium flex flex-col">
+            {userName}
 
-          <div className="post__body w-full mx-6">
-            <div className="post__header inline-block">
-              <div className="post__headerText">
-                <Link href={`/u/${userName}`}>
-                  <h3 className="font-medium flex flex-col">
-                    {userName}
-                    <span className="post__headerSpecial font-thin text-sm text-red-400">
-                      @{userName}
-                      <span className="text-black">- {timestamp}</span>
-                    </span>
-                  </h3>
-                </Link>
-              </div>
-              <div className="post__headerDescription break-words my-5 space-y-6">
-                <p>{text}</p>
-              </div>
-            </div>
-            <div className="post__footer flex flex-row space-x-6 ">
-              <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">
-                <button>
-                  <BiChat className=" h-5 w-10" />
-                </button>
-                <span className="-mt-1 py-2">{comments}</span>
-              </div>
-              <div className="hover:bg-red-200 rounded-full p-1.5 flex flex-row items-center">
-                <AiOutlineHeart onClick={notify} className="h-5 w-10" />
-                <span className="-mt-1 py-2">{likes}</span>
-                <ToastContainer
-                  position="bottom-right"
-                  autoClose={1000}
-                  hideProgressBar={true}
-                />
-              </div>
-            </div>
+            <span className="post__headerSpecial font-thin text-sm text-red-400">
+              @{userName}
+              <span className="text-black">- {timestamp}</span>
+            </span>
+          </h3>
+        </Link>
+      </div>
+
+      <div className="ml-[48px]">
+        <div className="post__headerDescription break-words my-5 space-y-6">
+          <p>{text}</p>
+        </div>
+        <div className="post__footer flex flex-row space-x-6 ">
+          <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">
+            <button>
+              <BiChat className=" h-5 w-10" />
+            </button>
+            <span className="-mt-1 py-2">{comments}</span>
+          </div>
+          <div className="hover:bg-red-200 rounded-full p-1.5 flex flex-row items-center">
+            <AiOutlineHeart onClick={notify} className="h-5 w-10" />
+            <span className="-mt-1 py-2">{likes}</span>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={1000}
+              hideProgressBar={true}
+            />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

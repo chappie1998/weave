@@ -151,14 +151,16 @@ export default function Post(props: any) {
                   })}
               </p>
             </div>
-            {props.post.data.images.map((image: string, index: number) => (
-              <img
-                key={index}
-                src={image}
-                alt=""
-                className="p-10 h-auto w-auto "
-              />
-            ))}
+            <div className="grid gap-2 grid-cols-2">
+              {props.post.data.images.map((image: string, index: number) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt=""
+                  className="p-10 h-auto w-auto "
+                />
+              ))}
+            </div>
             <div className="post__footer flex flex-row space-x-6 ">
               <div className="hover:bg-blue-200 rounded-full p-1.5 flex flex-row items-center">
                 <BiChat className=" h-5 w-10" />
