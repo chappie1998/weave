@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "peerpost",
+  title: "weave",
   description: "perpost is a twitter clone in sway",
 };
 

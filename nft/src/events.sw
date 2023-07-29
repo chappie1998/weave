@@ -1,6 +1,6 @@
 library;
 
-use storage_string::*;
+// use storage_string::*;
 
 pub struct AdminEvent {
     /// The user which is now the admin of this contract.

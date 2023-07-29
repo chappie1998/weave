@@ -9,7 +9,7 @@ const ProfileCover = () => {
     >
       <div className="flex-1 space-y-3 container mx-auto max-w-screen-xl px-5">
         <div className="font-serif text-2xl font-extrabold sm:text-4xl">
-          Peerpost Cover Photo👋
+          Weave Cover Photo👋
         </div>
         <div className="leading-7 text-black"></div>
       </div>

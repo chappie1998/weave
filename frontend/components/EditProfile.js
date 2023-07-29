@@ -4,7 +4,7 @@ const EditProfile = () => {
   return (
     <div className="w-100">
       <div className="font-serif text-xl font-extrabold sm:text-xl  py-6 bg-gradient-to-r from-purple-300 to-fuchsia-900 ">
-        <span className="px-3"> Peerpost Cover Photo👋</span>
+        <span className="px-3"> Weave Cover Photo👋</span>
       </div>
 
       <div className="  ">

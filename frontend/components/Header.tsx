@@ -192,7 +192,7 @@ export default function Header() {
                             <Link
                               className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
                               href={
-                                "https://github.com/lensterxyz/Peerpost/issues/new?assignees=bigint&labels=needs+review&template=bug_report.yml"
+                                "https://github.com/lensterxyz/Weave/issues/new?assignees=bigint&labels=needs+review&template=bug_report.yml"
                               }
                             >
                               {" "}

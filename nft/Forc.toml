@@ -8,5 +8,5 @@ name = "NFT"
 TOTAL_NFTS = { type = "u64", value = "2" }
 
 [dependencies]
-storage_string = { git = "https://github.com/FuelLabs/sway-libs" }
-string = { git = "https://github.com/FuelLabs/sway-libs" }
+# storage_string = { git = "https://github.com/FuelLabs/sway-libs" }
+# string = { git = "https://github.com/FuelLabs/sway-libs" }

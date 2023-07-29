@@ -1,6 +1,6 @@
 export const config = {
   // baseUrl: "http://localhost:5000",
-  baseUrl: "https://peerpost-api.vercel.app",
+  baseUrl: "https://weave-api.vercel.app",
   contractId:
     "0x7b6e527c12e27a894eecd6e020b321c28e072c8823df78d807a934c539d9db13",
   web3StorageToken:

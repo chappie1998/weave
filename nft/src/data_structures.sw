@@ -1,8 +1,8 @@
 library;
 
 use std::storage::storage_vec::StorageVec;
-use storage_string::*;
-use string::String;
+// use storage_string::*;
+// use string::String;
 
 pub struct TokenMetaData {
     // This is left as an example. Support for dynamic length string is needed here

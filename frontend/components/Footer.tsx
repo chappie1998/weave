@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="first line sticky top-12 container mx-auto max-w-screen-xl ">
       <div className="first space-x-4 mt-4 break-words">
-        <span className="font-semibold font-mono">© 2023 Peerpost </span>
+        <span className="font-semibold font-mono">© 2023 Weave </span>
 
         <div className="flex flex-col justify-between ">
           {" "}

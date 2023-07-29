@@ -35,6 +35,9 @@ export default function Page({ params }: any) {
     }
   };
 
+  console.log("lol");
+  
+
   // function getFiles(e) {
   //   if (e.target.files && e.target.files.length) {
   //     const files = e.target.files;
