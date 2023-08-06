@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "@/components/Post";
 import ProfileDropDown from "@/components/ProfileDropDown";
 import PostComponentForComments from "@/components/PostComponetForComments";
@@ -21,7 +21,15 @@ export default function Page({ params }: any) {
     if (user) user = JSON.parse(user);
   }
 
-  const { data } = useFetch({ url: `post/details/${postId}` });
+  const { data: postData, refetch } = useFetch({
+    url: `post/details/${postId}`,
+  });
+
+  const [data, setData] = useState(postData);
+
+  useEffect(() => {
+    setData(postData);
+  }, [postData]);
 
   const formatTimestamp = (timestamp: number) => {
     const hoursAgo = Math.floor(
@@ -34,9 +42,6 @@ export default function Page({ params }: any) {
       return `${hoursAgo}h`;
     }
   };
-
-  console.log("lol");
-  
 
   // function getFiles(e) {
   //   if (e.target.files && e.target.files.length) {
@@ -113,6 +118,11 @@ export default function Page({ params }: any) {
         .txParams({ gasPrice: 1 })
         .call();
       console.log("comment_post", comment_post);
+      // setTimeout(() => {
+      //   refetch();
+      // }, 100);
+      // const { data: postData } = useFetch({ url: `post/details/${postId}` });
+      // setData(postData);
     } catch (error) {
       console.log(error);
     }

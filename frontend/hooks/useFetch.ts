@@ -17,27 +17,31 @@ export const useFetch = ({
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<any>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const resp = await axios({
-          method,
-          url,
-          params,
-          data: body,
-          baseURL: config.baseUrl,
-        });
-        const data = await resp?.data;
-        setData(data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const resp = await axios({
+        method,
+        url,
+        params,
+        data: body,
+        baseURL: config.baseUrl,
+      });
+      const data = await resp?.data;
+      setData(data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, [url, method]);
 
-  return { isLoading, data, error };
+  const refetch = () => {
+    fetchData();
+  };
+
+  return { isLoading, data, error, refetch };
 };

@@ -17,12 +17,12 @@ const WelcomePage = () => {
       </div>
       <div className="middle bg-green-700 h-[70vh] flex flex-col items-center justify-center md:h-screen">
         <div className="text-yellow-200 text-2xl translate-x-2 font-bold">
-          LENS PROTOCOL{" "}
+          FUEL NETWORK{" "}
         </div>
         <div className="text-white text-3xl ">CLAIM YOUR HANDLE</div>
         <div className="mt-5 text-yellow-200">
           Check to see if you’re eligible to claim your handle <br /> to use
-          across all the apps powered by Lens Protocol
+          across all the apps powered by Fuel Network.
         </div>
         <div className="mt-5 text-yellow-200">Please connect your wallet</div>
         <div className="mt-9">
@@ -38,7 +38,9 @@ const WelcomePage = () => {
         <div className="image">
           <Image height={400} width={400} src="./2d.svg"></Image>
         </div>
-        <div className="term mt-10 translate-y-10 underline">Terms & Conditions | Privacy Policy</div>
+        <div className="term mt-10 translate-y-10 underline">
+          Terms & Conditions | Privacy Policy
+        </div>
       </div>
     </div>
   );

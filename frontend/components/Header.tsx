@@ -13,7 +13,7 @@ import { MdClose } from "react-icons/md";
 import { GrMailOption } from "react-icons/gr";
 import { config } from "@/config";
 import { Address } from "fuels";
-import logo from "@/media/images/logo.svg";
+import logo from "@/media/images/logo.png";
 import { usePathname } from "next/navigation";
 
 const bottomMenus = [
@@ -61,6 +61,7 @@ export default function Header() {
             sessionStorage.setItem("user", JSON.stringify(data));
           } else {
             await w.fuel.disconnect();
+            alert("No Handle Found");
           }
         }
       }
@@ -221,7 +222,7 @@ export default function Header() {
                     className=""
                     width={16}
                     height={16}
-                    src="/lens.png"
+                    src={logo}
                     alt="login"
                   />
                   <div>{user.handle}</div>
@@ -235,7 +236,7 @@ export default function Header() {
                     className=""
                     width={16}
                     height={16}
-                    src="/lens.png"
+                    src={logo}
                     alt="login"
                   />
                   <div>Login</div>

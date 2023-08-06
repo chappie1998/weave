@@ -10,7 +10,7 @@ export default function TopBanner() {
         </div>
         <div className="leading-7 text-black">
           Weave is a decentralized, and permissionless social media <br />
-          app built with Lens Protocol 🌿
+          app powered by Fuel Network
         </div>
       </div>
     </div>
